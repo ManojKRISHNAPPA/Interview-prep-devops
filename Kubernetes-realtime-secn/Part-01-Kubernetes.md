@@ -1,4 +1,3 @@
---- 
  ## Scenario #1: Zombie Pods Causing NodeDrain to Hang
 Category: Cluster Management
 Environment: K8s v1.23, On-prem bare metal, Systemd cgroups
