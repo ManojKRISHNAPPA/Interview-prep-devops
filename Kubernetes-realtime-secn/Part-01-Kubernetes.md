@@ -1,7 +1,5 @@
-# k8s-500-prod-issues
-
- # Scenario  #1: Zombie Pods Causing NodeDrain to Hang
-```
+--- 
+ ## Scenario #1: Zombie Pods Causing NodeDrain to Hang
 Category: Cluster Management
 Environment: K8s v1.23, On-prem bare metal, Systemd cgroups
 Scenario Summary: Node drain stuck indefinitely due to unresponsive terminating pod.
@@ -19,11 +17,9 @@ How to Avoid:
 	• Avoid finalizers unless absolutely necessary.
 	• Add monitoring for stuck Terminating pods.
 	• Implement retry/timeout logic in finalizer controllers.
-```
-```
-```
- # Scenario  #2: API Server Crash Due to Excessive CRD Writes
-```
+
+--- 
+ ## Scenario #2: API Server Crash Due to Excessive CRD Writes
 Category: Cluster Management
 Environment: K8s v1.24, GKE, heavy use of custom controllers
 Scenario Summary: API server crashed due to flooding by a malfunctioning controller creating too many custom resources.
@@ -41,11 +37,9 @@ Lessons Learned: Always test reconcile logic in a sandboxed cluster.
 How to Avoid:
 	• Implement create/update guards in reconciliation.
 	• Add Prometheus alert for high CR count.
-```
 
-```
-```
- # Scenario  #3: Node Not Rejoining After Reboot
+--- 
+ ## Scenario #3: Node Not Rejoining After Reboot
 Category: Cluster Management
 Environment: K8s v1.21, Self-managed cluster, Static nodes
 Scenario Summary: A rebooted node failed to rejoin the cluster due to kubelet identity mismatch.
@@ -63,9 +57,8 @@ How to Avoid:
 	• Set static hostnames and IPs.
 	• Use consistent cloud-init or kubeadm configuration.
 
-```
-```
- # Scenario  #4: Etcd Disk Full Causing API Server Timeout
+--- 
+ ## Scenario #4: Etcd Disk Full Causing API Server Timeout
 Category: Cluster Management
 Environment: K8s v1.25, Bare-metal cluster
 Scenario Summary: etcd ran out of disk space, making API server unresponsive.
@@ -87,9 +80,8 @@ How to Avoid:
 	• Enable automatic compaction.
 	• Monitor disk space usage of etcd volumes.
 
-```
-```
- # Scenario  #5: Misconfigured Taints Blocking Pod Scheduling
+--- 
+ ## Scenario #5: Misconfigured Taints Blocking Pod Scheduling
 Category: Cluster Management
 Environment: K8s v1.26, Multi-tenant cluster
 Scenario Summary: Critical workloads weren’t getting scheduled due to incorrect node taints.
@@ -107,9 +99,8 @@ How to Avoid:
 	• Educate teams on node taints and tolerations.
 	• Restrict RBAC for node mutation.
 
-```
-```
- # Scenario  #6: Kubelet DiskPressure Loop on Large Image Pulls
+--- 
+ ## Scenario #6: Kubelet DiskPressure Loop on Large Image Pulls
 Category: Cluster Management
 Environment: K8s v1.22, EKS
 Scenario Summary: Continuous pod evictions caused by DiskPressure due to image bloating.
@@ -127,9 +118,8 @@ How to Avoid:
 	• Set resource requests/limits appropriately.
 	• Use image scanning to reject bloated images.
 
-```
-```
- # Scenario  #7: Node Goes NotReady Due to Clock Skew
+--- 
+ ## Scenario #7: Node Goes NotReady Due to Clock Skew
 Category: Cluster Management
 Environment: K8s v1.20, On-prem
 Scenario Summary: One node dropped from the cluster due to TLS errors from time skew.
@@ -147,9 +137,8 @@ How to Avoid:
 	• Use chronyd or systemd-timesyncd.
 	• Monitor clock skew across nodes.
 
-```
-```
- # Scenario  #8: API Server High Latency Due to Event Flooding
+--- 
+ ## Scenario #8: API Server High Latency Due to Event Flooding
 Category: Cluster Management
 Environment: K8s v1.23, Azure AKS
 Scenario Summary: An app spamming Kubernetes events slowed down the entire API server.
@@ -167,9 +156,8 @@ How to Avoid:
 	• Use deduplicated or summarized event logic.
 	• Set API server --event-ttl=1h and --eventRateLimit.
 
-```
-```
- # Scenario  #9: CoreDNS CrashLoop on Startup
+--- 
+ ## Scenario #9: CoreDNS CrashLoop on Startup
 Category: Cluster Management
 Environment: K8s v1.24, DigitalOcean
 Scenario Summary: CoreDNS pods kept crashing due to a misconfigured Corefile.
@@ -187,9 +175,8 @@ How to Avoid:
 	• Use a CoreDNS validator before applying config.
 	• Maintain versioned backups of Corefile.
 
-```
-```
- # Scenario  #10: Control Plane Unavailable After Flannel Misconfiguration
+--- 
+ ## Scenario #10: Control Plane Unavailable After Flannel Misconfiguration
 Category: Cluster Management
 Environment: K8s v1.18, On-prem, Flannel CNI
 Scenario Summary: Misaligned pod CIDRs caused overlay misrouting and API server failure.
@@ -207,9 +194,8 @@ How to Avoid:
 	• Enforce CIDR policy via admission control.
 	• Validate podCIDR ranges before adding new nodes.
 
-```
-```
- # Scenario  #11: kube-proxy IPTables Rules Overlap Breaking Networking
+--- 
+ ## Scenario #11: kube-proxy IPTables Rules Overlap Breaking Networking
 Category: Cluster Management
 Environment: K8s v1.22, On-prem with kube-proxy in IPTables mode
 Scenario Summary: Services became unreachable due to overlapping custom IPTables rules with kube-proxy rules.
@@ -230,9 +216,8 @@ How to Avoid:
 	• Use separate IPTables chains or policy routing.
 	• Document any node-level firewall rules clearly.
 
-```
-```
- # Scenario  #12: Stuck CSR Requests Blocking New Node Joins
+--- 
+ ## Scenario #12: Stuck CSR Requests Blocking New Node Joins
 Category: Cluster Management
 Environment: K8s v1.20, kubeadm cluster
 Scenario Summary: New nodes couldn’t join due to a backlog of unapproved CSRs.
@@ -253,9 +238,8 @@ How to Avoid:
 	• Monitor pending CSRs.
 	• Don’t disable kube-controller-manager flags like --cluster-signing-cert-file.
 
-```
-```
- # Scenario  #13: Failed Cluster Upgrade Due to Unready Static Pods
+--- 
+ ## Scenario #13: Failed Cluster Upgrade Due to Unready Static Pods
 Category: Cluster Management
 Environment: K8s v1.21 → v1.23 upgrade, kubeadm
 Scenario Summary: Upgrade failed when static control plane pods weren’t ready due to invalid manifests.
@@ -273,9 +257,8 @@ How to Avoid:
 	• Use YAML linter on static manifests.
 	• Backup manifests before upgrade.
 
-```
-```
- # Scenario  #14: Uncontrolled Logs Filled Disk on All Nodes
+--- 
+ ## Scenario #14: Uncontrolled Logs Filled Disk on All Nodes
 Category: Cluster Management
 Environment: K8s v1.24, AWS EKS, containerd
 Scenario Summary: Application pods generated excessive logs, filling up node /var/log.
@@ -294,9 +277,8 @@ How to Avoid:
 	• Set log rotation policies for container runtimes.
 	• Enforce sane log levels via CI/CD validation.
 
-```
-```
- # Scenario  #15: Node Drain Fails Due to PodDisruptionBudget Deadlock
+--- 
+ ## Scenario #15: Node Drain Fails Due to PodDisruptionBudget Deadlock
 Category: Cluster Management
 Environment: K8s v1.21, production cluster with HPA and PDB
 Scenario Summary: kubectl drain never completed because PDBs blocked eviction.
@@ -314,9 +296,8 @@ How to Avoid:
 	• Validate PDBs during deployment scale-downs.
 	• Create alerts for PDB blocking evictions.
 
-```
-```
- # Scenario  #16: CrashLoop of Kube-Controller-Manager on Boot
+--- 
+ ## Scenario #16: CrashLoop of Kube-Controller-Manager on Boot
 Category: Cluster Management
 Environment: K8s v1.23, self-hosted control plane
 Scenario Summary: Controller-manager crashed on startup due to outdated admission controller configuration.
@@ -334,9 +315,8 @@ How to Avoid:
 	• Track deprecations in each Kubernetes version.
 	• Automate validation of startup flags.
 
-```
-```
- # Scenario  #17: Inconsistent Cluster State After Partial Backup Restore
+--- 
+ ## Scenario #17: Inconsistent Cluster State After Partial Backup Restore
 Category: Cluster Management
 Environment: K8s v1.24, Velero-based etcd backup
 Scenario Summary: A partial etcd restore led to stale object references and broken dependencies.
@@ -354,9 +334,8 @@ How to Avoid:
 	• Use backup tools that support volume + etcd (e.g., Velero with restic).
 	• Periodically test full cluster restores.
 
-```
-```
- # Scenario  #18: kubelet Unable to Pull Images Due to Proxy Misconfig
+--- 
+ ## Scenario #18: kubelet Unable to Pull Images Due to Proxy Misconfig
 Category: Cluster Management
 Environment: K8s v1.25, Corporate proxy network
 Scenario Summary: Nodes failed to pull images from DockerHub due to incorrect proxy environment configuration.
@@ -374,9 +353,8 @@ How to Avoid:
 	• Always set NO_PROXY with service CIDRs and cluster domains.
 	• Test image pulls with isolated nodes first.
 
-```
-```
- # Scenario  #19: Multiple Nodes Marked Unreachable Due to Flaky Network Interface
+--- 
+ ## Scenario #19: Multiple Nodes Marked Unreachable Due to Flaky Network Interface
 Category: Cluster Management
 Environment: K8s v1.22, Bare-metal, bonded NICs
 Scenario Summary: Flapping interface on switch caused nodes to be marked NotReady intermittently.
@@ -394,9 +372,8 @@ How to Avoid:
 	• Monitor NIC link status and configure bonding.
 	• Proactively audit switch port health.
 
-```
-```
- # Scenario  #20: Node Labels Accidentally Overwritten by DaemonSet
+--- 
+ ## Scenario #20: Node Labels Accidentally Overwritten by DaemonSet
 Category: Cluster Management
 Environment: K8s v1.24, DaemonSet-based node config
 Scenario Summary: A DaemonSet used for node labeling overwrote existing labels used by schedulers.
@@ -414,9 +391,8 @@ How to Avoid:
 	• Use label merging logic (e.g., fetch current labels, then patch).
 	• Protect key node labels via admission controllers.
 
-```
-```
- # Scenario  #21: Cluster Autoscaler Continuously Spawning and Deleting Nodes
+--- 
+ ## Scenario #21: Cluster Autoscaler Continuously Spawning and Deleting Nodes
 Category: Cluster Management
 Environment: K8s v1.24, AWS EKS with Cluster Autoscaler
 Scenario Summary: The cluster was rapidly scaling up and down, creating instability in workloads.
@@ -434,9 +410,8 @@ How to Avoid:
 	• Validate all probes before production deployments.
 	• Use Autoscaler logging to audit scaling activity.
 
-```
-```
- # Scenario  #22: Stale Finalizers Preventing Namespace Deletion
+--- 
+ ## Scenario #22: Stale Finalizers Preventing Namespace Deletion
 Category: Cluster Management
 Environment: K8s v1.21, self-managed
 Scenario Summary: A namespace remained in “Terminating” state indefinitely.
@@ -456,9 +431,8 @@ How to Avoid:
 	• Implement controller cleanup logic.
 	• Audit finalizers periodically.
 
-```
-```
- # Scenario  #23: CoreDNS CrashLoop Due to Invalid ConfigMap Update
+--- 
+ ## Scenario #23: CoreDNS CrashLoop Due to Invalid ConfigMap Update
 Category: Cluster Management
 Environment: K8s v1.23, managed GKE
 Scenario Summary: CoreDNS stopped resolving names cluster-wide after a config update.
@@ -476,9 +450,8 @@ How to Avoid:
 	• Use coredns -conf <file> locally to validate changes.
 	• Test changes in a non-prod namespace before rollout.
 
-```
-```
- # Scenario  #24: Pod Eviction Storm Due to DiskPressure
+--- 
+ ## Scenario #24: Pod Eviction Storm Due to DiskPressure
 Category: Cluster Management
 Environment: K8s v1.25, self-managed, containerd
 Scenario Summary: A sudden spike in image pulls caused all nodes to hit disk pressure, leading to massive pod evictions.
@@ -496,9 +469,8 @@ How to Avoid:
 	• Set eviction thresholds properly in kubelet.
 	• Enforce rolling update limits (maxUnavailable).
 
-```
-```
- # Scenario  #25: Orphaned PVs Causing Unscheduled Pods
+--- 
+ ## Scenario #25: Orphaned PVs Causing Unscheduled Pods
 Category: Cluster Management
 Environment: K8s v1.20, CSI storage on vSphere
 Scenario Summary: PVCs were stuck in Pending state due to existing orphaned PVs in Released state.
@@ -516,9 +488,8 @@ How to Avoid:
 	• Add cleanup logic in storage lifecycle.
 	• Implement PV alerts based on state.
 
-```
-```
- # Scenario  #26: Taints and Tolerations Mismatch Prevented Workload Scheduling
+--- 
+ ## Scenario #26: Taints and Tolerations Mismatch Prevented Workload Scheduling
 Category: Cluster Management
 Environment: K8s v1.22, managed AKS
 Scenario Summary: Workloads failed to schedule on new nodes that had a taint the workloads didn’t tolerate.
@@ -541,9 +512,8 @@ How to Avoid:
 	• Use preset toleration templates in CI/CD pipelines.
 	• Test new node pools with dummy workloads.
 
-```
-```
- # Scenario  #27: Node Bootstrap Failure Due to Unavailable Container Registry
+--- 
+ ## Scenario #27: Node Bootstrap Failure Due to Unavailable Container Registry
 Category: Cluster Management
 Environment: K8s v1.21, on-prem, private registry
 Scenario Summary: New nodes failed to join the cluster due to container runtime timeout when pulling base images.
@@ -560,9 +530,8 @@ How to Avoid:
 	• Preload all essential images into AMI/base image.
 	• Monitor registry uptime independently.
 
-```
-```
- # Scenario  #28: kubelet Fails to Start Due to Expired TLS Certs
+--- 
+ ## Scenario #28: kubelet Fails to Start Due to Expired TLS Certs
 Category: Cluster Management
 Environment: K8s v1.19, kubeadm cluster
 Scenario Summary: Several nodes went NotReady after reboot due to kubelet failing to start with expired client certs.
@@ -582,9 +551,8 @@ How to Avoid:
 	• Monitor cert expiry proactively.
 	• Rotate certs manually before planned outages.
 
-```
-```
- # Scenario  #29: kube-scheduler Crash Due to Invalid Leader Election Config
+--- 
+ ## Scenario #29: kube-scheduler Crash Due to Invalid Leader Election Config
 Category: Cluster Management
 Environment: K8s v1.24, custom scheduler deployment
 Scenario Summary: kube-scheduler pod failed with panic due to misconfigured leader election flags.
@@ -601,9 +569,8 @@ How to Avoid:
 	• Use default kube-system unless explicitly scoped.
 	• Validate all scheduler configs with CI linting.
 
-```
-```
- # Scenario  #30: Cluster DNS Resolution Broken After Calico CNI Update
+--- 
+ ## Scenario #30: Cluster DNS Resolution Broken After Calico CNI Update
 Category: Cluster Management
 Environment: K8s v1.23, self-hosted Calico
 Scenario Summary: DNS resolution broke after Calico CNI update due to iptables policy drop changes.
@@ -627,9 +594,8 @@ How to Avoid:
 	• Review and test all network policy upgrades in staging.
 	• Use canary upgrade strategy for CNI.
 
-```
-```
- # Scenario  #31: Node Clock Drift Causing Authentication Failures
+--- 
+ ## Scenario #31: Node Clock Drift Causing Authentication Failures
 Category: Cluster Management
 Environment: K8s v1.22, on-prem, kubeadm
 Scenario Summary: Authentication tokens failed across the cluster due to node clock skew.
@@ -647,9 +613,8 @@ How to Avoid:
 	• Ensure NTP or chrony is enabled via bootstrap configuration.
 	• Monitor time drift via node-exporter.
 
-```
-```
- # Scenario  #32: Inconsistent Node Labels Causing Scheduling Bugs
+--- 
+ ## Scenario #32: Inconsistent Node Labels Causing Scheduling Bugs
 Category: Cluster Management
 Environment: K8s v1.24, multi-zone GKE
 Scenario Summary: Zone-aware workloads failed to schedule due to missing zone labels on some nodes.
@@ -665,9 +630,8 @@ How to Avoid:
 	• Automate label injection using cloud-init or DaemonSet.
 	• Add CI checks for required labels on node join.
 
-```
-```
- # Scenario  #33: API Server Slowdowns from High Watch Connection Count
+--- 
+ ## Scenario #33: API Server Slowdowns from High Watch Connection Count
 Category: Cluster Management
 Environment: K8s v1.23, OpenShift
 Scenario Summary: API latency rose sharply due to thousands of watch connections from misbehaving clients.
@@ -684,9 +648,8 @@ How to Avoid:
 	• Use client-go with resync periods and connection limits.
 	• Enable metrics to detect watch leaks early.
 
-```
-```
- # Scenario  #34: Etcd Disk Full Crashing the Cluster
+--- 
+ ## Scenario #34: Etcd Disk Full Crashing the Cluster
 Category: Cluster Management
 Environment: K8s v1.21, self-managed with local etcd
 Scenario Summary: Entire control plane crashed due to etcd disk running out of space.
@@ -703,9 +666,8 @@ How to Avoid:
 	• Set up cron jobs or alerts for etcd health.
 	• Monitor disk usage and trigger auto-compaction.
 
-```
-```
- # Scenario  #35: ClusterConfigMap Deleted by Accident Bringing Down Addons
+--- 
+ ## Scenario #35: ClusterConfigMap Deleted by Accident Bringing Down Addons
 Category: Cluster Management
 Environment: K8s v1.24, Rancher
 Scenario Summary: A user accidentally deleted the kube-root-ca.crt ConfigMap, which many workloads relied on.
@@ -722,9 +684,8 @@ How to Avoid:
 	• Add RBAC restrictions to system namespaces.
 	• Use OPA/Gatekeeper to prevent deletions of protected resources.
 
-```
-```
- # Scenario  #36: Misconfigured NodeAffinity Excluding All Nodes
+--- 
+ ## Scenario #36: Misconfigured NodeAffinity Excluding All Nodes
 Category: Cluster Management
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: A critical deployment was unschedulable due to strict nodeAffinity rules.
@@ -741,9 +702,8 @@ How to Avoid:
 	• Validate node labels before setting affinity.
 	• Use preferredDuringScheduling for soft constraints.
 
-```
-```
- # Scenario  #37: Outdated Admission Webhook Blocking All Deployments
+--- 
+ ## Scenario #37: Outdated Admission Webhook Blocking All Deployments
 Category: Cluster Management
 Environment: K8s v1.25, self-hosted
 Scenario Summary: A stale mutating webhook caused all deployments to fail due to TLS certificate errors.
@@ -760,9 +720,8 @@ How to Avoid:
 	• Rotate webhook certs using cert-manager.
 	• Alert on webhook downtime or errors.
 
-```
-```
- # Scenario  #38: API Server Certificate Expiry Blocking Cluster Access
+--- 
+ ## Scenario #38: API Server Certificate Expiry Blocking Cluster Access
 Category: Cluster Management
 Environment: K8s v1.19, kubeadm
 Scenario Summary: After 1 year of uptime, API server certificate expired, blocking access to all components.
@@ -779,9 +738,8 @@ How to Avoid:
 	• Rotate certs before expiry.
 	• Monitor /metrics for cert validity.
 
-```
-```
- # Scenario  #39: CRI Socket Mismatch Preventing kubelet Startup
+--- 
+ ## Scenario #39: CRI Socket Mismatch Preventing kubelet Startup
 Category: Cluster Management
 Environment: K8s v1.22, containerd switch
 Scenario Summary: kubelet failed to start after switching from Docker to containerd due to incorrect CRI socket path.
@@ -798,9 +756,8 @@ How to Avoid:
 	• Use migration scripts or kubeadm migration guides.
 	• Validate container runtime on node bootstrap.
 
-```
-```
- # Scenario  #40: Cluster-Wide Crash Due to Misconfigured Resource Quotas
+--- 
+ ## Scenario #40: Cluster-Wide Crash Due to Misconfigured Resource Quotas
 Category: Cluster Management
 Environment: K8s v1.24, multi-tenant namespace setup
 Scenario Summary: Cluster workloads failed after applying overly strict resource quotas that denied new pod creation.
@@ -817,9 +774,8 @@ How to Avoid:
 	• Test new quotas in shadow or dry-run mode.
 	• Use automated checks before applying quotas.
 
-```
-```
- # Scenario  #41: Cluster Upgrade Failing Due to CNI Compatibility
+--- 
+ ## Scenario #41: Cluster Upgrade Failing Due to CNI Compatibility
 Category: Cluster Management
 Environment: K8s v1.21 to v1.22, custom CNI plugin
 Scenario Summary: Cluster upgrade failed due to an incompatible version of the CNI plugin.
@@ -836,9 +792,8 @@ How to Avoid:
 	• Follow Kubernetes upgrade documentation and ensure CNI plugins are upgraded.
 	• Test in a staging environment before performing production upgrades.
 
-```
-```
- # Scenario  #42: Failed Pod Security Policy Enforcement Causing Privileged Container Launch
+--- 
+ ## Scenario #42: Failed Pod Security Policy Enforcement Causing Privileged Container Launch
 Category: Cluster Management
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Privileged containers were able to run despite Pod Security Policy enforcement.
@@ -855,9 +810,8 @@ How to Avoid:
 	• Double-check admission controller configurations during initial cluster setup.
 	• Regularly audit security policies and admission controllers.
 
-```
-```
- # Scenario  #43: Node Pool Scaling Impacting StatefulSets
+--- 
+ ## Scenario #43: Node Pool Scaling Impacting StatefulSets
 Category: Cluster Management
 Environment: K8s v1.24, GKE
 Scenario Summary: StatefulSet pods were rescheduled across different nodes, breaking persistent volume bindings.
@@ -874,9 +828,8 @@ How to Avoid:
 	• Use pod affinity rules for StatefulSets to ensure proper scheduling and volume binding.
 	• Monitor volume binding status when scaling node pools.
 
-```
-```
- # Scenario  #44: Kubelet Crash Due to Out of Memory (OOM) Errors
+--- 
+ ## Scenario #44: Kubelet Crash Due to Out of Memory (OOM) Errors
 Category: Cluster Management
 Environment: K8s v1.20, bare metal
 Scenario Summary: Kubelet crashed after running out of memory due to excessive pod resource usage.
@@ -893,9 +846,8 @@ How to Avoid:
 	• Set reasonable resource requests and limits for all pods.
 	• Monitor node resource usage to catch resource overuse before it causes crashes.
 
-```
-```
- # Scenario  #45: DNS Resolution Failure in Multi-Cluster Setup
+--- 
+ ## Scenario #45: DNS Resolution Failure in Multi-Cluster Setup
 Category: Cluster Management
 Environment: K8s v1.23, multi-cluster federation
 Scenario Summary: DNS resolution failed between two federated clusters due to missing DNS records.
@@ -912,9 +864,8 @@ How to Avoid:
 	• Automate DNS record creation during multi-cluster federation setup.
 	• Regularly audit DNS configurations in multi-cluster environments.
 
-```
-```
- # Scenario  #46: Insufficient Resource Limits in Autoscaling Setup
+--- 
+ ## Scenario #46: Insufficient Resource Limits in Autoscaling Setup
 Category: Cluster Management
 Environment: K8s v1.21, GKE with Horizontal Pod Autoscaler (HPA)
 Scenario Summary: Horizontal Pod Autoscaler did not scale pods up as expected due to insufficient resource limits.
@@ -931,9 +882,8 @@ How to Avoid:
 	• Set adequate resource requests and limits for workloads managed by HPA.
 	• Monitor autoscaling events to identify under-scaling issues.
 
-```
-```
- # Scenario  #47: Control Plane Overload Due to High Audit Log Volume
+--- 
+ ## Scenario #47: Control Plane Overload Due to High Audit Log Volume
 Category: Cluster Management
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: The control plane became overloaded and slow due to excessive audit log volume.
@@ -950,9 +900,8 @@ How to Avoid:
 	• Regularly review and refine audit logging policies.
 	• Set alerts for high audit log volumes.
 
-```
-```
- # Scenario  #48: Resource Fragmentation Causing Cluster Instability
+--- 
+ ## Scenario #48: Resource Fragmentation Causing Cluster Instability
 Category: Cluster Management
 Environment: K8s v1.23, bare metal
 Scenario Summary: Resource fragmentation due to unbalanced pod distribution led to cluster instability.
@@ -969,9 +918,8 @@ How to Avoid:
 	• Use affinity and anti-affinity rules to control pod placement.
 	• Regularly monitor resource utilization and adjust pod placement strategies.
 
-```
-```
- # Scenario  #49: Failed Cluster Backup Due to Misconfigured Volume Snapshots
+--- 
+ ## Scenario #49: Failed Cluster Backup Due to Misconfigured Volume Snapshots
 Category: Cluster Management
 Environment: K8s v1.21, AWS EBS
 Scenario Summary: Cluster backup failed due to a misconfigured volume snapshot driver.
@@ -988,9 +936,8 @@ How to Avoid:
 	• Automate backup testing and validation in staging environments.
 	• Regularly verify backup configurations.
 
-```
-```
- # Scenario  #50: Failed Deployment Due to Image Pulling Issues
+--- 
+ ## Scenario #50: Failed Deployment Due to Image Pulling Issues
 Category: Cluster Management
 Environment: K8s v1.22, custom Docker registry
 Scenario Summary: Deployment failed due to image pulling issues from a custom Docker registry.
@@ -1007,9 +954,8 @@ How to Avoid:
 	• Always verify image pull secrets for private registries.
 	• Use Kubernetes secrets management tools for image pull credentials.
 
-```
-```
- # Scenario  #51: High Latency Due to Inefficient Ingress Controller Configuration
+--- 
+ ## Scenario #51: High Latency Due to Inefficient Ingress Controller Configuration
 Category: Cluster Management
 Environment: K8s v1.20, AWS EKS
 Scenario Summary: Ingress controller configuration caused high network latency due to inefficient routing rules.
@@ -1026,9 +972,8 @@ How to Avoid:
 	• Regularly review and optimize ingress resources.
 	• Use a more efficient ingress controller (e.g., NGINX Ingress Controller) for high-volume environments.
 
-```
-```
- # Scenario  #52: Node Draining Delay During Maintenance
+--- 
+ ## Scenario #52: Node Draining Delay During Maintenance
 Category: Cluster Management
 Environment: K8s v1.21, GKE
 Scenario Summary: Node draining took an unusually long time during maintenance due to unscheduled pod disruption.
@@ -1045,9 +990,8 @@ How to Avoid:
 	• Set reasonable disruption budgets for critical applications.
 	• Test disruption scenarios during maintenance windows to identify issues.
 
-```
-```
- # Scenario  #53: Unresponsive Cluster After Large-Scale Deployment
+--- 
+ ## Scenario #53: Unresponsive Cluster After Large-Scale Deployment
 Category: Cluster Management
 Environment: K8s v1.19, Azure AKS
 Scenario Summary: Cluster became unresponsive after deploying a large number of pods in a single batch.
@@ -1064,9 +1008,8 @@ How to Avoid:
 	• Use rolling updates or deploy in smaller batches.
 	• Monitor cluster resources and scale nodes accordingly.
 
-```
-```
- # Scenario  #54: Failed Node Recovery Due to Corrupt Kubelet Configuration
+--- 
+ ## Scenario #54: Failed Node Recovery Due to Corrupt Kubelet Configuration
 Category: Cluster Management
 Environment: K8s v1.23, Bare Metal
 Scenario Summary: Node failed to recover after being drained due to a corrupt kubelet configuration.
@@ -1083,9 +1026,8 @@ How to Avoid:
 	• Automate backups of critical configurations.
 	• Implement configuration management tools for easier recovery.
 
-```
-```
- # Scenario  #55: Resource Exhaustion Due to Misconfigured Horizontal Pod Autoscaler
+--- 
+ ## Scenario #55: Resource Exhaustion Due to Misconfigured Horizontal Pod Autoscaler
 Category: Cluster Management
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Cluster resources were exhausted due to misconfiguration in the Horizontal Pod Autoscaler (HPA), resulting in excessive pod scaling.
@@ -1102,9 +1044,8 @@ How to Avoid:
 	• Use multiple metrics for autoscaling (e.g., CPU, memory, and custom metrics).
 	• Set more conservative scaling thresholds to prevent resource exhaustion.
 
-```
-```
- # Scenario  #56: Inconsistent Application Behavior After Pod Restart
+--- 
+ ## Scenario #56: Inconsistent Application Behavior After Pod Restart
 Category: Cluster Management
 Environment: K8s v1.20, GKE
 Scenario Summary: Application behavior became inconsistent after pod restarts due to improper state handling.
@@ -1121,9 +1062,8 @@ How to Avoid:
 	• Use persistent volumes for stateful applications.
 	• Implement state synchronization mechanisms where necessary.
 
-```
-```
- # Scenario  #57: Cluster-wide Service Outage Due to Missing ClusterRoleBinding
+--- 
+ ## Scenario #57: Cluster-wide Service Outage Due to Missing ClusterRoleBinding
 Category: Cluster Management
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Cluster-wide service outage occurred after an automated change removed a critical ClusterRoleBinding.
@@ -1140,9 +1080,8 @@ How to Avoid:
 	• Use automated tests and checks for RBAC changes.
 	• Implement safeguards and approval workflows for automated configuration changes.
 
-```
-```
- # Scenario  #58: Node Overcommitment Leading to Pod Evictions
+--- 
+ ## Scenario #58: Node Overcommitment Leading to Pod Evictions
 Category: Cluster Management
 Environment: K8s v1.19, Bare Metal
 Scenario Summary: Node overcommitment led to pod evictions, causing application downtime.
@@ -1159,9 +1098,8 @@ How to Avoid:
 	• Always set appropriate resource requests and limits for all pods.
 	• Use resource quotas and limit ranges to prevent overcommitment.
 
-```
-```
- # Scenario  #59: Failed Pod Startup Due to Image Pull Policy Misconfiguration
+--- 
+ ## Scenario #59: Failed Pod Startup Due to Image Pull Policy Misconfiguration
 Category: Cluster Management
 Environment: K8s v1.23, Azure AKS
 Scenario Summary: Pods failed to start because the image pull policy was misconfigured.
@@ -1178,9 +1116,8 @@ How to Avoid:
 	• Double-check the image pull policy in pod specifications before deployment.
 	• Use Always for images stored in remote registries.
 
-```
-```
- # Scenario  #60: Excessive Control Plane Resource Usage During Pod Scheduling
+--- 
+ ## Scenario #60: Excessive Control Plane Resource Usage During Pod Scheduling
 Category: Cluster Management
 Environment: K8s v1.24, AWS EKS
 Scenario Summary: Control plane resources were excessively utilized during pod scheduling, leading to slow deployments.
@@ -1197,9 +1134,8 @@ How to Avoid:
 	• Optimize scheduler settings for large clusters.
 	• Use scheduler features like affinity and anti-affinity to control pod placement.
 
-```
-```
- # Scenario  #61: Persistent Volume Claim Failure Due to Resource Quota Exceedance
+--- 
+ ## Scenario #61: Persistent Volume Claim Failure Due to Resource Quota Exceedance
 Category: Cluster Management
 Environment: K8s v1.22, GKE
 Scenario Summary: Persistent Volume Claims (PVCs) failed due to exceeding the resource quota for storage in the namespace.
@@ -1216,9 +1152,8 @@ How to Avoid:
 	• Regularly review and adjust resource quotas based on usage patterns.
 	• Implement automated alerts for resource quota breaches.
 
-```
-```
- # Scenario  #62: Failed Pod Rescheduling Due to Node Affinity Misconfiguration
+--- 
+ ## Scenario #62: Failed Pod Rescheduling Due to Node Affinity Misconfiguration
 Category: Cluster Management
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Pods failed to reschedule after a node failure due to improper node affinity rules.
@@ -1235,9 +1170,8 @@ How to Avoid:
 	• Set node affinity rules based on availability and workloads.
 	• Regularly test affinity and anti-affinity rules during node maintenance windows.
 
-```
-```
- # Scenario  #63: Intermittent Network Latency Due to Misconfigured CNI Plugin
+--- 
+ ## Scenario #63: Intermittent Network Latency Due to Misconfigured CNI Plugin
 Category: Cluster Management
 Environment: K8s v1.24, Azure AKS
 Scenario Summary: Network latency issues occurred intermittently due to misconfiguration in the CNI (Container Network Interface) plugin.
@@ -1254,9 +1188,8 @@ How to Avoid:
 	• Ensure CNI plugin configurations match the underlying network settings.
 	• Test network performance after changes to the CNI configuration.
 
-```
-```
- # Scenario  #64: Excessive Pod Restarts Due to Resource Limits
+--- 
+ ## Scenario #64: Excessive Pod Restarts Due to Resource Limits
 Category: Cluster Management
 Environment: K8s v1.19, GKE
 Scenario Summary: A pod was restarting frequently due to resource limits being too low, causing the container to be killed.
@@ -1273,9 +1206,8 @@ How to Avoid:
 	• Regularly review resource requests and limits based on workload requirements.
 	• Use resource usage metrics to set more accurate resource limits.
 
-```
-```
- # Scenario  #65: Cluster Performance Degradation Due to Excessive Logs
+--- 
+ ## Scenario #65: Cluster Performance Degradation Due to Excessive Logs
 Category: Cluster Management
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Cluster performance degraded because of excessive logs being generated by applications, leading to high disk usage.
@@ -1292,9 +1224,8 @@ How to Avoid:
 	• Configure log rotation and retention policies for all applications.
 	• Monitor disk usage and set up alerts for high usage.
 
-```
-```
- # Scenario  #66: Insufficient Cluster Capacity Due to Unchecked CronJobs
+--- 
+ ## Scenario #66: Insufficient Cluster Capacity Due to Unchecked CronJobs
 Category: Cluster Management
 Environment: K8s v1.21, GKE
 Scenario Summary: The cluster experienced resource exhaustion because CronJobs were running in parallel without proper capacity checks.
@@ -1311,9 +1242,8 @@ How to Avoid:
 	• Set appropriate resource requests and limits for CronJobs.
 	• Use concurrencyPolicy to control parallel executions of CronJobs.
 
-```
-```
- # Scenario  #67: Unsuccessful Pod Scaling Due to Affinity/Anti-Affinity Conflict
+--- 
+ ## Scenario #67: Unsuccessful Pod Scaling Due to Affinity/Anti-Affinity Conflict
 Category: Cluster Management
 Environment: K8s v1.23, Azure AKS
 Scenario Summary: Pod scaling failed due to conflicting affinity/anti-affinity rules that prevented pods from being scheduled.
@@ -1330,9 +1260,8 @@ How to Avoid:
 	• Test affinity and anti-affinity configurations thoroughly.
 	• Use flexible affinity rules to allow for dynamic scaling and node availability.
 
-```
-```
- # Scenario  #68: Cluster Inaccessibility Due to API Server Throttling
+--- 
+ ## Scenario #68: Cluster Inaccessibility Due to API Server Throttling
 Category: Cluster Management
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Cluster became inaccessible due to excessive API server throttling caused by too many concurrent requests.
@@ -1349,9 +1278,8 @@ How to Avoid:
 	• Implement API request throttling and retries in client applications.
 	• Use rate-limiting tools like kubectl to monitor API usage.
 
-```
-```
- # Scenario  #69: Persistent Volume Expansion Failure
+--- 
+ ## Scenario #69: Persistent Volume Expansion Failure
 Category: Cluster Management
 Environment: K8s v1.20, GKE
 Scenario Summary: Expansion of a Persistent Volume (PV) failed due to improper storage class settings.
@@ -1368,9 +1296,8 @@ How to Avoid:
 	• Check storage class configurations before creating PVs.
 	• Enable allowVolumeExpansion for dynamic storage provisioning.
 
-```
-```
- # Scenario  #70: Unauthorized Access to Cluster Resources Due to RBAC Misconfiguration
+--- 
+ ## Scenario #70: Unauthorized Access to Cluster Resources Due to RBAC Misconfiguration
 Category: Cluster Management
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Unauthorized users gained access to sensitive resources due to misconfigured RBAC roles and bindings.
@@ -1387,9 +1314,8 @@ How to Avoid:
 	• Implement the principle of least privilege for RBAC roles.
 	• Regularly audit RBAC policies and bindings.
 
-```
-```
- # Scenario  #71: Inconsistent Pod State Due to Image Pull Failures
+--- 
+ ## Scenario #71: Inconsistent Pod State Due to Image Pull Failures
 Category: Cluster Management
 Environment: K8s v1.20, GKE
 Scenario Summary: Pods entered an inconsistent state because the container image failed to pull due to incorrect image tag.
@@ -1406,9 +1332,8 @@ How to Avoid:
 	• Use CI/CD pipelines to automatically verify image availability before deployment.
 	• Enable image pull retries for transient network issues.
 
-```
-```
- # Scenario  #72: Pod Disruption Due to Insufficient Node Resources
+--- 
+ ## Scenario #72: Pod Disruption Due to Insufficient Node Resources
 Category: Cluster Management
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: Pods experienced disruptions as nodes ran out of CPU and memory, causing evictions.
@@ -1425,9 +1350,8 @@ How to Avoid:
 	• Use cluster autoscaling to add nodes automatically when resource pressure increases.
 	• Set appropriate resource requests and limits for pods.
 
-```
-```
- # Scenario  #73: Service Discovery Issues Due to DNS Resolution Failures
+--- 
+ ## Scenario #73: Service Discovery Issues Due to DNS Resolution Failures
 Category: Cluster Management
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Services could not discover each other due to DNS resolution failures, affecting internal communication.
@@ -1444,9 +1368,8 @@ How to Avoid:
 	• Monitor CoreDNS pod resource usage.
 	• Allocate adequate resources based on cluster size and workload.
 
-```
-```
- # Scenario  #74: Persistent Volume Provisioning Delays
+--- 
+ ## Scenario #74: Persistent Volume Provisioning Delays
 Category: Cluster Management
 Environment: K8s v1.22, GKE
 Scenario Summary: Persistent volume provisioning was delayed due to an issue with the dynamic provisioner.
@@ -1463,9 +1386,8 @@ How to Avoid:
 	• Test storage classes and volume provisioning in staging environments before production use.
 	• Monitor PV provisioning and automate alerts for failures.
 
-```
-```
- # Scenario  #75: Deployment Rollback Failure Due to Missing Image
+--- 
+ ## Scenario #75: Deployment Rollback Failure Due to Missing Image
 Category: Cluster Management
 Environment: K8s v1.21, Azure AKS
 Scenario Summary: A deployment rollback failed due to the rollback image version no longer being available in the container registry.
@@ -1482,9 +1404,8 @@ How to Avoid:
 	• Implement retention policies for container images.
 	• Use CI/CD pipelines to tag and store images for future rollbacks.
 
-```
-```
- # Scenario  #76: Kubernetes Master Node Unresponsive After High Load
+--- 
+ ## Scenario #76: Kubernetes Master Node Unresponsive After High Load
 Category: Cluster Management
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: The Kubernetes master node became unresponsive under high load due to excessive API server calls and high memory usage.
@@ -1501,9 +1422,8 @@ How to Avoid:
 	• Use API rate limiting and load balancing techniques for the master node.
 	• Consider separating the control plane and worker nodes for better scalability.
 
-```
-```
- # Scenario  #77: Failed Pod Restart Due to Inadequate Node Affinity
+--- 
+ ## Scenario #77: Failed Pod Restart Due to Inadequate Node Affinity
 Category: Cluster Management
 Environment: K8s v1.24, GKE
 Scenario Summary: Pods failed to restart on available nodes due to overly strict node affinity rules.
@@ -1520,9 +1440,8 @@ How to Avoid:
 	• Use less restrictive affinity rules for better pod rescheduling flexibility.
 	• Test affinity rules during node maintenance and scaling operations.
 
-```
-```
- # Scenario  #78: ReplicaSet Scaling Issues Due to Resource Limits
+--- 
+ ## Scenario #78: ReplicaSet Scaling Issues Due to Resource Limits
 Category: Cluster Management
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: The ReplicaSet failed to scale due to insufficient resources on the nodes.
@@ -1539,9 +1458,8 @@ How to Avoid:
 	• Enable cluster autoscaling to handle scaling issues automatically.
 	• Set proper resource requests and limits for pods to avoid resource exhaustion.
 
-```
-```
- # Scenario  #79: Missing Namespace After Cluster Upgrade
+--- 
+ ## Scenario #79: Missing Namespace After Cluster Upgrade
 Category: Cluster Management
 Environment: K8s v1.21, GKE
 Scenario Summary: A namespace was missing after performing a cluster upgrade.
@@ -1558,9 +1476,8 @@ How to Avoid:
 	• Backup namespaces and other critical resources before upgrading.
 	• Review upgrade logs carefully to identify any unexpected deletions or changes.
 
-```
-```
- # Scenario  #80: Inefficient Resource Usage Due to Misconfigured Horizontal Pod Autoscaler
+--- 
+ ## Scenario #80: Inefficient Resource Usage Due to Misconfigured Horizontal Pod Autoscaler
 Category: Cluster Management
 Environment: K8s v1.23, Azure AKS
 Scenario Summary: The Horizontal Pod Autoscaler (HPA) was inefficiently scaling due to misconfigured metrics.
@@ -1577,9 +1494,8 @@ How to Avoid:
 	• Regularly review HPA configurations and metrics definitions.
 	• Test scaling behavior under different load conditions.
 
-```
-```
- # Scenario  #81: Pod Disruption Due to Unavailable Image Registry
+--- 
+ ## Scenario #81: Pod Disruption Due to Unavailable Image Registry
 Category: Cluster Management
 Environment: K8s v1.21, GKE
 Scenario Summary: Pods could not start because the image registry was temporarily unavailable, causing image pull failures.
@@ -1596,9 +1512,8 @@ How to Avoid:
 	• Implement multiple image registries for high availability.
 	• Use image pull policies that allow fallback to local caches.
 
-```
-```
- # Scenario  #82: Pod Fails to Start Due to Insufficient Resource Requests
+--- 
+ ## Scenario #82: Pod Fails to Start Due to Insufficient Resource Requests
 Category: Cluster Management
 Environment: K8s v1.20, AWS EKS
 Scenario Summary: Pods failed to start because their resource requests were too low, preventing the scheduler from assigning them to nodes.
@@ -1615,9 +1530,8 @@ How to Avoid:
 	• Use resource limits and requests based on accurate usage data from monitoring tools.
 	• Set resource requests in line with expected workload sizes.
 
-```
-```
- # Scenario  #83: Horizontal Pod Autoscaler Under-Scaling During Peak Load
+--- 
+ ## Scenario #83: Horizontal Pod Autoscaler Under-Scaling During Peak Load
 Category: Cluster Management
 Environment: K8s v1.22, GKE
 Scenario Summary: HPA failed to scale the pods appropriately during a sudden spike in load.
@@ -1634,9 +1548,8 @@ How to Avoid:
 	• Regularly review and adjust HPA configurations to reflect actual workload behavior.
 	• Use custom metrics for better scaling control.
 
-```
-```
- # Scenario  #84: Pod Eviction Due to Node Disk Pressure
+--- 
+ ## Scenario #84: Pod Eviction Due to Node Disk Pressure
 Category: Cluster Management
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Pods were evicted due to disk pressure on the node, causing service interruptions.
@@ -1653,9 +1566,8 @@ How to Avoid:
 	• Monitor disk usage closely and set up alerts for disk pressure.
 	• Implement log rotation and clean-up policies to avoid disk exhaustion.
 
-```
-```
- # Scenario  #85: Failed Node Drain Due to In-Use Pods
+--- 
+ ## Scenario #85: Failed Node Drain Due to In-Use Pods
 Category: Cluster Management
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: A node failed to drain due to pods that were in use, preventing the drain operation from completing.
@@ -1672,9 +1584,8 @@ How to Avoid:
 	• Configure appropriate termination grace periods for all pods.
 	• Monitor node draining and ensure pods can gracefully shut down.
 
-```
-```
- # Scenario  #86: Cluster Autoscaler Not Scaling Up
+--- 
+ ## Scenario #86: Cluster Autoscaler Not Scaling Up
 Category: Cluster Management
 Environment: K8s v1.20, GKE
 Scenario Summary: The cluster autoscaler failed to scale up the node pool despite high resource demand.
@@ -1691,9 +1602,8 @@ How to Avoid:
 	• Regularly review cluster autoscaler configuration and permissions.
 	• Monitor scaling behavior to ensure it functions as expected during high load.
 
-```
-```
- # Scenario  #87: Pod Network Connectivity Issues After Node Reboot
+--- 
+ ## Scenario #87: Pod Network Connectivity Issues After Node Reboot
 Category: Cluster Management
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Pods lost network connectivity after a node reboot, causing communication failures between services.
@@ -1710,9 +1620,8 @@ How to Avoid:
 	• Configure the CNI plugin to restart automatically after node reboots.
 	• Monitor networking components to ensure they are healthy after reboots.
 
-```
-```
- # Scenario  #88: Insufficient Permissions Leading to Unauthorized Access Errors
+--- 
+ ## Scenario #88: Insufficient Permissions Leading to Unauthorized Access Errors
 Category: Cluster Management
 Environment: K8s v1.22, GKE
 Scenario Summary: Unauthorized access errors occurred due to missing permissions in RBAC configurations.
@@ -1729,9 +1638,8 @@ How to Avoid:
 	• Implement a least-privilege access model and audit RBAC policies regularly.
 	• Use automated tools to test and verify RBAC configurations.
 
-```
-```
- # Scenario  #89: Failed Pod Upgrade Due to Incompatible API Versions
+--- 
+ ## Scenario #89: Failed Pod Upgrade Due to Incompatible API Versions
 Category: Cluster Management
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: A pod upgrade failed because it was using deprecated APIs not supported in the new version.
@@ -1748,9 +1656,8 @@ How to Avoid:
 	• Implement a process to upgrade and test all components for compatibility before applying changes.
 	• Use tools like kubectl deprecations to identify deprecated APIs.
 
-```
-```
- # Scenario  #90: High CPU Utilization Due to Inefficient Application Code
+--- 
+ ## Scenario #90: High CPU Utilization Due to Inefficient Application Code
 Category: Cluster Management
 Environment: K8s v1.21, Azure AKS
 Scenario Summary: A container's high CPU usage was caused by inefficient application code, leading to resource exhaustion.
@@ -1767,9 +1674,8 @@ How to Avoid:
 	• Regularly profile application code for performance bottlenecks.
 	• Set CPU limits and requests to prevent resource exhaustion.
 
-```
-```
- # Scenario  #91: Resource Starvation Due to Over-provisioned Pods
+--- 
+ ## Scenario #91: Resource Starvation Due to Over-provisioned Pods
 Category: Cluster Management
 Environment: K8s v1.20, AWS EKS
 Scenario Summary: Resource starvation occurred on nodes because pods were over-provisioned, consuming more resources than expected.
@@ -1786,9 +1692,8 @@ How to Avoid:
 	• Regularly monitor resource utilization and adjust requests/limits accordingly.
 	• Use vertical pod autoscalers for better resource distribution.
 
-```
-```
- # Scenario  #92: Unscheduled Pods Due to Insufficient Affinity Constraints
+--- 
+ ## Scenario #92: Unscheduled Pods Due to Insufficient Affinity Constraints
 Category: Cluster Management
 Environment: K8s v1.21, GKE
 Scenario Summary: Pods were not scheduled due to overly strict affinity rules that limited the nodes available for deployment.
@@ -1805,9 +1710,8 @@ How to Avoid:
 	• Regularly review and adjust affinity/anti-affinity rules based on cluster capacity.
 	• Test deployment configurations in staging before applying to production.
 
-```
-```
- # Scenario  #93: Pod Readiness Probe Failure Due to Slow Initialization
+--- 
+ ## Scenario #93: Pod Readiness Probe Failure Due to Slow Initialization
 Category: Cluster Management
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: Pods failed their readiness probes during initialization, causing traffic to be routed to unhealthy instances.
@@ -1824,9 +1728,8 @@ How to Avoid:
 	• Monitor pod initialization times and adjust readiness probe configurations accordingly.
 	• Use a gradual rollout for new deployments to avoid sudden failures.
 
-```
-```
- # Scenario  #94: Incorrect Ingress Path Handling Leading to 404 Errors
+--- 
+ ## Scenario #94: Incorrect Ingress Path Handling Leading to 404 Errors
 Category: Cluster Management
 Environment: K8s v1.19, GKE
 Scenario Summary: Incorrect path configuration in the ingress resource resulted in 404 errors for certain API routes.
@@ -1843,9 +1746,8 @@ How to Avoid:
 	• Test ingress paths thoroughly before applying to production environments.
 	• Use versioned APIs to ensure backward compatibility for routing paths.
 
-```
-```
- # Scenario  #95: Node Pool Scaling Failure Due to Insufficient Quotas
+--- 
+ ## Scenario #95: Node Pool Scaling Failure Due to Insufficient Quotas
 Category: Cluster Management
 Environment: K8s v1.20, AWS EKS
 Scenario Summary: Node pool scaling failed because the account exceeded resource quotas in AWS.
@@ -1862,9 +1764,8 @@ How to Avoid:
 	• Keep track of resource quotas and request increases in advance.
 	• Automate quota monitoring and alerting to avoid surprises during scaling.
 
-```
-```
- # Scenario  #96: Pod Crash Loop Due to Missing ConfigMap
+--- 
+ ## Scenario #96: Pod Crash Loop Due to Missing ConfigMap
 Category: Cluster Management
 Environment: K8s v1.21, Azure AKS
 Scenario Summary: Pods entered a crash loop because a required ConfigMap was not present in the namespace.
@@ -1881,9 +1782,8 @@ How to Avoid:
 	• Use namespaces and resource quotas to limit accidental deletion of shared resources.
 	• Implement stricter RBAC policies for sensitive resources.
 
-```
-```
- # Scenario  #97: Kubernetes API Server Slowness Due to Excessive Logging
+--- 
+ ## Scenario #97: Kubernetes API Server Slowness Due to Excessive Logging
 Category: Cluster Management
 Environment: K8s v1.22, GKE
 Scenario Summary: The Kubernetes API server became slow due to excessive log generation from the kubelet and other components.
@@ -1900,9 +1800,8 @@ How to Avoid:
 	• Set appropriate logging levels for components based on usage.
 	• Implement log rotation and retention policies to avoid overwhelming storage.
 
-```
-```
- # Scenario  #98: Pod Scheduling Failure Due to Taints and Tolerations Misconfiguration
+--- 
+ ## Scenario #98: Pod Scheduling Failure Due to Taints and Tolerations Misconfiguration
 Category: Cluster Management
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: Pods failed to schedule because the taints and tolerations were misconfigured, preventing the scheduler from placing them on nodes.
@@ -1919,9 +1818,8 @@ How to Avoid:
 	• Test taints and tolerations in a non-production environment.
 	• Regularly audit and verify toleration settings to ensure proper pod placement.
 
-```
-```
- # Scenario  #99: Unresponsive Dashboard Due to High Resource Usage
+--- 
+ ## Scenario #99: Unresponsive Dashboard Due to High Resource Usage
 Category: Cluster Management
 Environment: K8s v1.20, Azure AKS
 Scenario Summary: The Kubernetes dashboard became unresponsive due to high resource usage caused by a large number of requests.
@@ -1938,9 +1836,8 @@ How to Avoid:
 	• Implement horizontal scaling for the dashboard and other critical services.
 	• Monitor the usage of the Kubernetes dashboard and scale as needed.
 
-```
-```
- # Scenario  #100: Resource Limits Causing Container Crashes
+--- 
+ ## Scenario #100: Resource Limits Causing Container Crashes
 Category: Cluster Management
 Environment: K8s v1.21, GKE
 Scenario Summary: Containers kept crashing due to hitting resource limits set in their configurations.
@@ -1962,9 +1859,8 @@ How to Avoid:
 NETWORKING
 
 
-```
-```
- # Scenario  #101: Pod Communication Failure Due to Network Policy Misconfiguration
+--- 
+ ## Scenario #101: Pod Communication Failure Due to Network Policy Misconfiguration
 Category: Networking
 Environment: K8s v1.22, GKE
 Scenario Summary: Pods failed to communicate due to a misconfigured NetworkPolicy that blocked ingress traffic.
@@ -1981,9 +1877,8 @@ How to Avoid:
 	• Use staging environments to test NetworkPolicy changes.
 	• Apply policies incrementally and monitor network traffic.
 
-```
-```
- # Scenario  #102: DNS Resolution Failure Due to CoreDNS Pod Crash
+--- 
+ ## Scenario #102: DNS Resolution Failure Due to CoreDNS Pod Crash
 Category: Networking
 Environment: K8s v1.21, Azure AKS
 Scenario Summary: DNS resolution failed across the cluster after CoreDNS pods crashed unexpectedly.
@@ -2000,9 +1895,8 @@ How to Avoid:
 	• Regularly monitor CoreDNS metrics for memory and CPU usage.
 	• Adjust resource limits based on cluster size and traffic patterns.
 
-```
-```
- # Scenario  #103: Network Latency Due to Misconfigured Service Type
+--- 
+ ## Scenario #103: Network Latency Due to Misconfigured Service Type
 Category: Networking
 Environment: K8s v1.18, AWS EKS
 Scenario Summary: High network latency occurred because a service was incorrectly configured as a NodePortinstead of a LoadBalancer.
@@ -2019,9 +1913,8 @@ How to Avoid:
 	• Review service types based on the expected traffic and scalability.
 	• Use a LoadBalancer for production environments requiring high availability.
 
-```
-```
- # Scenario  #104: Inconsistent Pod-to-Pod Communication Due to MTU Mismatch
+--- 
+ ## Scenario #104: Inconsistent Pod-to-Pod Communication Due to MTU Mismatch
 Category: Networking
 Environment: K8s v1.20, GKE
 Scenario Summary: Pod-to-pod communication became inconsistent due to a mismatch in Maximum Transmission Unit (MTU) settings across nodes.
@@ -2038,9 +1931,8 @@ How to Avoid:
 	• Ensure that MTU settings are consistent across all network interfaces in the cluster.
 	• Test network connectivity regularly to ensure that no fragmentation occurs.
 
-```
-```
- # Scenario  #105: Service Discovery Failure Due to DNS Pod Resource Limits
+--- 
+ ## Scenario #105: Service Discovery Failure Due to DNS Pod Resource Limits
 Category: Networking
 Environment: K8s v1.19, Azure AKS
 Scenario Summary: Service discovery failed across the cluster due to DNS pod resource limits being exceeded.
@@ -2057,9 +1949,8 @@ How to Avoid:
 	• Regularly monitor CoreDNS metrics and adjust resource limits accordingly.
 	• Scale CoreDNS replicas based on cluster size and traffic.
 
-```
-```
- # Scenario  #106: Pod IP Collision Due to Insufficient IP Range
+--- 
+ ## Scenario #106: Pod IP Collision Due to Insufficient IP Range
 Category: Networking
 Environment: K8s v1.21, GKE
 Scenario Summary: Pod IP collisions occurred due to insufficient IP range allocation for the cluster.
@@ -2076,9 +1967,8 @@ How to Avoid:
 	• Ensure that the IP range for pods is large enough to accommodate future scaling needs.
 	• Monitor IP allocation and usage metrics for early detection of issues.
 
-```
-```
- # Scenario  #107: Network Bottleneck Due to Single Node in NodePool
+--- 
+ ## Scenario #107: Network Bottleneck Due to Single Node in NodePool
 Category: Networking
 Environment: K8s v1.23, AWS EKS
 Scenario Summary: A network bottleneck occurred due to excessive traffic being handled by a single node in the node pool.
@@ -2095,9 +1985,8 @@ How to Avoid:
 	• Ensure that the cluster autoscaler is correctly configured to balance resource load across all nodes.
 	• Monitor traffic patterns and node utilization regularly.
 
-```
-```
- # Scenario  #108: Network Partitioning Due to CNI Plugin Failure
+--- 
+ ## Scenario #108: Network Partitioning Due to CNI Plugin Failure
 Category: Networking
 Environment: K8s v1.18, GKE
 Scenario Summary: A network partition occurred when the CNI plugin failed, preventing pods from communicating with each other.
@@ -2114,9 +2003,8 @@ How to Avoid:
 	• Regularly test the CNI plugin and monitor logs for failures.
 	• Use redundant networking setups to avoid single points of failure.
 
-```
-```
- # Scenario  #109: Misconfigured Ingress Resource Causing SSL Errors
+--- 
+ ## Scenario #109: Misconfigured Ingress Resource Causing SSL Errors
 Category: Networking
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: SSL certificate errors occurred due to a misconfigured Ingress resource.
@@ -2133,9 +2021,8 @@ How to Avoid:
 	• Use automated certificate management tools like cert-manager for better SSL certificate handling.
 	• Test SSL connections before deploying ingress resources in production.
 
-```
-```
- # Scenario  #110: Cluster Autoscaler Fails to Scale Nodes Due to Incorrect IAM Role Permissions
+--- 
+ ## Scenario #110: Cluster Autoscaler Fails to Scale Nodes Due to Incorrect IAM Role Permissions
 Category: Cluster Management
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: The cluster autoscaler failed to scale the number of nodes in response to resource shortages due to missing IAM role permissions for managing EC2 instances.
@@ -2152,9 +2039,8 @@ How to Avoid:
 	• Regularly review IAM permissions and role configurations for essential services like the cluster autoscaler.
 	• Automate IAM permission audits to catch configuration issues early.
 
-```
-```
- # Scenario  #111: DNS Resolution Failure Due to Incorrect Pod IP Allocation
+--- 
+ ## Scenario #111: DNS Resolution Failure Due to Incorrect Pod IP Allocation
 Category: Networking
 Environment: K8s v1.21, GKE
 Scenario Summary: DNS resolution failed due to incorrect IP allocation in the cluster’s CNI plugin.
@@ -2171,9 +2057,8 @@ How to Avoid:
 	• Check IP allocation settings regularly and use monitoring tools to track IP usage.
 	• Ensure CNI plugin configurations align with network architecture requirements.
 
-```
-```
- # Scenario  #112: Failed Pod-to-Service Communication Due to Port Binding Conflict
+--- 
+ ## Scenario #112: Failed Pod-to-Service Communication Due to Port Binding Conflict
 Category: Networking
 Environment: K8s v1.18, AWS EKS
 Scenario Summary: Pods couldn’t communicate with services because of a port binding conflict.
@@ -2190,9 +2075,8 @@ How to Avoid:
 	• Use port management strategies and avoid hardcoding ports in services and pods.
 	• Automate port management and checking within deployment pipelines.
 
-```
-```
- # Scenario  #113: Pod Eviction Due to Network Resource Constraints
+--- 
+ ## Scenario #113: Pod Eviction Due to Network Resource Constraints
 Category: Networking
 Environment: K8s v1.19, GKE
 Scenario Summary: A pod was evicted due to network resource constraints, specifically limited bandwidth.
@@ -2209,9 +2093,8 @@ How to Avoid:
 	• Monitor and adjust network resource allocations regularly.
 	• Use appropriate pod resource requests and limits to prevent evictions.
 
-```
-```
- # Scenario  #114: Intermittent Network Disconnects Due to MTU Mismatch Between Nodes
+--- 
+ ## Scenario #114: Intermittent Network Disconnects Due to MTU Mismatch Between Nodes
 Category: Networking
 Environment: K8s v1.20, Azure AKS
 Scenario Summary: Intermittent network disconnects occurred due to MTU mismatches between different nodes in the cluster.
@@ -2228,9 +2111,8 @@ How to Avoid:
 	• Ensure that the MTU configuration is uniform across all cluster nodes.
 	• Regularly monitor and verify MTU settings during upgrades.
 
-```
-```
- # Scenario  #115: Service Load Balancer Failing to Route Traffic to New Pods
+--- 
+ ## Scenario #115: Service Load Balancer Failing to Route Traffic to New Pods
 Category: Networking
 Environment: K8s v1.22, Google GKE
 Scenario Summary: Service load balancer failed to route traffic to new pods after scaling up.
@@ -2247,9 +2129,8 @@ How to Avoid:
 	• Configure the load balancer to auto-refresh backend pools on pod changes.
 	• Use health checks to ensure only healthy pods are routed traffic.
 
-```
-```
- # Scenario  #116: Network Traffic Drop Due to Overlapping CIDR Blocks
+--- 
+ ## Scenario #116: Network Traffic Drop Due to Overlapping CIDR Blocks
 Category: Networking
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: Network traffic dropped due to overlapping CIDR blocks between the VPC and Kubernetes pod network.
@@ -2266,9 +2147,8 @@ How to Avoid:
 	• Plan IP address allocations for both the VPC and Kubernetes network in advance.
 	• Double-check CIDR blocks during the cluster setup phase.
 
-```
-```
- # Scenario  #117: Misconfigured DNS Resolvers Leading to Service Discovery Failure
+--- 
+ ## Scenario #117: Misconfigured DNS Resolvers Leading to Service Discovery Failure
 Category: Networking
 Environment: K8s v1.21, DigitalOcean Kubernetes
 Scenario Summary: Service discovery failed due to misconfigured DNS resolvers.
@@ -2285,9 +2165,8 @@ How to Avoid:
 	• Use default DNS settings if unsure about custom resolver configurations.
 	• Regularly verify DNS functionality within the cluster.
 
-```
-```
- # Scenario  #118: Intermittent Latency Due to Overloaded Network Interface
+--- 
+ ## Scenario #118: Intermittent Latency Due to Overloaded Network Interface
 Category: Networking
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Intermittent network latency occurred due to an overloaded network interface on a single node.
@@ -2304,9 +2183,8 @@ How to Avoid:
 	• Use autoscaling to dynamically adjust the number of nodes based on traffic load.
 	• Monitor network interface usage closely and optimize traffic distribution.
 
-```
-```
- # Scenario  #119: Pod Disconnection During Network Partition
+--- 
+ ## Scenario #119: Pod Disconnection During Network Partition
 Category: Networking
 Environment: K8s v1.20, Google GKE
 Scenario Summary: Pods were disconnected during a network partition between nodes in the cluster.
@@ -2324,9 +2202,8 @@ How to Avoid:
 	• Enable pod disruption budgets to ensure availability during network issues.
 
 
-```
-```
- # Scenario  #121: Pod-to-Pod Communication Blocked by Network Policies
+--- 
+ ## Scenario #121: Pod-to-Pod Communication Blocked by Network Policies
 Category: Networking
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Pod-to-pod communication was blocked due to overly restrictive network policies.
@@ -2344,9 +2221,8 @@ How to Avoid:
 	• Use dry-run functionality when applying network policies.
 	• Continuously test policies in a staging environment before production rollout.
 
-```
-```
- # Scenario  #122: Unresponsive External API Due to DNS Resolution Failure
+--- 
+ ## Scenario #122: Unresponsive External API Due to DNS Resolution Failure
 Category: Networking
 Environment: K8s v1.22, DigitalOcean Kubernetes
 Scenario Summary: External API calls from the pods failed due to DNS resolution issues for the external domain.
@@ -2363,9 +2239,8 @@ How to Avoid:
 	• Regularly monitor CoreDNS health and ensure DNS settings are correctly configured.
 	• Use automated health checks to detect DNS issues early.
 
-```
-```
- # Scenario  #123: Load Balancer Health Checks Failing After Pod Update
+--- 
+ ## Scenario #123: Load Balancer Health Checks Failing After Pod Update
 Category: Networking
 Environment: K8s v1.19, GCP Kubernetes Engine
 Scenario Summary: Load balancer health checks failed after updating a pod due to incorrect readiness probe configuration.
@@ -2382,9 +2257,8 @@ How to Avoid:
 	• Test readiness probes extensively during staging before updating production.
 	• Implement rolling updates to avoid downtime during pod updates.
 
-```
-```
- # Scenario  #124: Pod Network Performance Degradation After Node Upgrade
+--- 
+ ## Scenario #124: Pod Network Performance Degradation After Node Upgrade
 Category: Networking
 Environment: K8s v1.21, Azure AKS
 Scenario Summary: Network performance degraded after an automatic node upgrade, causing latency in pod communication.
@@ -2401,9 +2275,8 @@ How to Avoid:
 	• Manually test upgrades in a staging environment before applying them to production.
 	• Ensure compatibility of network drivers with the Kubernetes version being used.
 
-```
-```
- # Scenario  #125: Service IP Conflict Due to CIDR Overlap
+--- 
+ ## Scenario #125: Service IP Conflict Due to CIDR Overlap
 Category: Networking
 Environment: K8s v1.20, GKE
 Scenario Summary: A service IP conflict occurred due to overlapping CIDR blocks, preventing correct routing of traffic to the service.
@@ -2420,9 +2293,8 @@ How to Avoid:
 	• Use a dedicated service CIDR block to ensure that IPs are allocated without overlap.
 	• Automate IP range checks before service creation.
 
-```
-```
- # Scenario  #126: High Latency in Inter-Namespace Communication
+--- 
+ ## Scenario #126: High Latency in Inter-Namespace Communication
 Category: Networking
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: High latency observed in inter-namespace communication, leading to application timeouts.
@@ -2439,9 +2311,8 @@ How to Avoid:
 	• Apply network policies with careful consideration of cross-namespace communication needs.
 	• Regularly review and update network policies.
 
-```
-```
- # Scenario  #127: Pod Network Disruptions Due to CNI Plugin Update
+--- 
+ ## Scenario #127: Pod Network Disruptions Due to CNI Plugin Update
 Category: Networking
 Environment: K8s v1.19, DigitalOcean Kubernetes
 Scenario Summary: Pods experienced network disruptions after updating the CNI plugin to a newer version.
@@ -2458,9 +2329,8 @@ How to Avoid:
 	• Implement a thorough testing procedure for CNI plugin upgrades.
 	• Use version locking for CNI plugins to avoid unintentional upgrades.
 
-```
-```
- # Scenario  #128: Loss of Service Traffic Due to Missing Ingress Annotations
+--- 
+ ## Scenario #128: Loss of Service Traffic Due to Missing Ingress Annotations
 Category: Networking
 Environment: K8s v1.21, GKE
 Scenario Summary: Loss of service traffic after ingress annotations were incorrectly set, causing the ingress controller to misroute traffic.
@@ -2477,9 +2347,8 @@ How to Avoid:
 	• Double-check ingress annotations before applying them to production.
 	• Automate ingress validation as part of the CI/CD pipeline.
 
-```
-```
- # Scenario  #129: Node Pool Draining Timeout Due to Slow Pod Termination
+--- 
+ ## Scenario #129: Node Pool Draining Timeout Due to Slow Pod Termination
 Category: Cluster Management
 Environment: K8s v1.19, GKE
 Scenario Summary: The node pool draining process timed out during upgrades due to pods taking longer than expected to terminate.
@@ -2496,9 +2365,8 @@ How to Avoid:
 	• Optimize pod termination logic and cleanup tasks to ensure quicker pod termination.
 	• Regularly test node draining during cluster maintenance to identify potential issues.
 
-```
-```
- # Scenario  #130: Failed Cluster Upgrade Due to Incompatible API Versions
+--- 
+ ## Scenario #130: Failed Cluster Upgrade Due to Incompatible API Versions
 Category: Cluster Management
 Environment: K8s v1.17, Azure AKS
 Scenario Summary: The cluster upgrade failed because certain deprecated API versions were still in use, causing compatibility issues with the new K8s version.
@@ -2515,9 +2383,8 @@ How to Avoid:
 	• Regularly audit API versions in use across the cluster.
 	• Use tools like kubectl deprecations or kubectl check to identify deprecated resources before upgrades.
 
-```
-```
- # Scenario  #131: DNS Resolution Failure for Services After Pod Restart
+--- 
+ ## Scenario #131: DNS Resolution Failure for Services After Pod Restart
 Category: Networking
 Environment: K8s v1.19, Azure AKS
 Scenario Summary: DNS resolution failed for services after restarting a pod, causing internal communication issues.
@@ -2534,9 +2401,8 @@ How to Avoid:
 	• Monitor DNS resolution and configure automatic cache refreshing.
 	• Validate DNS functionality after pod restarts.
 
-```
-```
- # Scenario  #132: Pod IP Address Changes Causing Application Failures
+--- 
+ ## Scenario #132: Pod IP Address Changes Causing Application Failures
 Category: Networking
 Environment: K8s v1.21, GKE
 Scenario Summary: Application failed after a pod IP address changed unexpectedly, breaking communication between services.
@@ -2553,9 +2419,8 @@ How to Avoid:
 	• Use Kubernetes service names to ensure stable communication.
 	• Set up proper service discovery mechanisms within applications.
 
-```
-```
- # Scenario  #133: Service Exposure Failed Due to Misconfigured Load Balancer
+--- 
+ ## Scenario #133: Service Exposure Failed Due to Misconfigured Load Balancer
 Category: Networking
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: A service exposure attempt failed due to incorrect configuration of the AWS load balancer.
@@ -2572,9 +2437,8 @@ How to Avoid:
 	• Automate security group configuration checks.
 	• Implement a robust testing process for load balancer configurations.
 
-```
-```
- # Scenario  #134: Network Latency Spikes During Pod Autoscaling
+--- 
+ ## Scenario #134: Network Latency Spikes During Pod Autoscaling
 Category: Networking
 Environment: K8s v1.20, Google Cloud
 Scenario Summary: Network latency spikes occurred when autoscaling pods during traffic surges.
@@ -2591,9 +2455,8 @@ How to Avoid:
 	• Use network resource metrics to guide autoscaling decisions.
 	• Continuously monitor and adjust network resources for autoscaling scenarios.
 
-```
-```
- # Scenario  #135: Service Not Accessible Due to Incorrect Namespace Selector
+--- 
+ ## Scenario #135: Service Not Accessible Due to Incorrect Namespace Selector
 Category: Networking
 Environment: K8s v1.18, on-premise
 Scenario Summary: A service was not accessible due to a misconfigured namespace selector in the service definition.
@@ -2610,9 +2473,8 @@ How to Avoid:
 	• Regularly audit service definitions for misconfigurations.
 	• Implement automated validation checks for Kubernetes resources.
 
-```
-```
- # Scenario  #136: Intermittent Pod Connectivity Due to Network Plugin Bug
+--- 
+ ## Scenario #136: Intermittent Pod Connectivity Due to Network Plugin Bug
 Category: Networking
 Environment: K8s v1.23, DigitalOcean Kubernetes
 Scenario Summary: Pods experienced intermittent connectivity issues due to a bug in the CNI network plugin.
@@ -2629,9 +2491,8 @@ How to Avoid:
 	• Use a canary deployment strategy for CNI plugin updates.
 	• Monitor pod connectivity closely after updates.
 
-```
-```
- # Scenario  #137: Failed Ingress Traffic Routing Due to Missing Annotations
+--- 
+ ## Scenario #137: Failed Ingress Traffic Routing Due to Missing Annotations
 Category: Networking
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Ingress traffic was not properly routed to services due to missing annotations in the ingress resource.
@@ -2648,9 +2509,8 @@ How to Avoid:
 	• Use a standard template for ingress resources.
 	• Automate the validation of ingress configurations before applying them.
 
-```
-```
- # Scenario  #138: Pod IP Conflict Causing Service Downtime
+--- 
+ ## Scenario #138: Pod IP Conflict Causing Service Downtime
 Category: Networking
 Environment: K8s v1.19, GKE
 Scenario Summary: A pod IP conflict caused service downtime and application crashes.
@@ -2667,9 +2527,8 @@ How to Avoid:
 	• Use a custom IP range and monitoring for pod IP allocation.
 	• Stay updated with CNI plugin releases and known bugs.
 
-```
-```
- # Scenario  #139: Latency Due to Unoptimized Service Mesh Configuration
+--- 
+ ## Scenario #139: Latency Due to Unoptimized Service Mesh Configuration
 Category: Networking
 Environment: K8s v1.21, Istio
 Scenario Summary: Increased latency in service-to-service communication due to suboptimal configuration of Istio service mesh.
@@ -2686,9 +2545,8 @@ How to Avoid:
 	• Regularly review and optimize Istio configurations.
 	• Use performance benchmarks to guide configuration changes.
 
-```
-```
- # Scenario  #139: DNS Resolution Failure After Cluster Upgrade
+--- 
+ ## Scenario #139: DNS Resolution Failure After Cluster Upgrade
 Category: Networking
 Environment: K8s v1.20 to v1.21, AWS EKS
 Scenario Summary: DNS resolution failures occurred across pods after a Kubernetes cluster upgrade.
@@ -2705,9 +2563,8 @@ How to Avoid:
 	• Automate the validation of key configurations after an upgrade.
 	• Implement pre-upgrade checks to ensure compatibility with existing configurations.
 
-```
-```
- # Scenario  #140: Service Mesh Sidecar Injection Failure
+--- 
+ ## Scenario #140: Service Mesh Sidecar Injection Failure
 Category: Networking
 Environment: K8s v1.19, Istio 1.8
 Scenario Summary: Sidecar injection failed for some pods in the service mesh, preventing communication between services.
@@ -2724,9 +2581,8 @@ How to Avoid:
 	• Automate the application of the sidecar.istio.io/inject annotation.
 	• Use Helm or operators to manage sidecar injection for consistency.
 
-```
-```
- # Scenario  #141: Network Bandwidth Saturation During Large-Scale Deployments
+--- 
+ ## Scenario #141: Network Bandwidth Saturation During Large-Scale Deployments
 Category: Networking
 Environment: K8s v1.21, Azure AKS
 Scenario Summary: Network bandwidth was saturated during a large-scale deployment, affecting cluster communication.
@@ -2743,9 +2599,8 @@ How to Avoid:
 	• Use image caching and local registries for large deployments.
 	• Implement deployment strategies to stagger or batch workloads.
 
-```
-```
- # Scenario  #142: Inconsistent Network Policies Blocking Internal Traffic
+--- 
+ ## Scenario #142: Inconsistent Network Policies Blocking Internal Traffic
 Category: Networking
 Environment: K8s v1.18, GKE
 Scenario Summary: Internal pod-to-pod traffic was unexpectedly blocked due to inconsistent network policies.
@@ -2762,9 +2617,8 @@ How to Avoid:
 	• Implement a policy review process before applying network policies to production environments.
 	• Use tools like Calico to visualize and validate network policies before deployment.
 
-```
-```
- # Scenario  #143: Pod Network Latency Caused by Overloaded CNI Plugin
+--- 
+ ## Scenario #143: Pod Network Latency Caused by Overloaded CNI Plugin
 Category: Networking
 Environment: K8s v1.19, on-premise
 Scenario Summary: Pod network latency increased due to an overloaded CNI plugin.
@@ -2781,9 +2635,8 @@ How to Avoid:
 	• Test and benchmark CNI plugins before deploying in production.
 	• Regularly monitor the performance of the CNI plugin and adjust configurations as needed.
 
-```
-```
- # Scenario  #144: TCP Retransmissions Due to Network Saturation
+--- 
+ ## Scenario #144: TCP Retransmissions Due to Network Saturation
 Category: Networking
 Environment: K8s v1.22, DigitalOcean Kubernetes
 Scenario Summary: TCP retransmissions increased due to network saturation, leading to degraded pod-to-pod communication.
@@ -2800,9 +2653,8 @@ How to Avoid:
 	• Use quality-of-service (QoS) and bandwidth throttling to prevent network saturation.
 	• Regularly monitor network bandwidth and adjust scaling policies to meet traffic demands.
 
-```
-```
- # Scenario  #145: DNS Lookup Failures Due to Resource Limits
+--- 
+ ## Scenario #145: DNS Lookup Failures Due to Resource Limits
 Category: Networking
 Environment: K8s v1.20, AWS EKS
 Scenario Summary: DNS lookup failures occurred due to resource limits on the CoreDNS pods.
@@ -2819,9 +2671,8 @@ How to Avoid:
 	• Set resource requests and limits for critical services based on actual usage.
 	• Use Kubernetes Horizontal Pod Autoscaler (HPA) to automatically scale resource allocation for CoreDNS.
 
-```
-```
- # Scenario  #146: Service Exposure Issues Due to Incorrect Ingress Configuration
+--- 
+ ## Scenario #146: Service Exposure Issues Due to Incorrect Ingress Configuration
 Category: Networking
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: A service was not accessible externally due to incorrect ingress configuration.
@@ -2838,9 +2689,8 @@ How to Avoid:
 	• Use automated testing and validation tools for ingress resources.
 	• Document standard ingress configurations to avoid errors.
 
-```
-```
- # Scenario  #147: Pod-to-Pod Communication Failure Due to Network Policy
+--- 
+ ## Scenario #147: Pod-to-Pod Communication Failure Due to Network Policy
 Category: Networking
 Environment: K8s v1.19, on-premise
 Scenario Summary: Pod-to-pod communication failed due to an overly restrictive network policy.
@@ -2857,9 +2707,8 @@ How to Avoid:
 	• Use a policy auditing tool to ensure network policies are properly defined and do not block essential traffic.
 	• Regularly test network policies in staging environments.
 
-```
-```
- # Scenario  #148: Unstable Network Due to Overlay Network Misconfiguration
+--- 
+ ## Scenario #148: Unstable Network Due to Overlay Network Misconfiguration
 Category: Networking
 Environment: K8s v1.18, VMware Tanzu
 Scenario Summary: The overlay network was misconfigured, leading to instability in pod communication.
@@ -2876,9 +2725,8 @@ How to Avoid:
 	• Test network configurations in staging environments before deploying to production.
 	• Regularly audit network configurations for consistency.
 
-```
-```
- # Scenario  #149: Intermittent Pod Network Connectivity Due to Cloud Provider Issues
+--- 
+ ## Scenario #149: Intermittent Pod Network Connectivity Due to Cloud Provider Issues
 Category: Networking
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Pod network connectivity was intermittent due to issues with the cloud provider's network infrastructure.
@@ -2895,9 +2743,8 @@ How to Avoid:
 	• Set up alerts for cloud provider outages and implement retries in critical network-dependent applications.
 	• Design applications to be resilient to network instability.
 
-```
-```
- # Scenario  #150: Port Conflicts Between Services in Different Namespaces
+--- 
+ ## Scenario #150: Port Conflicts Between Services in Different Namespaces
 Category: Networking
 Environment: K8s v1.22, Google GKE
 Scenario Summary: Port conflicts between services in different namespaces led to communication failures.
@@ -2914,9 +2761,8 @@ How to Avoid:
 	• Use unique port allocations across services in different namespaces.
 	• Implement service naming conventions that include port information.
 
-```
-```
- # Scenario  #151: NodePort Service Not Accessible Due to Firewall Rules
+--- 
+ ## Scenario #151: NodePort Service Not Accessible Due to Firewall Rules
 Category: Networking
 Environment: K8s v1.23, Google GKE
 Scenario Summary: A NodePort service became inaccessible due to restrictive firewall rules on the cloud provider.
@@ -2934,9 +2780,8 @@ How to Avoid:
 	• Automate the validation of firewall rules after deploying NodePort services.
 	• Document and standardize firewall configurations for all exposed services.
 
-```
-```
- # Scenario  #152: DNS Latency Due to Overloaded CoreDNS Pods
+--- 
+ ## Scenario #152: DNS Latency Due to Overloaded CoreDNS Pods
 Category: Networking
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: CoreDNS latency increased due to resource constraints on the CoreDNS pods.
@@ -2954,9 +2799,8 @@ How to Avoid:
 	• Set resource requests and limits for CoreDNS based on historical query volume.
 	• Monitor CoreDNS performance and scale resources dynamically.
 
-```
-```
- # Scenario  #153: Network Performance Degradation Due to Misconfigured MTU
+--- 
+ ## Scenario #153: Network Performance Degradation Due to Misconfigured MTU
 Category: Networking
 Environment: K8s v1.20, on-premise
 Scenario Summary: Network performance degraded due to an incorrect Maximum Transmission Unit (MTU) setting.
@@ -2973,9 +2817,8 @@ How to Avoid:
 	• Implement monitoring and alerting for MTU mismatches.
 	• Validate network configurations before applying changes to the CNI plugin.
 
-```
-```
- # Scenario  #154: Application Traffic Routing Issue Due to Incorrect Ingress Resource
+--- 
+ ## Scenario #154: Application Traffic Routing Issue Due to Incorrect Ingress Resource
 Category: Networking
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: Application traffic was routed incorrectly due to an error in the ingress resource definition.
@@ -2992,9 +2835,8 @@ How to Avoid:
 	• Implement a staging environment to test ingress resources before production deployment.
 	• Use automated tests to verify ingress configuration correctness.
 
-```
-```
- # Scenario  #155: Intermittent Service Disruptions Due to DNS Caching Issue
+--- 
+ ## Scenario #155: Intermittent Service Disruptions Due to DNS Caching Issue
 Category: Networking
 Environment: K8s v1.21, GCP GKE
 Scenario Summary: Intermittent service disruptions occurred due to stale DNS cache in CoreDNS.
@@ -3011,9 +2853,8 @@ How to Avoid:
 	• Monitor DNS records and TTL values actively.
 	• Implement cache invalidation or reduce TTL for critical services.
 
-```
-```
- # Scenario  #156: Flannel Overlay Network Interruption Due to Node Failure
+--- 
+ ## Scenario #156: Flannel Overlay Network Interruption Due to Node Failure
 Category: Networking
 Environment: K8s v1.18, on-premise
 Scenario Summary: Flannel overlay network was interrupted after a node failure, causing pod-to-pod communication issues.
@@ -3030,9 +2871,8 @@ How to Avoid:
 	• Implement automatic recovery or self-healing mechanisms for CNI plugins.
 	• Monitor CNI plugin logs to detect issues early.
 
-```
-```
- # Scenario  #157: Network Traffic Loss Due to Port Collision in Network Policy
+--- 
+ ## Scenario #157: Network Traffic Loss Due to Port Collision in Network Policy
 Category: Networking
 Environment: K8s v1.19, GKE
 Scenario Summary: Network traffic was lost due to a port collision in the network policy, affecting application availability.
@@ -3049,9 +2889,8 @@ How to Avoid:
 	• Review network policies in detail before applying them in production.
 	• Use automated tools to validate network policies.
 
-```
-```
- # Scenario  #158: CoreDNS Service Failures Due to Resource Exhaustion
+--- 
+ ## Scenario #158: CoreDNS Service Failures Due to Resource Exhaustion
 Category: Networking
 Environment: K8s v1.20, Azure AKS
 Scenario Summary: CoreDNS service failed due to resource exhaustion, causing DNS resolution failures.
@@ -3068,9 +2907,8 @@ How to Avoid:
 	• Set appropriate resource requests and limits based on usage patterns.
 	• Monitor resource consumption of CoreDNS and other critical components.
 
-```
-```
- # Scenario  #159: Pod Network Partition Due to Misconfigured IPAM
+--- 
+ ## Scenario #159: Pod Network Partition Due to Misconfigured IPAM
 Category: Networking
 Environment: K8s v1.22, VMware Tanzu
 Scenario Summary: Pod network partition occurred due to an incorrectly configured IP Address Management (IPAM) in the CNI plugin.
@@ -3087,9 +2925,8 @@ How to Avoid:
 	• Validate network configurations before deploying.
 	• Use automated checks to detect IP address conflicts in multi-node environments.
 
-```
-```
- # Scenario  #160: Network Performance Degradation Due to Overloaded CNI Plugin
+--- 
+ ## Scenario #160: Network Performance Degradation Due to Overloaded CNI Plugin
 Category: Networking
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Network performance degraded due to the CNI plugin being overwhelmed by high traffic volume.
@@ -3107,9 +2944,8 @@ How to Avoid:
 	• Use resource limits and horizontal pod autoscaling for critical CNI components.
 
 
-```
-```
- # Scenario  #161: Network Performance Degradation Due to Overloaded CNI Plugin
+--- 
+ ## Scenario #161: Network Performance Degradation Due to Overloaded CNI Plugin
 Category: Networking
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Network performance degraded due to the CNI plugin being overwhelmed by high traffic volume.
@@ -3126,9 +2962,8 @@ How to Avoid:
 	• Set up traffic rate limiting to prevent sudden spikes from overwhelming the network.
 	• Use resource limits and horizontal pod autoscaling for critical CNI components.
 
-```
-```
- # Scenario  #162: DNS Resolution Failures Due to Misconfigured CoreDNS
+--- 
+ ## Scenario #162: DNS Resolution Failures Due to Misconfigured CoreDNS
 Category: Networking
 Environment: K8s v1.19, Google GKE
 Scenario Summary: DNS resolution failures due to misconfigured CoreDNS, leading to application errors.
@@ -3145,9 +2980,8 @@ How to Avoid:
 	• Automate the validation of DNS configurations and use reliable upstream DNS servers.
 	• Set up monitoring for DNS resolution latency and errors.
 
-```
-```
- # Scenario  #163: Network Partition Due to Incorrect Calico Configuration
+--- 
+ ## Scenario #163: Network Partition Due to Incorrect Calico Configuration
 Category: Networking
 Environment: K8s v1.20, Azure AKS
 Scenario Summary: Network partitioning due to incorrect Calico CNI configuration, resulting in pods being unable to communicate with each other.
@@ -3164,9 +2998,8 @@ How to Avoid:
 	• Use automated network validation tools to check for partitioning and misconfigurations.
 	• Regularly review and update CNI configuration as the cluster grows.
 
-```
-```
- # Scenario  #164: IP Overlap Leading to Communication Failure Between Pods
+--- 
+ ## Scenario #164: IP Overlap Leading to Communication Failure Between Pods
 Category: Networking
 Environment: K8s v1.19, On-premise
 Scenario Summary: Pods failed to communicate due to IP address overlap caused by an incorrect subnet configuration.
@@ -3183,9 +3016,8 @@ How to Avoid:
 	• Use a tool to validate network subnets during cluster setup.
 	• Avoid using overlapping IP ranges when planning pod and host network subnets.
 
-```
-```
- # Scenario  #165: Pod Network Latency Due to Overloaded Kubernetes Network Interface
+--- 
+ ## Scenario #165: Pod Network Latency Due to Overloaded Kubernetes Network Interface
 Category: Networking
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Pod network latency increased due to an overloaded network interface on the Kubernetes nodes.
@@ -3202,9 +3034,8 @@ How to Avoid:
 	• Monitor network traffic and resource utilization at the node level.
 	• Scale nodes appropriately or use higher-bandwidth instances for high-traffic workloads.
 
-```
-```
- # Scenario  #166: Intermittent Connectivity Failures Due to Pod DNS Cache Expiry
+--- 
+ ## Scenario #166: Intermittent Connectivity Failures Due to Pod DNS Cache Expiry
 Category: Networking
 Environment: K8s v1.22, Google GKE
 Scenario Summary: Intermittent connectivity failures due to pod DNS cache expiry, leading to failed DNS lookups for external services.
@@ -3221,9 +3052,8 @@ How to Avoid:
 	• Set appropriate DNS TTL values based on the requirements of your services.
 	• Regularly monitor DNS performance and adjust TTL settings as needed.
 
-```
-```
- # Scenario  #167: Flapping Network Connections Due to Misconfigured Network Policies
+--- 
+ ## Scenario #167: Flapping Network Connections Due to Misconfigured Network Policies
 Category: Networking
 Environment: K8s v1.20, Azure AKS
 Scenario Summary: Network connections between pods were intermittently dropping due to misconfigured network policies, causing application instability.
@@ -3240,9 +3070,8 @@ How to Avoid:
 	• Use a staged approach for deploying network policies, first applying them to non-critical pods.
 	• Implement automated tests to validate network policy configurations.
 
-```
-```
- # Scenario  #168: Cluster Network Downtime Due to CNI Plugin Upgrade
+--- 
+ ## Scenario #168: Cluster Network Downtime Due to CNI Plugin Upgrade
 Category: Networking
 Environment: K8s v1.22, On-premise
 Scenario Summary: Cluster network downtime occurred during a CNI plugin upgrade, affecting pod-to-pod communication.
@@ -3260,9 +3089,8 @@ How to Avoid:
 	• Follow a defined upgrade process that includes validation of configurations.
 
 
-```
-```
- # Scenario  #169: Inconsistent Pod Network Connectivity in Multi-Region Cluster
+--- 
+ ## Scenario #169: Inconsistent Pod Network Connectivity in Multi-Region Cluster
 Category: Networking
 Environment: K8s v1.21, GCP
 Scenario Summary: Pods in a multi-region cluster experienced inconsistent network connectivity between regions due to misconfigured VPC peering.
@@ -3279,9 +3107,8 @@ How to Avoid:
 	• Regularly review VPC and peering configurations.
 	• Use automated network tests to confirm inter-region connectivity.
 
-```
-```
- # Scenario  #170: Pod Network Partition Due to Network Policy Blocking DNS Requests
+--- 
+ ## Scenario #170: Pod Network Partition Due to Network Policy Blocking DNS Requests
 Category: Networking
 Environment: K8s v1.19, Azure AKS
 Scenario Summary: Pods were unable to resolve DNS due to a network policy blocking DNS traffic, causing service failures.
@@ -3298,9 +3125,8 @@ How to Avoid:
 	• Regularly test and validate network policies in non-production environments.
 	• Set up monitoring for blocked network traffic.
 
-```
-```
- # Scenario  #171: Network Bottleneck Due to Overutilized Network Interface
+--- 
+ ## Scenario #171: Network Bottleneck Due to Overutilized Network Interface
 Category: Networking
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Network bottleneck occurred due to overutilization of a single network interface on the worker nodes.
@@ -3317,9 +3143,8 @@ How to Avoid:
 	• Design network topologies that segregate different types of traffic (e.g., pod traffic, node communication).
 	• Regularly monitor network utilization and scale resources as needed.
 
-```
-```
- # Scenario  #172: Network Latency Caused by Overloaded VPN Tunnel
+--- 
+ ## Scenario #172: Network Latency Caused by Overloaded VPN Tunnel
 Category: Networking
 Environment: K8s v1.20, On-premise
 Scenario Summary: Network latency increased due to an overloaded VPN tunnel between the Kubernetes cluster and an on-premise data center.
@@ -3336,9 +3161,8 @@ How to Avoid:
 	• Test VPN tunnels with real traffic before moving to production.
 	• Monitor tunnel utilization and upgrade bandwidth as needed.
 
-```
-```
- # Scenario  #173: Dropped Network Packets Due to MTU Mismatch
+--- 
+ ## Scenario #173: Dropped Network Packets Due to MTU Mismatch
 Category: Networking
 Environment: K8s v1.21, GKE
 Scenario Summary: Network packets were dropped due to a mismatch in Maximum Transmission Unit (MTU) settings across different network components.
@@ -3355,9 +3179,8 @@ How to Avoid:
 	• Automate MTU validation checks during cluster setup and upgrades.
 	• Monitor network packet loss and fragmentation regularly.
 
-```
-```
- # Scenario  #174: Pod Network Isolation Due to Misconfigured Network Policy
+--- 
+ ## Scenario #174: Pod Network Isolation Due to Misconfigured Network Policy
 Category: Networking
 Environment: K8s v1.20, Azure AKS
 Scenario Summary: Pods in a specific namespace were unable to communicate due to an incorrectly applied network policy blocking traffic between namespaces.
@@ -3374,9 +3197,8 @@ How to Avoid:
 	• Use a staged approach to apply network policies and validate them before enforcing them in production.
 	• Implement automated tests for network policy validation.
 
-```
-```
- # Scenario  #175: Service Discovery Failures Due to CoreDNS Pod Crash
+--- 
+ ## Scenario #175: Service Discovery Failures Due to CoreDNS Pod Crash
 Category: Networking
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: Service discovery failures occurred when CoreDNS pods crashed due to resource exhaustion, causing DNS resolution issues.
@@ -3393,9 +3215,8 @@ How to Avoid:
 	• Set up monitoring for DNS query rates and resource utilization.
 	• Scale CoreDNS horizontally to distribute the load.
 
-```
-```
- # Scenario  #176: Pod DNS Resolution Failure Due to CoreDNS Configuration Issue
+--- 
+ ## Scenario #176: Pod DNS Resolution Failure Due to CoreDNS Configuration Issue
 Category: Networking
 Environment: K8s v1.18, On-premise
 Scenario Summary: DNS resolution failures occurred within pods due to a misconfiguration in the CoreDNS config map.
@@ -3412,9 +3233,8 @@ How to Avoid:
 	• Use automated validation tools to check CoreDNS configuration.
 	• Set up tests for DNS resolution to catch errors before they impact production.
 
-```
-```
- # Scenario  #177: DNS Latency Due to Overloaded CoreDNS Pods
+--- 
+ ## Scenario #177: DNS Latency Due to Overloaded CoreDNS Pods
 Category: Networking
 Environment: K8s v1.19, GKE
 Scenario Summary: CoreDNS pods experienced high latency and timeouts due to resource overutilization, causing slow DNS resolution for applications.
@@ -3431,9 +3251,8 @@ How to Avoid:
 	• Set up resource limits and autoscaling for CoreDNS pods.
 	• Monitor DNS traffic and resource usage regularly to prevent overloads.
 
-```
-```
- # Scenario  #178: Pod Network Degradation Due to Overlapping CIDR Blocks
+--- 
+ ## Scenario #178: Pod Network Degradation Due to Overlapping CIDR Blocks
 Category: Networking
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Network degradation occurred due to overlapping CIDR blocks between VPCs in a hybrid cloud setup, causing routing issues.
@@ -3450,9 +3269,8 @@ How to Avoid:
 	• Plan CIDR blocks in advance to ensure they do not overlap.
 	• Review and validate network configurations during the planning phase of hybrid cloud setups.
 
-```
-```
- # Scenario  #179: Service Discovery Failures Due to Network Policy Blocking DNS Traffic
+--- 
+ ## Scenario #179: Service Discovery Failures Due to Network Policy Blocking DNS Traffic
 Category: Networking
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: Service discovery failed when a network policy was mistakenly applied to block DNS traffic, preventing pods from resolving services within the cluster.
@@ -3469,9 +3287,8 @@ How to Avoid:
 	• Review and test network policies thoroughly before applying them in production.
 	• Implement automated tests to verify that critical services like DNS are not affected by policy changes.
 
-```
-```
- # Scenario  #180: Intermittent Network Connectivity Due to Overloaded Overlay Network
+--- 
+ ## Scenario #180: Intermittent Network Connectivity Due to Overloaded Overlay Network
 Category: Networking
 Environment: K8s v1.19, OpenStack
 Scenario Summary: Pods experienced intermittent network connectivity issues due to an overloaded overlay network that could not handle the traffic.
@@ -3488,9 +3305,8 @@ How to Avoid:
 	• Monitor network traffic patterns and adjust resource allocation as needed.
 	• Consider using more scalable network plugins for high-traffic workloads.
 
-```
-```
- # Scenario  #181: Pod-to-Pod Communication Failure Due to CNI Plugin Configuration Issue
+--- 
+ ## Scenario #181: Pod-to-Pod Communication Failure Due to CNI Plugin Configuration Issue
 Category: Networking
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Pods were unable to communicate with each other due to a misconfiguration in the CNI plugin.
@@ -3507,9 +3323,8 @@ How to Avoid:
 	• Automate the verification of CNI configurations during cluster setup.
 	• Test network functionality before scaling applications.
 
-```
-```
- # Scenario  #182: Sporadic DNS Failures Due to Resource Contention in CoreDNS Pods
+--- 
+ ## Scenario #182: Sporadic DNS Failures Due to Resource Contention in CoreDNS Pods
 Category: Networking
 Environment: K8s v1.19, GKE
 Scenario Summary: Sporadic DNS resolution failures occurred due to resource contention in CoreDNS pods, which were not allocated enough CPU resources.
@@ -3526,9 +3341,8 @@ How to Avoid:
 	• Set proper resource requests and limits for CoreDNS.
 	• Implement autoscaling for DNS services based on real-time load.
 
-```
-```
- # Scenario  #183: High Latency in Pod-to-Node Communication Due to Overlay Network
+--- 
+ ## Scenario #183: High Latency in Pod-to-Node Communication Due to Overlay Network
 Category: Networking
 Environment: K8s v1.21, OpenShift
 Scenario Summary: High latency was observed in pod-to-node communication due to network overhead introduced by the overlay network.
@@ -3545,9 +3359,8 @@ How to Avoid:
 	• Perform a performance evaluation of different CNI plugins during cluster planning.
 	• Monitor network performance regularly and switch plugins if necessary.
 
-```
-```
- # Scenario  #184: Service Discovery Issues Due to DNS Cache Staleness
+--- 
+ ## Scenario #184: Service Discovery Issues Due to DNS Cache Staleness
 Category: Networking
 Environment: K8s v1.20, On-premise
 Scenario Summary: Service discovery failed due to stale DNS cache entries that were not updated when services changed IPs.
@@ -3564,9 +3377,8 @@ How to Avoid:
 	• Regularly monitor DNS cache and refresh TTL values to ensure up-to-date resolution.
 	• Implement a caching strategy that works well with Kubernetes service discovery.
 
-```
-```
- # Scenario  #185: Network Partition Between Node Pools in Multi-Zone Cluster
+--- 
+ ## Scenario #185: Network Partition Between Node Pools in Multi-Zone Cluster
 Category: Networking
 Environment: K8s v1.18, GKE
 Scenario Summary: Pods in different node pools located in different zones experienced network partitioning due to a misconfigured regional load balancer.
@@ -3583,9 +3395,8 @@ How to Avoid:
 	• Test multi-zone communication setups thoroughly before going into production.
 	• Automate the validation of load balancer configurations.
 
-```
-```
- # Scenario  #186: Pod Network Isolation Failure Due to Missing NetworkPolicy
+--- 
+ ## Scenario #186: Pod Network Isolation Failure Due to Missing NetworkPolicy
 Category: Networking
 Environment: K8s v1.21, AKS
 Scenario Summary: Pods that were intended to be isolated from each other could communicate freely due to a missing NetworkPolicy.
@@ -3602,9 +3413,8 @@ How to Avoid:
 	• Implement strict NetworkPolicy from the outset when dealing with sensitive workloads.
 	• Automate the validation of network policies during CI/CD pipeline deployment.
 
-```
-```
- # Scenario  #187: Flapping Node Network Connectivity Due to MTU Mismatch
+--- 
+ ## Scenario #187: Flapping Node Network Connectivity Due to MTU Mismatch
 Category: Networking
 Environment: K8s v1.20, On-Premise
 Scenario Summary: Nodes in the cluster were flapping due to mismatched MTU settings between Kubernetes and the underlying physical network, causing intermittent network connectivity issues.
@@ -3621,9 +3431,8 @@ How to Avoid:
 	• Always verify the MTU settings in both the physical network and the CNI plugin during cluster setup.
 	• Include network performance testing in your cluster validation procedures.
 
-```
-```
- # Scenario  #188: DNS Query Timeout Due to Unoptimized CoreDNS Config
+--- 
+ ## Scenario #188: DNS Query Timeout Due to Unoptimized CoreDNS Config
 Category: Networking
 Environment: K8s v1.18, GKE
 Scenario Summary: DNS queries were timing out in the cluster, causing delays in service discovery, due to unoptimized CoreDNS configuration.
@@ -3640,9 +3449,8 @@ How to Avoid:
 	• Regularly monitor DNS performance and adjust CoreDNS resource allocations.
 	• Fine-tune the CoreDNS configuration to improve query handling efficiency.
 
-```
-```
- # Scenario  #189: Traffic Splitting Failure Due to Incorrect Service LoadBalancer Configuration
+--- 
+ ## Scenario #189: Traffic Splitting Failure Due to Incorrect Service LoadBalancer Configuration
 Category: Networking
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Traffic splitting between two microservices failed due to a misconfiguration in the Service LoadBalancer.
@@ -3659,9 +3467,8 @@ How to Avoid:
 	• Test traffic splitting configurations in a staging environment before applying them in production.
 	• Automate the verification of load balancer and service configurations.
 
-```
-```
- # Scenario  #190: Network Latency Between Pods in Different Regions
+--- 
+ ## Scenario #190: Network Latency Between Pods in Different Regions
 Category: Networking
 Environment: K8s v1.19, Azure AKS
 Scenario Summary: Pods in different Azure regions experienced high network latency, affecting application performance.
@@ -3679,9 +3486,8 @@ How to Avoid:
 	• Test the network performance before and after cross-region deployments to ensure acceptable latency.
 
 
-```
-```
- # Scenario  #191: Port Collision Between Services Due to Missing Port Ranges
+--- 
+ ## Scenario #191: Port Collision Between Services Due to Missing Port Ranges
 Category: Networking
 Environment: K8s v1.21, AKS
 Scenario Summary: Two services attempted to bind to the same port, causing a port collision and service failures.
@@ -3698,9 +3504,8 @@ How to Avoid:
 	• Define port ranges explicitly in service configurations.
 	• Use tools like kubectl to validate port allocations before deploying services.
 
-```
-```
- # Scenario  #192: Pod-to-External Service Connectivity Failures Due to Egress Network Policy
+--- 
+ ## Scenario #192: Pod-to-External Service Connectivity Failures Due to Egress Network Policy
 Category: Networking
 Environment: K8s v1.20, AWS EKS
 Scenario Summary: Pods failed to connect to an external service due to an overly restrictive egress network policy.
@@ -3717,9 +3522,8 @@ How to Avoid:
 	• Test network policies in a staging environment before applying them in production.
 	• Implement gradual rollouts for network policies to avoid wide-scale disruptions.
 
-```
-```
- # Scenario  #193: Pod Connectivity Loss After Network Plugin Upgrade
+--- 
+ ## Scenario #193: Pod Connectivity Loss After Network Plugin Upgrade
 Category: Networking
 Environment: K8s v1.18, GKE
 Scenario Summary: Pods lost connectivity after an upgrade of the Calico network plugin due to misconfigured IP pool settings.
@@ -3736,9 +3540,8 @@ How to Avoid:
 	• Perform network plugin upgrades in a staging environment before applying to production.
 	• Use configuration management tools to keep track of network plugin settings.
 
-```
-```
- # Scenario  #194: External DNS Not Resolving After Cluster Network Changes
+--- 
+ ## Scenario #194: External DNS Not Resolving After Cluster Network Changes
 Category: Networking
 Environment: K8s v1.19, DigitalOcean
 Scenario Summary: External DNS resolution stopped working after changes were made to the cluster network configuration.
@@ -3755,9 +3558,8 @@ How to Avoid:
 	• Implement automated DNS validation tests to ensure external DNS resolution works after network changes.
 	• Document and verify DNS configurations before and after network changes.
 
-```
-```
- # Scenario  #195: Slow Pod Communication Due to Misconfigured MTU in Network Plugin
+--- 
+ ## Scenario #195: Slow Pod Communication Due to Misconfigured MTU in Network Plugin
 Category: Networking
 Environment: K8s v1.22, On-premise
 Scenario Summary: Pod-to-pod communication was slow due to an incorrect MTU setting in the network plugin.
@@ -3774,9 +3576,8 @@ How to Avoid:
 	• Review and validate MTU settings when configuring network plugins.
 	• Use monitoring tools to detect network performance issues like fragmentation.
 
-```
-```
- # Scenario  #196: High CPU Usage in Nodes Due to Overloaded Network Plugin
+--- 
+ ## Scenario #196: High CPU Usage in Nodes Due to Overloaded Network Plugin
 Category: Networking
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Nodes experienced high CPU usage due to an overloaded network plugin that couldn’t handle traffic spikes effectively.
@@ -3793,9 +3594,8 @@ How to Avoid:
 	• Regularly monitor network plugin performance and resources.
 	• Configure auto-scaling and adjust resource allocation based on traffic patterns.
 
-```
-```
- # Scenario  #197: Cross-Namespace Network Isolation Not Enforced
+--- 
+ ## Scenario #197: Cross-Namespace Network Isolation Not Enforced
 Category: Networking
 Environment: K8s v1.19, OpenShift
 Scenario Summary: Network isolation between namespaces failed due to an incorrectly applied NetworkPolicy.
@@ -3812,9 +3612,8 @@ How to Avoid:
 	• Always validate network policies before deploying to production.
 	• Use namespace-specific selectors to enforce isolation when necessary.
 
-```
-```
- # Scenario  #198: Inconsistent Service Discovery Due to CoreDNS Misconfiguration
+--- 
+ ## Scenario #198: Inconsistent Service Discovery Due to CoreDNS Misconfiguration
 Category: Networking
 Environment: K8s v1.20, GKE
 Scenario Summary: Service discovery was inconsistent due to misconfigured CoreDNS settings.
@@ -3831,9 +3630,8 @@ How to Avoid:
 	• Use internal DNS resolvers for core service discovery within the cluster.
 	• Implement monitoring for DNS resolution health.
 
-```
-```
- # Scenario  #199: Network Segmentation Issues Due to Misconfigured CNI
+--- 
+ ## Scenario #199: Network Segmentation Issues Due to Misconfigured CNI
 Category: Networking
 Environment: K8s v1.18, IBM Cloud
 Scenario Summary: Network segmentation between clusters failed due to incorrect CNI (Container Network Interface) plugin configuration.
@@ -3850,9 +3648,8 @@ How to Avoid:
 	• Implement strong isolation policies in the network plugin.
 	• Regularly audit network configurations and validate segmentation between clusters.
 
-```
-```
- # Scenario  #200: DNS Cache Poisoning in CoreDNS
+--- 
+ ## Scenario #200: DNS Cache Poisoning in CoreDNS
 Category: Networking
 Environment: K8s v1.23, DigitalOcean
 Scenario Summary: DNS cache poisoning occurred in CoreDNS, leading to incorrect IP resolution for services.
@@ -3875,9 +3672,8 @@ How to Avoid:
 3. Security
 
 
-```
-```
- # Scenario  #201: Unauthorized Access to Secrets Due to Incorrect RBAC Permissions
+--- 
+ ## Scenario #201: Unauthorized Access to Secrets Due to Incorrect RBAC Permissions
 Category: Security
 Environment: K8s v1.22, GKE
 Scenario Summary: Unauthorized users were able to access Kubernetes secrets due to overly permissive RBAC roles.
@@ -3894,9 +3690,8 @@ How to Avoid:
 	• Regularly audit RBAC roles and service account permissions.
 	• Implement role-based access control (RBAC) with tight restrictions on who can access secrets.
 
-```
-```
- # Scenario  #202: Insecure Network Policies Leading to Pod Exposure
+--- 
+ ## Scenario #202: Insecure Network Policies Leading to Pod Exposure
 Category: Security
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: Pods intended to be isolated were exposed to unauthorized traffic due to misconfigured network policies.
@@ -3913,9 +3708,8 @@ How to Avoid:
 	• Implement and test network policies in a staging environment before applying to production.
 	• Regularly audit network policies to ensure they align with security requirements.
 
-```
-```
- # Scenario  #203: Privileged Container Vulnerability Due to Incorrect Security Context
+--- 
+ ## Scenario #203: Privileged Container Vulnerability Due to Incorrect Security Context
 Category: Security
 Environment: K8s v1.21, Azure AKS
 Scenario Summary: A container running with elevated privileges due to an incorrect security context exposed the cluster to potential privilege escalation attacks.
@@ -3932,9 +3726,8 @@ How to Avoid:
 	• Review security contexts in deployment configurations to ensure containers are not running with excessive privileges.
 	• Implement automated checks to flag insecure container configurations.
 
-```
-```
- # Scenario  #204: Exposed Kubernetes Dashboard Due to Misconfigured Ingress
+--- 
+ ## Scenario #204: Exposed Kubernetes Dashboard Due to Misconfigured Ingress
 Category: Security
 Environment: K8s v1.20, GKE
 Scenario Summary: The Kubernetes dashboard was exposed to the public internet due to a misconfigured Ingress resource.
@@ -3951,9 +3744,8 @@ How to Avoid:
 	• Apply strict network policies or use ingress controllers with authentication for access to the Kubernetes dashboard.
 	• Regularly review Ingress resources for security misconfigurations.
 
-```
-```
- # Scenario  #205: Unencrypted Communication Between Pods Due to Missing TLS Configuration
+--- 
+ ## Scenario #205: Unencrypted Communication Between Pods Due to Missing TLS Configuration
 Category: Security
 Environment: K8s v1.18, On-Premise
 Scenario Summary: Communication between microservices in the cluster was not encrypted due to missing TLS configuration, exposing data to potential interception.
@@ -3970,9 +3762,8 @@ How to Avoid:
 	• Always configure TLS for service-to-service communication, especially for sensitive workloads.
 	• Automate the generation and renewal of certificates.
 
-```
-```
- # Scenario  #206: Sensitive Data in Logs Due to Improper Log Sanitization
+--- 
+ ## Scenario #206: Sensitive Data in Logs Due to Improper Log Sanitization
 Category: Security
 Environment: K8s v1.23, Azure AKS
 Scenario Summary: Sensitive data, such as API keys and passwords, was logged due to improper sanitization in application logs.
@@ -3989,9 +3780,8 @@ How to Avoid:
 	• Implement log sanitization techniques to ensure that sensitive information is never exposed in logs.
 	• Regularly audit logging configurations to ensure that they are secure.
 
-```
-```
- # Scenario  #207: Insufficient Pod Security Policies Leading to Privilege Escalation
+--- 
+ ## Scenario #207: Insufficient Pod Security Policies Leading to Privilege Escalation
 Category: Security
 Environment: K8s v1.21, GKE
 Scenario Summary: Privilege escalation was possible due to insufficiently restrictive PodSecurityPolicies (PSPs).
@@ -4008,9 +3798,8 @@ How to Avoid:
 	• Regularly review and apply restrictive PSPs to enforce security best practices in the cluster.
 	• Use automated tools to enforce security policies on all pods and containers.
 
-```
-```
- # Scenario  #208: Service Account Token Compromise
+--- 
+ ## Scenario #208: Service Account Token Compromise
 Category: Security
 Environment: K8s v1.22, DigitalOcean
 Scenario Summary: A compromised service account token was used to gain unauthorized access to the cluster's API server.
@@ -4027,9 +3816,8 @@ How to Avoid:
 	• Use Kubernetes Secrets to store sensitive information securely.
 	• Regularly rotate service account tokens and audit access logs for suspicious activity.
 
-```
-```
- # Scenario  #209: Lack of Regular Vulnerability Scanning in Container Images
+--- 
+ ## Scenario #209: Lack of Regular Vulnerability Scanning in Container Images
 Category: Security
 Environment: K8s v1.19, On-Premise
 Scenario Summary: The container images used in the cluster were not regularly scanned for vulnerabilities, leading to deployment of vulnerable images.
@@ -4046,9 +3834,8 @@ How to Avoid:
 	• Integrate automated vulnerability scanning tools into the container build process.
 	• Perform regular image audits and keep base images updated.
 
-```
-```
- # Scenario  #210: Insufficient Container Image Signing Leading to Unverified Deployments
+--- 
+ ## Scenario #210: Insufficient Container Image Signing Leading to Unverified Deployments
 Category: Security
 Environment: K8s v1.20, Google Cloud
 Scenario Summary: Unverified container images were deployed due to the lack of image signing, exposing the cluster to potential malicious code.
@@ -4065,9 +3852,8 @@ How to Avoid:
 	• Implement image signing as part of the container build and deployment pipeline.
 	• Regularly audit deployed container images to verify their integrity.
 
-```
-```
- # Scenario  #211: Insecure Default Namespace Leading to Unauthorized Access
+--- 
+ ## Scenario #211: Insecure Default Namespace Leading to Unauthorized Access
 Category: Security
 Environment: K8s v1.22, AWS EKS
 Scenario Summary: Unauthorized users gained access to resources in the default namespace due to lack of namespace isolation.
@@ -4084,9 +3870,8 @@ How to Avoid:
 	• Use dedicated namespaces for different workloads with appropriate RBAC and network policies.
 	• Regularly audit namespace access and policies.
 
-```
-```
- # Scenario  #212: Vulnerable OpenSSL Version in Container Images
+--- 
+ ## Scenario #212: Vulnerable OpenSSL Version in Container Images
 Category: Security
 Environment: K8s v1.21, DigitalOcean
 Scenario Summary: A container image was using an outdated and vulnerable version of OpenSSL, exposing the cluster to known security vulnerabilities.
@@ -4103,9 +3888,8 @@ How to Avoid:
 	• Integrate automated vulnerability scanning tools into the CI/CD pipeline to identify outdated or vulnerable dependencies.
 	• Regularly update container base images to the latest secure versions.
 
-```
-```
- # Scenario  #213: Misconfigured API Server Authentication Allowing External Access
+--- 
+ ## Scenario #213: Misconfigured API Server Authentication Allowing External Access
 Category: Security
 Environment: K8s v1.20, GKE
 Scenario Summary: API server authentication was misconfigured, allowing external unauthenticated users to access the Kubernetes API.
@@ -4122,9 +3906,8 @@ How to Avoid:
 	• Regularly audit the API server configuration to ensure proper authentication mechanisms are enabled.
 	• Use firewalls and access controls to limit access to the API server.
 
-```
-```
- # Scenario  #214: Insufficient Node Security Due to Lack of OS Hardening
+--- 
+ ## Scenario #214: Insufficient Node Security Due to Lack of OS Hardening
 Category: Security
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: Nodes in the cluster were insecure due to a lack of proper OS hardening, making them vulnerable to attacks.
@@ -4141,9 +3924,8 @@ How to Avoid:
 	• Implement automated checks to enforce OS hardening settings across all nodes.
 	• Regularly update nodes with the latest security patches.
 
-```
-```
- # Scenario  #215: Unrestricted Ingress Access to Sensitive Resources
+--- 
+ ## Scenario #215: Unrestricted Ingress Access to Sensitive Resources
 Category: Security
 Environment: K8s v1.21, GKE
 Scenario Summary: Sensitive services were exposed to the public internet due to unrestricted ingress rules.
@@ -4160,9 +3942,8 @@ How to Avoid:
 	• Regularly review and audit ingress configurations to prevent exposing sensitive services.
 	• Implement access control lists (ACLs) and authentication for sensitive endpoints.
 
-```
-```
- # Scenario  #216: Exposure of Sensitive Data in Container Environment Variables
+--- 
+ ## Scenario #216: Exposure of Sensitive Data in Container Environment Variables
 Category: Security
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: Sensitive data, such as database credentials, was exposed through environment variables in container configurations.
@@ -4179,9 +3960,8 @@ How to Avoid:
 	• Use Kubernetes Secrets for storing sensitive data like passwords, API keys, and certificates.
 	• Regularly audit configurations to ensure secrets are not exposed in plain text.
 
-```
-```
- # Scenario  #217: Inadequate Container Resource Limits Leading to DoS Attacks
+--- 
+ ## Scenario #217: Inadequate Container Resource Limits Leading to DoS Attacks
 Category: Security
 Environment: K8s v1.20, On-Premise
 Scenario Summary: A lack of resource limits on containers allowed a denial-of-service (DoS) attack to disrupt services by consuming excessive CPU and memory.
@@ -4198,9 +3978,8 @@ How to Avoid:
 	• Apply resource requests and limits to all containers.
 	• Monitor resource usage and set appropriate quotas to prevent resource abuse.
 
-```
-```
- # Scenario  #218: Exposure of Container Logs Due to Insufficient Log Management
+--- 
+ ## Scenario #218: Exposure of Container Logs Due to Insufficient Log Management
 Category: Security
 Environment: K8s v1.21, Google Cloud
 Scenario Summary: Container logs were exposed to unauthorized users due to insufficient log management controls.
@@ -4217,9 +3996,8 @@ How to Avoid:
 	• Implement access control and encryption for logs.
 	• Regularly review log access policies to ensure security best practices are followed.
 
-```
-```
- # Scenario  #219: Using Insecure Docker Registry for Container Images
+--- 
+ ## Scenario #219: Using Insecure Docker Registry for Container Images
 Category: Security
 Environment: K8s v1.18, On-Premise
 Scenario Summary: The cluster was pulling container images from an insecure, untrusted Docker registry, exposing the system to the risk of malicious images.
@@ -4236,9 +4014,8 @@ How to Avoid:
 	• Use secure image registries with image signing and vulnerability scanning enabled.
 	• Implement image whitelisting to control where container images can be pulled from.
 
-```
-```
- # Scenario  #220: Weak Pod Security Policies Leading to Privileged Containers
+--- 
+ ## Scenario #220: Weak Pod Security Policies Leading to Privileged Containers
 Category: Security
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: Privileged containers were deployed due to weak or missing Pod Security Policies (PSPs), exposing the cluster to security risks.
@@ -4255,9 +4032,8 @@ How to Avoid:
 	• Implement and enforce strong Pod Security Policies to limit the privileges of containers.
 	• Regularly audit containers to ensure they do not run with unnecessary privileges.
 
-```
-```
- # Scenario  #221: Unsecured Kubernetes Dashboard
+--- 
+ ## Scenario #221: Unsecured Kubernetes Dashboard
 Category: Security
 Environment: K8s v1.21, GKE
 Scenario Summary: The Kubernetes Dashboard was exposed to the public internet without proper authentication or access controls, allowing unauthorized users to access sensitive cluster information.
@@ -4274,9 +4050,8 @@ How to Avoid:
 	• Configure proper authentication for the Kubernetes Dashboard.
 	• Use network policies to restrict access to sensitive resources like the Dashboard.
 
-```
-```
- # Scenario  #222: Using HTTP Instead of HTTPS for Ingress Resources
+--- 
+ ## Scenario #222: Using HTTP Instead of HTTPS for Ingress Resources
 Category: Security
 Environment: K8s v1.22, Google Cloud
 Scenario Summary: Sensitive applications were exposed using HTTP instead of HTTPS, leaving communication vulnerable to eavesdropping and man-in-the-middle attacks.
@@ -4293,9 +4068,8 @@ How to Avoid:
 	• Configure TLS termination for all ingress resources to encrypt traffic.
 	• Regularly audit ingress resources to ensure that sensitive applications are protected by HTTPS.
 
-```
-```
- # Scenario  #223: Insecure Network Policies Exposing Internal Services
+--- 
+ ## Scenario #223: Insecure Network Policies Exposing Internal Services
 Category: Security
 Environment: K8s v1.20, On-Premise
 Scenario Summary: Network policies were too permissive, exposing internal services to unnecessary access, increasing the risk of lateral movement within the cluster.
@@ -4312,9 +4086,8 @@ How to Avoid:
 	• Apply the principle of least privilege when defining network policies, ensuring only necessary communication is allowed.
 	• Regularly audit network policies to ensure they are as restrictive as needed.
 
-```
-```
- # Scenario  #224: Exposing Sensitive Secrets in Environment Variables
+--- 
+ ## Scenario #224: Exposing Sensitive Secrets in Environment Variables
 Category: Security
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Sensitive credentials were stored in environment variables within the pod specification, exposing them to potential attackers.
@@ -4331,9 +4104,8 @@ How to Avoid:
 	• Use Kubernetes Secrets to store sensitive data and reference them in your deployments.
 	• Regularly audit your configuration files to ensure sensitive data is not exposed in plaintext.
 
-```
-```
- # Scenario  #225: Insufficient RBAC Permissions Leading to Unauthorized Access
+--- 
+ ## Scenario #225: Insufficient RBAC Permissions Leading to Unauthorized Access
 Category: Security
 Environment: K8s v1.20, On-Premise
 Scenario Summary: Insufficient Role-Based Access Control (RBAC) configurations allowed unauthorized users to access and modify sensitive resources within the cluster.
@@ -4350,9 +4122,8 @@ How to Avoid:
 	• Regularly review and audit RBAC configurations to ensure they align with the principle of least privilege.
 	• Implement strict role definitions and limit access to only the resources necessary for each user.
 
-```
-```
- # Scenario  #226: Insecure Ingress Controller Exposed to the Internet
+--- 
+ ## Scenario #226: Insecure Ingress Controller Exposed to the Internet
 Category: Security
 Environment: K8s v1.22, Google Cloud
 Scenario Summary: An insecure ingress controller was exposed to the internet, allowing attackers to exploit vulnerabilities in the controller.
@@ -4369,9 +4140,8 @@ How to Avoid:
 	• Configure authentication for ingress controllers and restrict access to trusted IPs.
 	• Regularly audit ingress configurations to ensure they are secure.
 
-```
-```
- # Scenario  #227: Lack of Security Updates in Container Images
+--- 
+ ## Scenario #227: Lack of Security Updates in Container Images
 Category: Security
 Environment: K8s v1.19, DigitalOcean
 Scenario Summary: The cluster was running outdated container images without the latest security patches, exposing it to known vulnerabilities.
@@ -4388,9 +4158,8 @@ How to Avoid:
 	• Implement automated image scanning and patching as part of the CI/CD pipeline.
 	• Regularly review and update container images to ensure they include the latest security patches.
 
-```
-```
- # Scenario  #228: Exposed Kubelet API Without Authentication
+--- 
+ ## Scenario #228: Exposed Kubelet API Without Authentication
 Category: Security
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: The Kubelet API was exposed without proper authentication or authorization, allowing external users to query cluster node details.
@@ -4407,9 +4176,8 @@ How to Avoid:
 	• Use network policies to block access to the Kubelet API from the public internet.
 	• Enforce authentication on the Kubelet API using client certificates or other mechanisms.
 
-```
-```
- # Scenario  #229: Inadequate Logging of Sensitive Events
+--- 
+ ## Scenario #229: Inadequate Logging of Sensitive Events
 Category: Security
 Environment: K8s v1.22, Google Cloud
 Scenario Summary: Sensitive security events were not logged, preventing detection of potential security breaches or misconfigurations.
@@ -4426,9 +4194,8 @@ How to Avoid:
 	• Implement comprehensive audit logging policies to capture sensitive security events.
 	• Regularly review audit logs and integrate with centralized monitoring solutions for real-time alerts.
 
-```
-```
- # Scenario  #230: Misconfigured RBAC Allowing Cluster Admin Privileges to Developers
+--- 
+ ## Scenario #230: Misconfigured RBAC Allowing Cluster Admin Privileges to Developers
 Category: Security
 Environment: K8s v1.19, On-Premise
 Scenario Summary: Developers were mistakenly granted cluster admin privileges due to misconfigured RBAC roles, which gave them the ability to modify sensitive resources.
@@ -4445,9 +4212,8 @@ How to Avoid:
 	• Regularly review and audit RBAC configurations to ensure that only the minimum necessary permissions are granted to each user.
 	• Use namespaces and role-based access controls to enforce separation of duties and limit access to sensitive resources.
 
-```
-```
- # Scenario  #231: Insufficiently Secured Service Account Permissions
+--- 
+ ## Scenario #231: Insufficiently Secured Service Account Permissions
 Category: Security
 Environment: K8s v1.20, AWS EKS
 Scenario Summary: Service accounts were granted excessive permissions, giving pods access to resources they did not require, leading to a potential security risk.
@@ -4464,9 +4230,8 @@ How to Avoid:
 	• Regularly audit service accounts and ensure they follow the principle of least privilege.
 	• Implement namespace-level access control to limit service account scope.
 
-```
-```
- # Scenario  #232: Cluster Secrets Exposed Due to Insecure Mounting
+--- 
+ ## Scenario #232: Cluster Secrets Exposed Due to Insecure Mounting
 Category: Security
 Environment: K8s v1.21, On-Premise
 Scenario Summary: Kubernetes secrets were mounted into pods insecurely, exposing sensitive information to unauthorized users.
@@ -4483,9 +4248,8 @@ How to Avoid:
 	• Mount secrets as environment variables rather than directly into the filesystem.
 	• Use encryption and access controls to limit exposure of sensitive data.
 
-```
-```
- # Scenario  #233: Improperly Configured API Server Authorization
+--- 
+ ## Scenario #233: Improperly Configured API Server Authorization
 Category: Security
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: The Kubernetes API server was improperly configured, allowing unauthorized users to make API calls without proper authorization.
@@ -4502,9 +4266,8 @@ How to Avoid:
 	• Regularly audit API server configurations, especially authorization modes, to ensure proper access control.
 	• Implement strict RBAC and ABAC policies for fine-grained access control.
 
-```
-```
- # Scenario  #234: Compromised Image Registry Access Credentials
+--- 
+ ## Scenario #234: Compromised Image Registry Access Credentials
 Category: Security
 Environment: K8s v1.19, On-Premise
 Scenario Summary: The image registry access credentials were compromised, allowing attackers to pull and run malicious images in the cluster.
@@ -4521,9 +4284,8 @@ How to Avoid:
 	• Always use Kubernetes Secrets to store sensitive information like image registry credentials.
 	• Implement image scanning and whitelisting policies to ensure only trusted images are deployed.
 
-```
-```
- # Scenario  #235: Insufficiently Secured Cluster API Server Access
+--- 
+ ## Scenario #235: Insufficiently Secured Cluster API Server Access
 Category: Security
 Environment: K8s v1.23, Google Cloud
 Scenario Summary: The API server was exposed with insufficient security, allowing unauthorized external access and increasing the risk of exploitation.
@@ -4540,9 +4302,8 @@ How to Avoid:
 	• Use firewall rules and IP whitelisting to restrict access to the API server.
 	• Enforce encryption and authentication for all external access to the API server.
 
-```
-```
- # Scenario  #236: Misconfigured Admission Controllers Allowing Insecure Resources
+--- 
+ ## Scenario #236: Misconfigured Admission Controllers Allowing Insecure Resources
 Category: Security
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Admission controllers were misconfigured, allowing the creation of insecure or non-compliant resources.
@@ -4559,9 +4320,8 @@ How to Avoid:
 	• Ensure that key admission controllers are enabled and configured correctly.
 	• Regularly audit the use of admission controllers and enforce best practices for security policies.
 
-```
-```
- # Scenario  #237: Lack of Security Auditing and Monitoring in Cluster
+--- 
+ ## Scenario #237: Lack of Security Auditing and Monitoring in Cluster
 Category: Security
 Environment: K8s v1.22, DigitalOcean
 Scenario Summary: The lack of proper auditing and monitoring allowed security events to go undetected, resulting in delayed response to potential security threats.
@@ -4578,9 +4338,8 @@ How to Avoid:
 	• Enable and configure audit logging to capture security-related events.
 	• Set up real-time monitoring and alerting for security threats.
 
-```
-```
- # Scenario  #238: Exposed Internal Services Due to Misconfigured Load Balancer
+--- 
+ ## Scenario #238: Exposed Internal Services Due to Misconfigured Load Balancer
 Category: Security
 Environment: K8s v1.19, On-Premise
 Scenario Summary: Internal services were inadvertently exposed to the public due to incorrect load balancer configurations, leading to potential security risks.
@@ -4597,9 +4356,8 @@ How to Avoid:
 	• Review and verify load balancer configurations regularly to ensure no unintended exposure.
 	• Implement network policies and access controls to secure internal services.
 
-```
-```
- # Scenario  #239: Kubernetes Secrets Accessed via Insecure Network
+--- 
+ ## Scenario #239: Kubernetes Secrets Accessed via Insecure Network
 Category: Security
 Environment: K8s v1.20, GKE
 Scenario Summary: Kubernetes secrets were accessed via an insecure network connection, exposing sensitive information to unauthorized parties.
@@ -4616,9 +4374,8 @@ How to Avoid:
 	• Ensure HTTPS is enforced for all communications between Kubernetes components.
 	• Use Transport Layer Security (TLS) for secure communication across the cluster.
 
-```
-```
- # Scenario  #240: Pod Security Policies Not Enforced
+--- 
+ ## Scenario #240: Pod Security Policies Not Enforced
 Category: Security
 Environment: K8s v1.21, On-Premise
 Scenario Summary: Pod security policies were not enforced, allowing the deployment of pods with unsafe configurations, such as privileged access and host network use.
@@ -4635,9 +4392,8 @@ How to Avoid:
 	• Enable and properly configure PodSecurityPolicy to restrict unsafe pod configurations.
 	• Regularly audit pod configurations to ensure compliance with security standards.
 
-```
-```
- # Scenario  #241: Unpatched Vulnerabilities in Cluster Nodes
+--- 
+ ## Scenario #241: Unpatched Vulnerabilities in Cluster Nodes
 Category: Security
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: Cluster nodes were not regularly patched, exposing known vulnerabilities that were later exploited by attackers.
@@ -4654,9 +4410,8 @@ How to Avoid:
 	• Implement automated patching and vulnerability scanning for cluster nodes.
 	• Regularly review security advisories and apply patches promptly.
 
-```
-```
- # Scenario  #242: Weak Network Policies Allowing Unrestricted Traffic
+--- 
+ ## Scenario #242: Weak Network Policies Allowing Unrestricted Traffic
 Category: Security
 Environment: K8s v1.18, On-Premise
 Scenario Summary: Network policies were not properly configured, allowing unrestricted traffic between pods, which led to lateral movement by attackers after a pod was compromised.
@@ -4673,9 +4428,8 @@ How to Avoid:
 	• Implement network policies that restrict communication between pods, especially for sensitive services.
 	• Regularly audit and update network policies to ensure they align with security best practices.
 
-```
-```
- # Scenario  #243: Exposed Dashboard Without Authentication
+--- 
+ ## Scenario #243: Exposed Dashboard Without Authentication
 Category: Security
 Environment: K8s v1.19, GKE
 Scenario Summary: Kubernetes dashboard was exposed to the internet without authentication, allowing unauthorized users to access cluster information and potentially take control.
@@ -4692,9 +4446,8 @@ How to Avoid:
 	• Use authentication and authorization to protect access to the Kubernetes Dashboard.
 	• Apply proper ingress and network policies to prevent exposure of critical services.
 
-```
-```
- # Scenario  #244: Use of Insecure Container Images
+--- 
+ ## Scenario #244: Use of Insecure Container Images
 Category: Security
 Environment: K8s v1.20, AWS EKS
 Scenario Summary: Insecure container images were used in production, leading to the deployment of containers with known vulnerabilities.
@@ -4711,9 +4464,8 @@ How to Avoid:
 	• Use trusted image registries and always scan container images for vulnerabilities before deploying them.
 	• Implement an image signing and verification process to ensure image integrity.
 
-```
-```
- # Scenario  #245: Misconfigured TLS Certificates
+--- 
+ ## Scenario #245: Misconfigured TLS Certificates
 Category: Security
 Environment: K8s v1.23, Azure AKS
 Scenario Summary: Misconfigured TLS certificates led to insecure communication between Kubernetes components, exposing the cluster to potential attacks.
@@ -4730,9 +4482,8 @@ How to Avoid:
 	• Set up certificate expiration monitoring and automate certificate renewal.
 	• Regularly audit and update the Kubernetes cluster’s TLS certificates.
 
-```
-```
- # Scenario  #246: Excessive Privileges for Service Accounts
+--- 
+ ## Scenario #246: Excessive Privileges for Service Accounts
 Category: Security
 Environment: K8s v1.22, Google Cloud
 Scenario Summary: Service accounts were granted excessive privileges, allowing them to perform operations outside their intended scope, increasing the risk of compromise.
@@ -4749,9 +4500,8 @@ How to Avoid:
 	• Review and restrict service account permissions regularly to ensure they have only the necessary privileges.
 	• Implement role-based access control (RBAC) policies that enforce strict access control.
 
-```
-```
- # Scenario  #247: Exposure of Sensitive Logs Due to Misconfigured Logging Setup
+--- 
+ ## Scenario #247: Exposure of Sensitive Logs Due to Misconfigured Logging Setup
 Category: Security
 Environment: K8s v1.21, DigitalOcean
 Scenario Summary: Sensitive logs, such as those containing authentication tokens and private keys, were exposed due to a misconfigured logging setup.
@@ -4768,9 +4518,8 @@ How to Avoid:
 	• Configure logging systems to automatically redact sensitive data before storing it.
 	• Apply access controls to logging systems to limit access to sensitive log data.
 
-```
-```
- # Scenario  #248: Use of Deprecated APIs with Known Vulnerabilities
+--- 
+ ## Scenario #248: Use of Deprecated APIs with Known Vulnerabilities
 Category: Security
 Environment: K8s v1.19, AWS EKS
 Scenario Summary: The cluster was using deprecated Kubernetes APIs that contained known security vulnerabilities, which were exploited by attackers.
@@ -4787,9 +4536,8 @@ How to Avoid:
 	• Regularly check Kubernetes API deprecation notices and migrate to supported API versions.
 	• Set up monitoring to detect the use of deprecated APIs in your cluster.
 
-```
-```
- # Scenario  #249: Lack of Security Context in Pod Specifications
+--- 
+ ## Scenario #249: Lack of Security Context in Pod Specifications
 Category: Security
 Environment: K8s v1.22, Google Cloud
 Scenario Summary: Pods were deployed without defining appropriate security contexts, resulting in privileged containers and access to host resources.
@@ -4806,9 +4554,8 @@ How to Avoid:
 	• Set default security contexts for all pod deployments.
 	• Use Kubernetes admission controllers to ensure that only secure pod configurations are allowed.
 
-```
-```
- # Scenario  #250: Compromised Container Runtime
+--- 
+ ## Scenario #250: Compromised Container Runtime
 Category: Security
 Environment: K8s v1.21, On-Premise
 Scenario Summary: The container runtime (Docker) was compromised, allowing an attacker to gain control over the containers running on the node.
@@ -4826,9 +4573,8 @@ How to Avoid:
 	• Keep the container runtime up to date with security patches.
 	• Use security features like seccomp, AppArmor, or SELinux to minimize container privileges and limit potential attack vectors.
 
-```
-```
- # Scenario  #251: Insufficient RBAC Permissions for Cluster Admin
+--- 
+ ## Scenario #251: Insufficient RBAC Permissions for Cluster Admin
 Category: Security
 Environment: K8s v1.22, GKE
 Scenario Summary: A cluster administrator was mistakenly granted insufficient RBAC permissions, preventing them from performing essential management tasks.
@@ -4845,9 +4591,8 @@ How to Avoid:
 	• Implement automated RBAC policy checks and enforce least privilege principles.
 	• Regularly review and update RBAC roles to ensure they align with operational needs.
 
-```
-```
- # Scenario  #252: Insufficient Pod Security Policies Leading to Privilege Escalation
+--- 
+ ## Scenario #252: Insufficient Pod Security Policies Leading to Privilege Escalation
 Category: Security
 Environment: K8s v1.21, AWS EKS
 Scenario Summary: Insufficiently restrictive PodSecurityPolicies (PSPs) allowed the deployment of privileged pods, which were later exploited by attackers.
@@ -4864,9 +4609,8 @@ How to Avoid:
 	• Use strict PodSecurityPolicies to enforce safe configurations for all pod deployments.
 	• Regularly audit pod configurations and PodSecurityPolicy settings to ensure compliance with security standards.
 
-```
-```
- # Scenario  #253: Exposed Service Account Token in Pod
+--- 
+ ## Scenario #253: Exposed Service Account Token in Pod
 Category: Security
 Environment: K8s v1.20, On-Premise
 Scenario Summary: A service account token was mistakenly exposed in a pod, allowing attackers to gain unauthorized access to the Kubernetes API.
@@ -4883,9 +4627,8 @@ How to Avoid:
 	• Store sensitive data, such as service account tokens, in secure locations (Secrets).
 	• Regularly audit pod configurations to ensure no sensitive information is exposed.
 
-```
-```
- # Scenario  #254: Rogue Container Executing Malicious Code
+--- 
+ ## Scenario #254: Rogue Container Executing Malicious Code
 Category: Security
 Environment: K8s v1.22, Azure AKS
 Scenario Summary: A compromised container running a known exploit executed malicious code that allowed the attacker to gain access to the underlying node.
@@ -4902,9 +4645,8 @@ How to Avoid:
 	• Implement automated image scanning tools to identify vulnerabilities before deploying containers.
 	• Enforce policies to only allow trusted and updated images to be used in production.
 
-```
-```
- # Scenario  #255: Overly Permissive Network Policies Allowing Lateral Movement
+--- 
+ ## Scenario #255: Overly Permissive Network Policies Allowing Lateral Movement
 Category: Security
 Environment: K8s v1.19, Google Cloud
 Scenario Summary: Network policies were not restrictive enough, allowing compromised pods to move laterally across the cluster and access other services.
@@ -4921,9 +4663,8 @@ How to Avoid:
 	• Implement and enforce network policies that restrict pod-to-pod communication, especially for sensitive services.
 	• Regularly audit network policies and adjust them to ensure proper segmentation of workloads.
 
-```
-```
- # Scenario  #256: Insufficient Encryption for In-Transit Data
+--- 
+ ## Scenario #256: Insufficient Encryption for In-Transit Data
 Category: Security
 Environment: K8s v1.23, AWS EKS
 Scenario Summary: Sensitive data was transmitted in plaintext between services, exposing it to potential eavesdropping and data breaches.
@@ -4940,9 +4681,8 @@ How to Avoid:
 	• Use Kubernetes network policies to enforce HTTPS communication.
 	• Implement and enforce mutual TLS authentication between services.
 
-```
-```
- # Scenario  #257: Exposing Cluster Services via LoadBalancer with Public IP
+--- 
+ ## Scenario #257: Exposing Cluster Services via LoadBalancer with Public IP
 Category: Security
 Environment: K8s v1.21, Google Cloud
 Scenario Summary: A service was exposed to the public internet via a LoadBalancer without proper access control, making it vulnerable to attacks.
@@ -4959,9 +4699,8 @@ How to Avoid:
 	• Use ingress controllers with proper access control lists (ACLs) to control inbound traffic.
 	• Avoid exposing services unnecessarily; restrict access to only trusted IP ranges.
 
-```
-```
- # Scenario  #258: Privileged Containers Running Without Seccomp or AppArmor Profiles
+--- 
+ ## Scenario #258: Privileged Containers Running Without Seccomp or AppArmor Profiles
 Category: Security
 Environment: K8s v1.20, On-Premise
 Scenario Summary: Privileged containers were running without seccomp or AppArmor profiles, leaving the host vulnerable to attacks.
@@ -4978,9 +4717,8 @@ How to Avoid:
 	• Use Kubernetes PodSecurityPolicies (PSPs) or admission controllers to restrict privileged container deployments.
 	• Enforce the use of seccomp and AppArmor profiles for all containers.
 
-```
-```
- # Scenario  #259: Malicious Container Image from Untrusted Source
+--- 
+ ## Scenario #259: Malicious Container Image from Untrusted Source
 Category: Security
 Environment: K8s v1.19, Azure AKS
 Scenario Summary: A malicious container image from an untrusted source was deployed, leading to a security breach in the cluster.
@@ -4998,9 +4736,8 @@ How to Avoid:
 	• Use image signing and validation tools to ensure only trusted images are deployed.
 	• Implement an image scanning process in the CI/CD pipeline to detect vulnerabilities and malware before deployment.
 
-```
-```
- # Scenario  #260: Unrestricted Ingress Controller Allowing External Attacks
+--- 
+ ## Scenario #260: Unrestricted Ingress Controller Allowing External Attacks
 Category: Security
 Environment: K8s v1.24, GKE
 Scenario Summary: The ingress controller was misconfigured, allowing external attackers to bypass network security controls and exploit internal services.
@@ -5017,9 +4754,8 @@ How to Avoid:
 	• Use authentication and authorization mechanisms with ingress controllers to protect internal services.
 	• Regularly audit and update ingress configurations to ensure they align with security policies.
 
-```
-```
- # Scenario  #261: Misconfigured Ingress Controller Exposing Internal Services
+--- 
+ ## Scenario #261: Misconfigured Ingress Controller Exposing Internal Services
 Category: Security
 Environment: Kubernetes v1.24, GKE
 Summary: An Ingress controller was misconfigured, inadvertently exposing internal services to the public internet.
@@ -5038,9 +4774,8 @@ How to Avoid:
 	• Utilize security best practices when configuring Ingress controllers.
 	• Regularly audit and update configurations to align with security standards.
 
-```
-```
- # Scenario  #262: Privileged Containers Without Security Context
+--- 
+ ## Scenario #262: Privileged Containers Without Security Context
 Category: Security
 Environment: Kubernetes v1.22, EKS
 Summary: Containers were running with elevated privileges without defined security contexts, increasing the risk of host compromise.
@@ -5059,9 +4794,8 @@ How to Avoid:
 	• Implement and enforce Pod Security Policies.
 	• Regularly review and update security contexts for all deployments.
 
-```
-```
- # Scenario  #263: Unrestricted Network Policies Allowing Lateral Movement
+--- 
+ ## Scenario #263: Unrestricted Network Policies Allowing Lateral Movement
 Category: Security
 Environment: Kubernetes v1.21, Azure AKS
 Summary: Lack of restrictive network policies permitted lateral movement within the cluster after a pod compromise.
@@ -5080,9 +4814,8 @@ How to Avoid:
 	• Define and enforce strict network policies.
 	• Regularly audit network configurations and traffic patterns.
 
-```
-```
- # Scenario  #264: Exposed Kubernetes Dashboard Without Authentication
+--- 
+ ## Scenario #264: Exposed Kubernetes Dashboard Without Authentication
 Category: Security
 Environment: Kubernetes v1.20, On-Premise
 Summary: The Kubernetes Dashboard was exposed without authentication, allowing unauthorized access to cluster resources.
@@ -5101,9 +4834,8 @@ How to Avoid:
 	• Implement authentication and authorization for all administrative tools.
 	• Limit access to management interfaces through network restrictions.
 
-```
-```
- # Scenario  #265: Use of Vulnerable Container Images
+--- 
+ ## Scenario #265: Use of Vulnerable Container Images
 Category: Security
 Environment: Kubernetes v1.23, AWS EKS
 Summary: Deployment of container images with known vulnerabilities led to potential exploitation risks.
@@ -5122,9 +4854,8 @@ How to Avoid:
 	• Integrate image scanning tools into the development workflow.
 	• Maintain an inventory of approved and secure container images.
 
-```
-```
- # Scenario  #266: Misconfigured Role-Based Access Control (RBAC)
+--- 
+ ## Scenario #266: Misconfigured Role-Based Access Control (RBAC)
 Category: Security
 Environment: Kubernetes v1.22, GKE
 Summary: Overly permissive RBAC configurations granted users more access than necessary, posing security risks.
@@ -5143,9 +4874,8 @@ How to Avoid:
 	• Define clear access requirements for each role.
 	• Regularly review and update RBAC configurations.
 
-```
-```
- # Scenario  #267: Insecure Secrets Management
+--- 
+ ## Scenario #267: Insecure Secrets Management
 Category: Security
 Environment: Kubernetes v1.21, On-Premise
 Summary: Secrets were stored in plaintext within configuration files, leading to potential exposure.
@@ -5164,9 +4894,8 @@ How to Avoid:
 	• Use Kubernetes Secrets for managing sensitive data.
 	• Implement encryption and access controls for secrets.
 
-```
-```
- # Scenario  #268: Lack of Audit Logging
+--- 
+ ## Scenario #268: Lack of Audit Logging
 Category: Security
 Environment: Kubernetes v1.24, Azure AKS
 Summary: Absence of audit logging hindered the ability to detect and investigate security incidents.
@@ -5185,9 +4914,8 @@ How to Avoid:
 	• Enable and configure audit logging in all clusters.
 	• Regularly review and analyze audit logs for anomalies.
 
-```
-```
- # Scenario  #269: Unrestricted Access to etcd
+--- 
+ ## Scenario #269: Unrestricted Access to etcd
 Category: Security
 Environment: Kubernetes v1.20, On-Premise
 Summary: The etcd datastore was accessible without authentication, risking exposure of sensitive cluster data.
@@ -5206,9 +4934,8 @@ How to Avoid:
 	• Implement authentication and encryption for etcd.
 	• Limit access to etcd to authorized personnel and services.
 
-```
-```
- # Scenario  #270: Absence of Pod Security Policies
+--- 
+ ## Scenario #270: Absence of Pod Security Policies
 Category: Security
 Environment: Kubernetes v1.23, AWS EKS
 Summary: Without Pod Security Policies, pods were deployed with insecure configurations, increasing the attack surface.
@@ -5227,9 +4954,8 @@ How to Avoid:
 	• Define and enforce Pod Security Policies.
 	• Regularly review pod configurations for adherence to security standards.
 
-```
-```
- # Scenario  #271: Service Account Token Mounted in All Pods
+--- 
+ ## Scenario #271: Service Account Token Mounted in All Pods
 Category: Security
 Environment: Kubernetes v1.23, AKS
 Summary: All pods had default service account tokens mounted, increasing the risk of credential leakage.
@@ -5247,9 +4973,8 @@ How to Avoid:
 	• Disable token mounting unless required.
 	• Enforce security-aware pod templates across teams.
 
-```
-```
- # Scenario  #272: Sensitive Logs Exposed via Centralized Logging
+--- 
+ ## Scenario #272: Sensitive Logs Exposed via Centralized Logging
 Category: Security
 Environment: Kubernetes v1.22, EKS with Fluentd
 Summary: Secrets and passwords were accidentally logged and shipped to a centralized logging service accessible to many teams.
@@ -5268,9 +4993,8 @@ How to Avoid:
 	• Implement logging best practices.
 	• Scrub sensitive content before logs leave the app.
 
-```
-```
- # Scenario  #273: Broken Container Escape Detection
+--- 
+ ## Scenario #273: Broken Container Escape Detection
 Category: Security
 Environment: Kubernetes v1.24, GKE
 Summary: A malicious container escaped to host level due to an unpatched kernel, but went undetected due to insufficient monitoring.
@@ -5288,9 +5012,8 @@ How to Avoid:
 	• Patch host OS regularly.
 	• Deploy tools like Falco or Sysdig for anomaly detection.
 
-```
-```
- # Scenario  #274: Unauthorized Cloud Metadata API Access
+--- 
+ ## Scenario #274: Unauthorized Cloud Metadata API Access
 Category: Security
 Environment: Kubernetes v1.22, AWS
 Summary: A pod was able to access the EC2 metadata API and retrieve IAM credentials due to open network access.
@@ -5308,9 +5031,8 @@ How to Avoid:
 	• Secure instance metadata access.
 	• Use IRSA (IAM Roles for Service Accounts) instead of node-level credentials.
 
-```
-```
- # Scenario  #275: Admin Kubeconfig Checked into Git
+--- 
+ ## Scenario #275: Admin Kubeconfig Checked into Git
 Category: Security
 Environment: Kubernetes v1.23, On-Prem
 Summary: A developer accidentally committed a kubeconfig file with full admin access into a public Git repository.
@@ -5329,9 +5051,8 @@ How to Avoid:
 	• Never store secrets in source code.
 	• Use automated secret scanning (e.g., GitHub Advanced Security, TruffleHog).
 
-```
-```
- # Scenario  #276: JWT Token Replay Attack in Webhook Auth
+--- 
+ ## Scenario #276: JWT Token Replay Attack in Webhook Auth
 Category: Security
 Environment: Kubernetes v1.21, AKS
 Summary: Reused JWT tokens from intercepted API requests were used to impersonate authorized users.
@@ -5349,9 +5070,8 @@ How to Avoid:
 	• Use time-limited tokens.
 	• Implement replay protection with nonces or one-time tokens.
 
-```
-```
- # Scenario  #277: Container With Hardcoded SSH Keys
+--- 
+ ## Scenario #277: Container With Hardcoded SSH Keys
 Category: Security
 Environment: Kubernetes v1.20, On-Prem
 Summary: A base image included hardcoded SSH keys which allowed attackers lateral access between environments.
@@ -5369,9 +5089,8 @@ How to Avoid:
 	• Scan images before use.
 	• Use multistage builds to exclude dev artifacts.
 
-```
-```
- # Scenario  #278: Insecure Helm Chart Defaults
+--- 
+ ## Scenario #278: Insecure Helm Chart Defaults
 Category: Security
 Environment: Kubernetes v1.24, GKE
 Summary: A popular Helm chart had insecure defaults, like exposing dashboards or running as root.
@@ -5389,9 +5108,8 @@ How to Avoid:
 	• Read charts carefully before applying.
 	• Maintain internal forks of public charts with hardened defaults.
 
-```
-```
- # Scenario  #279: Shared Cluster with Overlapping Namespaces
+--- 
+ ## Scenario #279: Shared Cluster with Overlapping Namespaces
 Category: Security
 Environment: Kubernetes v1.22, Shared Dev Cluster
 Summary: Multiple teams used the same namespace naming conventions, causing RBAC overlaps and security concerns.
@@ -5409,9 +5127,8 @@ How to Avoid:
 	• Enforce naming policies.
 	• Use automated namespace creation with templates.
 
-```
-```
- # Scenario  #280: CVE Ignored in Base Image for Months
+--- 
+ ## Scenario #280: CVE Ignored in Base Image for Months
 Category: Security
 Environment: Kubernetes v1.23, AWS
 Summary: A known CVE affecting the base image used by multiple services remained unpatched due to no alerting.
@@ -5429,9 +5146,8 @@ How to Avoid:
 	• Integrate image scanning into build pipelines.
 	• Monitor CVE databases for base images regularly.
 
-```
-```
- # Scenario  #281: Misconfigured PodSecurityPolicy Allowed Privileged Containers
+--- 
+ ## Scenario #281: Misconfigured PodSecurityPolicy Allowed Privileged Containers
 Category: Security
 Environment: Kubernetes v1.21, On-Prem Cluster
 Summary: Pods were running with privileged: true due to a permissive PodSecurityPolicy (PSP) left enabled during testing.
@@ -5450,9 +5166,8 @@ How to Avoid:
 	• Review PSP or PodSecurity configurations regularly.
 	• Implement strict admission control policies.
 
-```
-```
- # Scenario  #282: GitLab Runners Spawning Privileged Containers
+--- 
+ ## Scenario #282: GitLab Runners Spawning Privileged Containers
 Category: Security
 Environment: Kubernetes v1.23, GitLab CI on EKS
 Summary: GitLab runners were configured to run privileged containers to support Docker-in-Docker (DinD), leading to a high-risk setup.
@@ -5470,9 +5185,8 @@ How to Avoid:
 	• Avoid using DinD where possible.
 	• Use rootless build tools like Kaniko or Buildah.
 
-```
-```
- # Scenario  #283: Kubernetes Secrets Mounted in World-Readable Volumes
+--- 
+ ## Scenario #283: Kubernetes Secrets Mounted in World-Readable Volumes
 Category: Security
 Environment: Kubernetes v1.24, GKE
 Summary: Secret volumes were mounted with 0644 permissions, allowing any user process inside the container to read them.
@@ -5490,9 +5204,8 @@ How to Avoid:
 	• Set correct permissions on secret mounts.
 	• Use multi-container pods to isolate secrets access.
 
-```
-```
- # Scenario  #284: Kubelet Port Exposed on Public Interface
+--- 
+ ## Scenario #284: Kubelet Port Exposed on Public Interface
 Category: Security
 Environment: Kubernetes v1.20, Bare Metal
 Summary: Kubelet was accidentally exposed on port 10250 to the public internet, allowing unauthenticated metrics and logs access.
@@ -5510,9 +5223,8 @@ How to Avoid:
 	• Audit node ports regularly.
 	• Harden Kubelet with authN/authZ and TLS.
 
-```
-```
- # Scenario  #285: Cluster Admin Bound to All Authenticated Users
+--- 
+ ## Scenario #285: Cluster Admin Bound to All Authenticated Users
 Category: Security
 Environment: Kubernetes v1.21, AKS
 Summary: A ClusterRoleBinding accidentally granted cluster-admin to all authenticated users due to system:authenticated group.
@@ -5530,9 +5242,8 @@ How to Avoid:
 	• Avoid using broad group bindings.
 	• Implement pre-commit checks for RBAC files.
 
-```
-```
- # Scenario  #286: Webhook Authentication Timing Out, Causing Denial of Service
+--- 
+ ## Scenario #286: Webhook Authentication Timing Out, Causing Denial of Service
 Category: Security
 Environment: Kubernetes v1.22, EKS
 Summary: Authentication webhook for custom RBAC timed out under load, rejecting valid users and causing cluster-wide issues.
@@ -5550,9 +5261,8 @@ How to Avoid:
 	• Stress-test webhooks.
 	• Use token-based or in-cluster auth where possible.
 
-```
-```
- # Scenario  #287: CSI Driver Exposing Node Secrets
+--- 
+ ## Scenario #287: CSI Driver Exposing Node Secrets
 Category: Security
 Environment: Kubernetes v1.24, CSI Plugin (AWS Secrets Store)
 Summary: Misconfigured CSI driver exposed secrets on hostPath mount accessible to privileged pods.
@@ -5570,9 +5280,8 @@ How to Avoid:
 	• Test CSI secrets exposure under threat models.
 	• Restrict node-level file access via policies.
 
-```
-```
- # Scenario  #288: EphemeralContainers Used for Reconnaissance
+--- 
+ ## Scenario #288: EphemeralContainers Used for Reconnaissance
 Category: Security
 Environment: Kubernetes v1.25, GKE
 Summary: A compromised user deployed ephemeral containers to inspect and copy secrets from running pods.
@@ -5590,9 +5299,8 @@ How to Avoid:
 	• Lock down access to new APIs.
 	• Monitor audit logs for container injection attempts.
 
-```
-```
- # Scenario  #289: hostAliases Used for Spoofing Internal Services
+--- 
+ ## Scenario #289: hostAliases Used for Spoofing Internal Services
 Category: Security
 Environment: Kubernetes v1.22, On-Prem
 Summary: Malicious pod used hostAliases to spoof internal service hostnames and intercept requests.
@@ -5610,9 +5318,8 @@ How to Avoid:
 	• Restrict or disallow use of hostAliases.
 	• Rely on service discovery via DNS only.
 
-```
-```
- # Scenario  #290: Privilege Escalation via Unchecked securityContext in Helm Chart
+--- 
+ ## Scenario #290: Privilege Escalation via Unchecked securityContext in Helm Chart
 Category: Security
 Environment: Kubernetes v1.21, Helm v3.8
 Summary: A third-party Helm chart allowed setting arbitrary securityContext, letting users run pods as root in production.
@@ -5630,9 +5337,8 @@ How to Avoid:
 	• Validate all chart values.
 	• Use policy engines to restrict risky configurations.
 
-```
-```
- # Scenario  #291: Service Account Token Leakage via Logs
+--- 
+ ## Scenario #291: Service Account Token Leakage via Logs
 Category: Security
 Environment: Kubernetes v1.23, AKS
 Summary: Application inadvertently logged its mounted service account token, exposing it to log aggregation systems.
@@ -5650,9 +5356,8 @@ How to Avoid:
 	• Add a startup check to prevent token exposure.
 	• Use static analysis or OPA to block risky mounts/logs.
 
-```
-```
- # Scenario  #292: Escalation via Editable Validating WebhookConfiguration
+--- 
+ ## Scenario #292: Escalation via Editable Validating WebhookConfiguration
 Category: Security
 Environment: Kubernetes v1.24, EKS
 Summary: User with edit rights on a validating webhook modified it to bypass critical security policies.
@@ -5670,9 +5375,8 @@ How to Avoid:
 	• Lock down RBAC access to webhook configurations.
 	• Monitor changes with alerts and diff checks.
 
-```
-```
- # Scenario  #293: Stale Node Certificates After Rejoining Cluster
+--- 
+ ## Scenario #293: Stale Node Certificates After Rejoining Cluster
 Category: Security
 Environment: Kubernetes v1.21, Kubeadm-based cluster
 Summary: A node was rejoined to the cluster using a stale certificate, giving it access it shouldn't have.
@@ -5690,9 +5394,8 @@ How to Avoid:
 	• Rotate node credentials regularly.
 	• Use automation to purge sensitive files before rejoining.
 
-```
-```
- # Scenario  #294: ArgoCD Exploit via Unverified Helm Charts
+--- 
+ ## Scenario #294: ArgoCD Exploit via Unverified Helm Charts
 Category: Security
 Environment: Kubernetes v1.24, ArgoCD
 Summary: ArgoCD deployed a malicious Helm chart that added privileged pods and container escape backdoors.
@@ -5710,9 +5413,8 @@ How to Avoid:
 	• Only use verified or internal Helm repos.
 	• Enable ArgoCD Helm signature verification.
 
-```
-```
- # Scenario  #295: Node Compromise via Insecure Container Runtime
+--- 
+ ## Scenario #295: Node Compromise via Insecure Container Runtime
 Category: Security
 Environment: Kubernetes v1.22, CRI-O on Bare Metal
 Summary: A CVE in the container runtime allowed a container breakout, leading to full node compromise.
@@ -5730,9 +5432,8 @@ How to Avoid:
 	• Automate CVE scanning for runtime components.
 	• Harden runtimes with security profiles.
 
-```
-```
- # Scenario  #296: Workload with Wildcard RBAC Access to All Secrets
+--- 
+ ## Scenario #296: Workload with Wildcard RBAC Access to All Secrets
 Category: Security
 Environment: Kubernetes v1.23, Self-Hosted
 Summary: A microservice was granted get and list access to all secrets cluster-wide using *.
@@ -5749,9 +5450,8 @@ How to Avoid:
 	• Use least privilege principle.
 	• Validate RBAC via CI/CD linting tools.
 
-```
-```
- # Scenario  #297: Malicious Init Container Used for Reconnaissance
+--- 
+ ## Scenario #297: Malicious Init Container Used for Reconnaissance
 Category: Security
 Environment: Kubernetes v1.25, GKE
 Summary: A pod was launched with a benign main container and a malicious init container that copied node metadata.
@@ -5769,9 +5469,8 @@ How to Avoid:
 	• Verify init container images and registries.
 	• Use runtime tools (e.g., Falco) for behavior analysis.
 
-```
-```
- # Scenario  #298: Ingress Controller Exposed /metrics Without Auth
+--- 
+ ## Scenario #298: Ingress Controller Exposed /metrics Without Auth
 Category: Security
 Environment: Kubernetes v1.24, NGINX Ingress
 Summary: Prometheus scraping endpoint /metrics was exposed without authentication and revealed sensitive internal details.
@@ -5789,9 +5488,8 @@ How to Avoid:
 	• Enforce auth for all public endpoints.
 	• Separate internal vs. external monitoring targets.
 
-```
-```
- # Scenario  #299: Secret Stored in ConfigMap by Mistake
+--- 
+ ## Scenario #299: Secret Stored in ConfigMap by Mistake
 Category: Security
 Environment: Kubernetes v1.23, AKS
 Summary: A sensitive API key was accidentally stored in a ConfigMap instead of a Secret, making it visible in plain text.
@@ -5808,9 +5506,8 @@ How to Avoid:
 	• Lint manifests to block secrets in ConfigMaps.
 	• Train developers in security best practices.
 
-```
-```
- # Scenario  #300: Token Reuse After Namespace Deletion and Recreation
+--- 
+ ## Scenario #300: Token Reuse After Namespace Deletion and Recreation
 Category: Security
 Environment: Kubernetes v1.24, Self-Hosted
 Summary: A previously deleted namespace was recreated, and old tokens (from backups) were still valid and worked.
@@ -5833,9 +5530,8 @@ How to Avoid:
 
 
 
-```
-```
- # Scenario  #301: PVC Stuck in Terminating State After Node Crash
+--- 
+ ## Scenario #301: PVC Stuck in Terminating State After Node Crash
 Category: Storage
 Environment: Kubernetes v1.22, EBS CSI Driver on EKS
 Summary: A node crash caused a PersistentVolumeClaim (PVC) to be stuck in Terminating, blocking pod deletion.
@@ -5853,9 +5549,8 @@ How to Avoid:
 	• Use the external-attacher CSI sidecar with leader election.
 	• Implement automation to detect and clean up stuck attachments.
 
-```
-```
- # Scenario  #302: Data Corruption on HostPath Volumes
+--- 
+ ## Scenario #302: Data Corruption on HostPath Volumes
 Category: Storage
 Environment: Kubernetes v1.20, Bare Metal
 Summary: Multiple pods sharing a HostPath volume led to inconsistent file states and eventual corruption.
@@ -5873,9 +5568,8 @@ How to Avoid:
 	• Use CSI volumes with enforced access modes.
 	• Avoid HostPath unless absolutely necessary.
 
-```
-```
- # Scenario  #303: Volume Mount Fails Due to Node Affinity Mismatch
+--- 
+ ## Scenario #303: Volume Mount Fails Due to Node Affinity Mismatch
 Category: Storage
 Environment: Kubernetes v1.23, GCE PD on GKE
 Summary: A pod was scheduled on a node that couldn’t access the persistent disk due to zone mismatch.
@@ -5893,9 +5587,8 @@ How to Avoid:
 	• Use WaitForFirstConsumer for dynamic provisioning.
 	• Always define zone-aware topology constraints.
 
-```
-```
- # Scenario  #304: PVC Not Rescheduled After Node Deletion
+--- 
+ ## Scenario #304: PVC Not Rescheduled After Node Deletion
 Category: Storage
 Environment: Kubernetes v1.21, Azure Disk CSI
 Summary: A StatefulSet pod failed to reschedule after its node was deleted, due to Azure disk still being attached.
@@ -5913,9 +5606,8 @@ How to Avoid:
 	• Use automation/scripts for safe node draining and deletion.
 	• Monitor CSI detachment status on node removal.
 
-```
-```
- # Scenario  #305: Long PVC Rebinding Time on StatefulSet Restart
+--- 
+ ## Scenario #305: Long PVC Rebinding Time on StatefulSet Restart
 Category: Storage
 Environment: Kubernetes v1.24, Rook Ceph
 Summary: Restarting a StatefulSet with many PVCs caused long downtime due to slow rebinding.
@@ -5933,9 +5625,8 @@ How to Avoid:
 	• Parallelize pod restarts using partitioned rollouts.
 	• Monitor CSI mount throughput.
 
-```
-```
- # Scenario  #306: CSI Volume Plugin Crash Loops Due to Secret Rotation
+--- 
+ ## Scenario #306: CSI Volume Plugin Crash Loops Due to Secret Rotation
 Category: Storage
 Environment: Kubernetes v1.25, Vault CSI Provider
 Summary: Volume plugin entered crash loop after secret provider’s token was rotated unexpectedly.
@@ -5953,9 +5644,8 @@ How to Avoid:
 	• Use projected service account tokens with auto-refresh.
 	• Monitor plugin health on secret rotations.
 
-```
-```
- # Scenario  #307: ReadWriteMany PVCs Cause IO Bottlenecks
+--- 
+ ## Scenario #307: ReadWriteMany PVCs Cause IO Bottlenecks
 Category: Storage
 Environment: Kubernetes v1.23, NFS-backed PVCs
 Summary: Heavy read/write on a shared PVC caused file IO contention and throttling across pods.
@@ -5973,9 +5663,8 @@ How to Avoid:
 	• Use RWX volumes for read-shared data only.
 	• Avoid writes unless using clustered filesystems (e.g., CephFS).
 
-```
-```
- # Scenario  #308: PVC Mount Timeout Due to PodSecurityPolicy
+--- 
+ ## Scenario #308: PVC Mount Timeout Due to PodSecurityPolicy
 Category: Storage
 Environment: Kubernetes v1.21, PSP Enabled Cluster
 Summary: A pod couldn’t mount a volume because PodSecurityPolicy (PSP) rejected required fsGroup.
@@ -5993,9 +5682,8 @@ How to Avoid:
 	• Review storage class requirements.
 	• Align security policies with volume specs.
 
-```
-```
- # Scenario  #309: Orphaned PVs After Namespace Deletion
+--- 
+ ## Scenario #309: Orphaned PVs After Namespace Deletion
 Category: Storage
 Environment: Kubernetes v1.20, Self-Hosted
 Summary: Deleting a namespace did not clean up PersistentVolumes, leading to leaked storage.
@@ -6012,9 +5700,8 @@ How to Avoid:
 	• Use Delete unless you need manual volume recovery.
 	• Monitor Released PVs for leaks.
 
-```
-```
- # Scenario  #310: StorageClass Misconfiguration Blocks Dynamic Provisioning
+--- 
+ ## Scenario #310: StorageClass Misconfiguration Blocks Dynamic Provisioning
 Category: Storage
 Environment: Kubernetes v1.25, GKE
 Summary: New PVCs failed to bind due to a broken default StorageClass with incorrect parameters.
@@ -6032,9 +5719,8 @@ How to Avoid:
 	• Validate StorageClass on cluster upgrades.
 	• Use automated tests for provisioning paths.
 
-```
-```
- # Scenario  #311: StatefulSet Volume Cloning Results in Data Leakage
+--- 
+ ## Scenario #311: StatefulSet Volume Cloning Results in Data Leakage
 Category: Storage
 Environment: Kubernetes v1.24, CSI Volume Cloning enabled
 Summary: Cloning PVCs between StatefulSet pods led to shared data unexpectedly appearing in new replicas.
@@ -6052,9 +5738,8 @@ How to Avoid:
 	• Use cloning only for stateless data unless supported thoroughly.
 	• Validate cloned volume content before production use.
 
-```
-```
- # Scenario  #312: Volume Resize Not Reflected in Mounted Filesystem
+--- 
+ ## Scenario #312: Volume Resize Not Reflected in Mounted Filesystem
 Category: Storage
 Environment: Kubernetes v1.22, OpenEBS
 Summary: Volume expansion was successful on the PV, but pods didn’t see the increased space.
@@ -6072,9 +5757,8 @@ How to Avoid:
 	• Schedule a rolling restart after volume resize operations.
 	• Check if your CSI driver supports online filesystem resizing.
 
-```
-```
- # Scenario  #313: CSI Controller Pod Crash Due to Log Overflow
+--- 
+ ## Scenario #313: CSI Controller Pod Crash Due to Log Overflow
 Category: Storage
 Environment: Kubernetes v1.23, Longhorn
 Summary: The CSI controller crashed repeatedly due to unbounded logging filling up ephemeral storage.
@@ -6092,9 +5776,8 @@ How to Avoid:
 	• Monitor log volume and disk usage.
 	• Use log rotation and retention policies.
 
-```
-```
- # Scenario  #314: PVs Stuck in Released Due to Missing Finalizer Removal
+--- 
+ ## Scenario #314: PVs Stuck in Released Due to Missing Finalizer Removal
 Category: Storage
 Environment: Kubernetes v1.21, NFS
 Summary: PVCs were deleted, but PVs remained stuck in Released, preventing reuse.
@@ -6111,9 +5794,8 @@ How to Avoid:
 	• Use CSI drivers with full lifecycle support.
 	• Monitor PV statuses regularly.
 
-```
-```
- # Scenario  #315: CSI Driver DaemonSet Deployment Missing Tolerations for Taints
+--- 
+ ## Scenario #315: CSI Driver DaemonSet Deployment Missing Tolerations for Taints
 Category: Storage
 Environment: Kubernetes v1.25, Bare Metal
 Summary: CSI Node plugin DaemonSet didn’t deploy on all nodes due to missing taint tolerations.
@@ -6130,9 +5812,8 @@ How to Avoid:
 	• Review node taints and CSI tolerations during setup.
 	• Use node affinity and tolerations for critical system components.
 
-```
-```
- # Scenario  #316: Mount Propagation Issues with Sidecar Containers
+--- 
+ ## Scenario #316: Mount Propagation Issues with Sidecar Containers
 Category: Storage
 Environment: Kubernetes v1.22, GKE
 Summary: Sidecar containers didn’t see mounted volumes due to incorrect mountPropagation settings.
@@ -6148,9 +5829,8 @@ How to Avoid:
 	• Understand container mount namespaces.
 	• Always define propagation when using shared mounts.
 
-```
-```
- # Scenario  #317: File Permissions Reset on Pod Restart
+--- 
+ ## Scenario #317: File Permissions Reset on Pod Restart
 Category: Storage
 Environment: Kubernetes v1.20, CephFS
 Summary: Pod volume permissions reset after each restart, breaking application logic.
@@ -6165,9 +5845,8 @@ Lessons Learned: CSI plugins may enforce ownership unless overridden.
 How to Avoid:
 	• Always declare expected ownership with securityContext.
 
-```
-```
- # Scenario  #318: Volume Mount Succeeds but Application Can't Write
+--- 
+ ## Scenario #318: Volume Mount Succeeds but Application Can't Write
 Category: Storage
 Environment: Kubernetes v1.23, EBS
 Summary: Volume mounted correctly, but application failed to write due to filesystem mismatch.
@@ -6183,9 +5862,8 @@ Lessons Learned: Filesystem types matter for certain workloads.
 How to Avoid:
 	• Align volume formatting with application expectations.
 
-```
-```
- # Scenario  #319: Volume Snapshot Restore Includes Corrupt Data
+--- 
+ ## Scenario #319: Volume Snapshot Restore Includes Corrupt Data
 Category: Storage
 Environment: Kubernetes v1.24, Velero + CSI Snapshots
 Summary: Snapshot-based restore brought back corrupted state due to hot snapshot timing.
@@ -6202,9 +5880,8 @@ Lessons Learned: Snapshots must be coordinated with app state.
 How to Avoid:
 	• Use pre/post hooks for consistent snapshotting.
 
-```
-```
- # Scenario  #320: Zombie Volumes Occupying Cloud Quota
+--- 
+ ## Scenario #320: Zombie Volumes Occupying Cloud Quota
 Category: Storage
 Environment: Kubernetes v1.25, AWS EBS
 Summary: Deleted PVCs didn’t release volumes due to failed detach steps, leading to quota exhaustion.
@@ -6221,9 +5898,8 @@ How to Avoid:
 	• Use cloud resource monitoring.
 	• Add alerts for orphaned volumes.
 
-```
-```
- # Scenario  #321: Volume Snapshot Garbage Collection Fails
+--- 
+ ## Scenario #321: Volume Snapshot Garbage Collection Fails
 Category: Storage
 Environment: Kubernetes v1.25, CSI Snapshotter with Velero
 Summary: Volume snapshots piled up because snapshot objects were not getting garbage collected after use.
@@ -6241,9 +5917,8 @@ How to Avoid:
 	• Always test snapshot and restore flows end-to-end.
 	• Enable automated cleanup in your backup tooling.
 
-```
-```
- # Scenario  #322: Volume Mount Delays Due to Node Drain Stale Attachment
+--- 
+ ## Scenario #322: Volume Mount Delays Due to Node Drain Stale Attachment
 Category: Storage
 Environment: Kubernetes v1.23, AWS EBS CSI
 Summary: Volumes took too long to attach on new nodes after pod rescheduling due to stale attachment metadata.
@@ -6261,9 +5936,8 @@ How to Avoid:
 	• Use health checks to ensure detach success before draining.
 	• Monitor VolumeAttachment objects during node ops.
 
-```
-```
- # Scenario  #323: Application Writes Lost After Node Reboot
+--- 
+ ## Scenario #323: Application Writes Lost After Node Reboot
 Category: Storage
 Environment: Kubernetes v1.21, Local Persistent Volumes
 Summary: After a node reboot, pod restarted, but wrote to a different volume path, resulting in apparent data loss.
@@ -6281,9 +5955,8 @@ How to Avoid:
 	• Always use local storage plugin for node-local disks.
 	• Avoid loosely defined persistent paths.
 
-```
-```
- # Scenario  #324: Pod CrashLoop Due to Read-Only Volume Remount
+--- 
+ ## Scenario #324: Pod CrashLoop Due to Read-Only Volume Remount
 Category: Storage
 Environment: Kubernetes v1.22, GCP Filestore
 Summary: Pod volume was remounted as read-only after a transient network disconnect, breaking app write logic.
@@ -6301,9 +5974,8 @@ How to Avoid:
 	• Monitor for dmesg or NFS client remounts.
 	• Add alerts for unexpected read-only volume transitions.
 
-```
-```
- # Scenario  #325: Data Corruption on Shared Volume With Two Pods
+--- 
+ ## Scenario #325: Data Corruption on Shared Volume With Two Pods
 Category: Storage
 Environment: Kubernetes v1.23, NFS PVC shared by 2 pods
 Summary: Two pods writing to the same volume caused inconsistent files and data loss.
@@ -6321,9 +5993,8 @@ How to Avoid:
 	• Never assume coordination when using shared volumes.
 	• Use per-pod PVCs or job-level locking.
 
-```
-```
- # Scenario  #326: Mount Volume Exceeded Timeout
+--- 
+ ## Scenario #326: Mount Volume Exceeded Timeout
 Category: Storage
 Environment: Kubernetes v1.26, Azure Disk CSI
 Summary: Pod remained stuck in ContainerCreating state because volume mount operations timed out.
@@ -6341,9 +6012,8 @@ How to Avoid:
 	• Keep CSI drivers up-to-date.
 	• Use pre-mount checks to validate device paths.
 
-```
-```
- # Scenario  #327: Static PV Bound to Wrong PVC
+--- 
+ ## Scenario #327: Static PV Bound to Wrong PVC
 Category: Storage
 Environment: Kubernetes v1.21, Manually created PVs
 Summary: A misconfigured static PV got bound to the wrong PVC, exposing sensitive data.
@@ -6361,9 +6031,8 @@ How to Avoid:
 	• Use volumeName for static PV binding.
 	• Avoid reusing storageClassName across different apps.
 
-```
-```
- # Scenario  #328: Pod Eviction Due to DiskPressure Despite PVC
+--- 
+ ## Scenario #328: Pod Eviction Due to DiskPressure Despite PVC
 Category: Storage
 Environment: Kubernetes v1.22, Local PVs
 Summary: Node evicted pods due to DiskPressure, even though app used dedicated PVC backed by a separate disk.
@@ -6381,9 +6050,8 @@ How to Avoid:
 	• Monitor node root disks in addition to volume usage.
 	• Redirect logs and temp files to PVCs.
 
-```
-```
- # Scenario  #329: Pod Gets Stuck Due to Ghost Mount Point
+--- 
+ ## Scenario #329: Pod Gets Stuck Due to Ghost Mount Point
 Category: Storage
 Environment: Kubernetes v1.20, iSCSI volumes
 Summary: Pod failed to start because the mount point was partially deleted, leaving the system confused.
@@ -6401,9 +6069,8 @@ How to Avoid:
 	• Use pre-start hooks to validate mount point integrity.
 	• Include cleanup logic in custom CSI deployments.
 
-```
-```
- # Scenario  #330: PVC Resize Broke StatefulSet Ordering
+--- 
+ ## Scenario #330: PVC Resize Broke StatefulSet Ordering
 Category: Storage
 Environment: Kubernetes v1.24, StatefulSets + RWO PVCs
 Summary: When resizing PVCs, StatefulSet pods restarted in parallel, violating ordinal guarantees.
@@ -6420,9 +6087,8 @@ How to Avoid:
 	• Use podManagementPolicy: OrderedReady.
 	• Handle resizes during maintenance windows.
 
-```
-```
- # Scenario  #331: ReadAfterWrite Inconsistency on Object Store-Backed CSI
+--- 
+ ## Scenario #331: ReadAfterWrite Inconsistency on Object Store-Backed CSI
 Category: Storage
 Environment: Kubernetes v1.26, MinIO CSI driver, Ceph RGW backend
 Summary: Applications experienced stale reads immediately after writing to the same file via CSI mount backed by an S3-like object store.
@@ -6440,9 +6106,8 @@ How to Avoid:
 	• Avoid using S3-style backends for workloads expecting POSIX semantics.
 	• Use CephFS, NFS, or block storage for transactional I/O.
 
-```
-```
- # Scenario  #332: PV Resize Fails After Node Reboot
+--- 
+ ## Scenario #332: PV Resize Fails After Node Reboot
 Category: Storage
 Environment: Kubernetes v1.24, AWS EBS
 Summary: After a node reboot, a PVC resize request remained pending, blocking pod start.
@@ -6460,9 +6125,8 @@ How to Avoid:
 	• Schedule resizes during stable node windows.
 	• Use pvc-resize readiness gates in automation.
 
-```
-```
- # Scenario  #333: CSI Driver Crash Loops on VolumeAttach
+--- 
+ ## Scenario #333: CSI Driver Crash Loops on VolumeAttach
 Category: Storage
 Environment: Kubernetes v1.22, OpenEBS Jiva CSI
 Summary: CSI node plugin entered CrashLoopBackOff due to panic during volume attach, halting all storage provisioning.
@@ -6480,9 +6144,8 @@ How to Avoid:
 	• Use upgrade staging before deploying new CSI versions.
 	• Enable CSI health monitoring via liveness probes.
 
-```
-```
- # Scenario  #334: PVC Binding Fails Due to Multiple Default StorageClasses
+--- 
+ ## Scenario #334: PVC Binding Fails Due to Multiple Default StorageClasses
 Category: Storage
 Environment: Kubernetes v1.23
 Summary: PVC creation failed intermittently because the cluster had two storage classes marked as default.
@@ -6500,9 +6163,8 @@ How to Avoid:
 	• Enforce single default SC via cluster policy.
 	• Always specify storageClassName explicitly in critical apps.
 
-```
-```
- # Scenario  #335: Zombie VolumeAttachment Blocks New PVC
+--- 
+ ## Scenario #335: Zombie VolumeAttachment Blocks New PVC
 Category: Storage
 Environment: Kubernetes v1.21, Longhorn
 Summary: After a node crash, a VolumeAttachment object was not garbage collected, blocking new PVCs from attaching.
@@ -6520,9 +6182,8 @@ How to Avoid:
 	• Use node lifecycle hooks to detach volumes gracefully.
 	• Alert on dangling VolumeAttachments.
 
-```
-```
- # Scenario  #336: Persistent Volume Bound But Not Mounted
+--- 
+ ## Scenario #336: Persistent Volume Bound But Not Mounted
 Category: Storage
 Environment: Kubernetes v1.25, NFS
 Summary: Pod entered Running state, but data was missing because PV was bound but not properly mounted.
@@ -6540,9 +6201,8 @@ How to Avoid:
 	• Validate mounts via init containers or probes.
 	• Monitor CSI logs on pod lifecycle events.
 
-```
-```
- # Scenario  #337: CSI Snapshot Restore Overwrites Active Data
+--- 
+ ## Scenario #337: CSI Snapshot Restore Overwrites Active Data
 Category: Storage
 Environment: Kubernetes v1.26, CSI snapshots (v1beta1)
 Summary: User triggered a snapshot restore to an existing PVC, unintentionally overwriting live data.
@@ -6560,9 +6220,8 @@ How to Avoid:
 	• Never restore to in-use PVCs without backup.
 	• Build snapshot workflows that validate PVC state.
 
-```
-```
- # Scenario  #338: Incomplete Volume Detach Breaks Node Scheduling
+--- 
+ ## Scenario #338: Incomplete Volume Detach Breaks Node Scheduling
 Category: Storage
 Environment: Kubernetes v1.22, iSCSI
 Summary: Scheduler skipped a healthy node due to a ghost VolumeAttachment that was never cleaned up.
@@ -6580,9 +6239,8 @@ How to Avoid:
 	• Persist attach/detach queues.
 	• Use cloud-level health checks for cleanup.
 
-```
-```
- # Scenario  #339: App Breaks Due to Missing SubPath After Volume Expansion
+--- 
+ ## Scenario #339: App Breaks Due to Missing SubPath After Volume Expansion
 Category: Storage
 Environment: Kubernetes v1.24, PVC with subPath
 Summary: After PVC expansion, the mount inside pod pointed to root of volume, not the expected subPath.
@@ -6600,9 +6258,8 @@ How to Avoid:
 	• Avoid complex subPath usage unless tested under all lifecycle events.
 	• Watch CSI release notes carefully.
 
-```
-```
- # Scenario  #340: Backup Restore Process Created Orphaned PVCs
+--- 
+ ## Scenario #340: Backup Restore Process Created Orphaned PVCs
 Category: Storage
 Environment: Kubernetes v1.23, Velero
 Summary: A namespace restore from backup recreated PVCs that had no matching PVs, blocking further deployment.
@@ -6620,9 +6277,8 @@ How to Avoid:
 	• Always back up PVs with PVCs in stateful applications.
 	• Validate restore completeness before deployment.
 
-```
-```
- # Scenario  #341: Cross-Zone Volume Binding Fails with StatefulSet
+--- 
+ ## Scenario #341: Cross-Zone Volume Binding Fails with StatefulSet
 Category: Storage
 Environment: Kubernetes v1.25, AWS EBS, StatefulSet with anti-affinity
 Summary: Pods in a StatefulSet failed to start due to volume binding constraints when spread across zones.
@@ -6639,9 +6295,8 @@ Lessons Learned: StatefulSets and volume topology must be explicitly aligned.
 How to Avoid:
 	• Use multi-zone-aware volume plugins like EFS or FSx when spreading pods.
 
-```
-```
- # Scenario  #342: Volume Snapshot Controller Race Condition
+--- 
+ ## Scenario #342: Volume Snapshot Controller Race Condition
 Category: Storage
 Environment: Kubernetes v1.23, CSI Snapshot Controller
 Summary: Rapid creation/deletion of snapshots caused the controller to panic due to race conditions in snapshot finalizers.
@@ -6659,9 +6314,8 @@ How to Avoid:
 	• Monitor snapshot queue metrics.
 	• Apply rate limits in CI/CD snapshot tests.
 
-```
-```
- # Scenario  #343: Failed Volume Resize Blocks Rollout
+--- 
+ ## Scenario #343: Failed Volume Resize Blocks Rollout
 Category: Storage
 Environment: Kubernetes v1.24, CSI VolumeExpansion enabled
 Summary: Deployment rollout got stuck because one of the pods couldn’t start due to a failed volume expansion.
@@ -6678,9 +6332,8 @@ How to Avoid:
 	• Check CSI driver support for in-use expansion.
 	• Add pre-checks before resizing PVCs.
 
-```
-```
- # Scenario  #344: Application Data Lost After Node Eviction
+--- 
+ ## Scenario #344: Application Data Lost After Node Eviction
 Category: Storage
 Environment: Kubernetes v1.23, hostPath volumes
 Summary: Node drained for maintenance led to permanent data loss for apps using hostPath volumes.
@@ -6697,9 +6350,8 @@ How to Avoid:
 	• Use portable CSI drivers for persistent data.
 	• Restrict hostPath usage with admission controllers.
 
-```
-```
- # Scenario  #345: Read-Only PV Caused Write Failures After Restore
+--- 
+ ## Scenario #345: Read-Only PV Caused Write Failures After Restore
 Category: Storage
 Environment: Kubernetes v1.22, Velero, AWS EBS
 Summary: After restoring from backup, the volume was attached as read-only, causing application crashes.
@@ -6717,9 +6369,8 @@ How to Avoid:
 	• Validate post-restore PVC/PV attachment states.
 	• Use snapshot/restore plugins that track attachment mode.
 
-```
-```
- # Scenario  #346: NFS Server Restart Crashes Pods
+--- 
+ ## Scenario #346: NFS Server Restart Crashes Pods
 Category: Storage
 Environment: Kubernetes v1.24, in-cluster NFS server
 Summary: NFS server restarted for upgrade. All dependent pods crashed due to stale file handles and unmount errors.
@@ -6736,9 +6387,8 @@ How to Avoid:
 	• Use managed NFS services or replicated storage.
 	• Add pod liveness checks for filesystem readiness.
 
-```
-```
- # Scenario  #347: VolumeBindingBlocked Condition Causes Pod Scheduling Delay
+--- 
+ ## Scenario #347: VolumeBindingBlocked Condition Causes Pod Scheduling Delay
 Category: Storage
 Environment: Kubernetes v1.25, dynamic provisioning
 Summary: Scheduler skipped over pods with pending PVCs due to VolumeBindingBlocked status, even though volumes were eventually created.
@@ -6756,9 +6406,8 @@ How to Avoid:
 	• Monitor PVC creation latency in Prometheus.
 	• Use pre-created PVCs for latency-sensitive apps.
 
-```
-```
- # Scenario  #348: Data Corruption from Overprovisioned Thin Volumes
+--- 
+ ## Scenario #348: Data Corruption from Overprovisioned Thin Volumes
 Category: Storage
 Environment: Kubernetes v1.22, LVM-CSI thin provisioning
 Summary: Under heavy load, pods reported data corruption. Storage layer had thinly provisioned LVM volumes that overcommitted disk.
@@ -6776,9 +6425,8 @@ How to Avoid:
 	• Monitor usage with lvdisplay, dmsetup.
 	• Avoid thin pools in production without full monitoring.
 
-```
-```
- # Scenario  #349: VolumeProvisioningFailure on GKE Due to IAM Misconfiguration
+--- 
+ ## Scenario #349: VolumeProvisioningFailure on GKE Due to IAM Misconfiguration
 Category: Storage
 Environment: GKE, Workload Identity enabled
 Summary: CSI driver failed to provision new volumes due to missing IAM permissions, even though StorageClass was valid.
@@ -6795,9 +6443,8 @@ How to Avoid:
 	• Use pre-flight IAM checks during cluster provisioning.
 	• Bind GKE Workload Identity properly.
 
-```
-```
- # Scenario  #350: Node Crash Triggers Volume Remount Loop
+--- 
+ ## Scenario #350: Node Crash Triggers Volume Remount Loop
 Category: Storage
 Environment: Kubernetes v1.26, CSI, NVMes
 Summary: After a node crash, volume remount loop occurred due to conflicting device paths.
@@ -6815,9 +6462,8 @@ How to Avoid:
 	• Use device UUIDs or filesystem labels where supported.
 	• Restart CSI pods post-reboot events.
 
-```
-```
- # Scenario  #351: VolumeMount Conflict Between Init and Main Containers
+--- 
+ ## Scenario #351: VolumeMount Conflict Between Init and Main Containers
 Category: Storage
 Environment: Kubernetes v1.25, containerized database restore job
 Summary: Init container and main container used the same volume path but with different modes, causing the main container to crash.
@@ -6834,9 +6480,8 @@ How to Avoid:
 	• Always use subPath if write behavior differs.
 	• Isolate volume use per container stage when possible.
 
-```
-```
- # Scenario  #352: PVCs Stuck in “Terminating” Due to Finalizers
+--- 
+ ## Scenario #352: PVCs Stuck in “Terminating” Due to Finalizers
 Category: Storage
 Environment: Kubernetes v1.24, CSI driver with finalizer
 Summary: After deleting PVCs, they remained in Terminating state indefinitely due to stuck finalizers.
@@ -6853,9 +6498,8 @@ How to Avoid:
 	• Regularly update CSI drivers.
 	• Monitor PVC lifecycle duration metrics.
 
-```
-```
- # Scenario  #353: Misconfigured ReadOnlyMany Mount Blocks Write Operations
+--- 
+ ## Scenario #353: Misconfigured ReadOnlyMany Mount Blocks Write Operations
 Category: Storage
 Environment: Kubernetes v1.23, NFS volume
 Summary: Volume mounted as ReadOnlyMany blocked necessary write operations, despite NFS server allowing writes.
@@ -6871,9 +6515,8 @@ How to Avoid:
 	• Validate volume mount flags in CI.
 	• Use initContainer to test mount behavior.
 
-```
-```
- # Scenario  #354: In-Tree Plugin PVs Lost After Driver Migration
+--- 
+ ## Scenario #354: In-Tree Plugin PVs Lost After Driver Migration
 Category: Storage
 Environment: Kubernetes v1.26, in-tree to CSI migration
 Summary: Existing in-tree volumes became unrecognized after enabling CSI migration.
@@ -6889,9 +6532,8 @@ How to Avoid:
 	• Run migration with shadow mode first.
 	• Migrate PVs gradually using tools like pv-migrate.
 
-```
-```
- # Scenario  #355: Pod Deleted but Volume Still Mounted on Node
+--- 
+ ## Scenario #355: Pod Deleted but Volume Still Mounted on Node
 Category: Storage
 Environment: Kubernetes v1.24, CSI
 Summary: Pod was force-deleted, but its volume wasn’t unmounted from the node, blocking future pod scheduling.
@@ -6909,9 +6551,8 @@ How to Avoid:
 	• Set up automated orphaned mount detection scripts.
 	• Use graceful deletion with finalizer handling.
 
-```
-```
- # Scenario  #356: Ceph RBD Volume Crashes Pods Under IOPS Saturation
+--- 
+ ## Scenario #356: Ceph RBD Volume Crashes Pods Under IOPS Saturation
 Category: Storage
 Environment: Kubernetes v1.23, Ceph CSI
 Summary: Under heavy I/O, Ceph volumes became unresponsive, leading to kernel-level I/O errors in pods.
@@ -6929,9 +6570,8 @@ How to Avoid:
 	• Benchmark storage before rollout.
 	• Alert on high RBD latency.
 
-```
-```
- # Scenario  #357: ReplicaSet Using PVCs Fails Due to VolumeClaimTemplate Misuse
+--- 
+ ## Scenario #357: ReplicaSet Using PVCs Fails Due to VolumeClaimTemplate Misuse
 Category: Storage
 Environment: Kubernetes v1.25
 Summary: Developer tried using volumeClaimTemplates in a ReplicaSet manifest, which isn’t supported.
@@ -6947,9 +6587,8 @@ How to Avoid:
 	• Use workload reference charts during manifest authoring.
 	• Validate manifests with policy engines like OPA.
 
-```
-```
- # Scenario  #358: Filesystem Type Mismatch During Volume Attach
+--- 
+ ## Scenario #358: Filesystem Type Mismatch During Volume Attach
 Category: Storage
 Environment: Kubernetes v1.24, ext4 vs xfs
 Summary: A pod failed to start because the PV expected ext4 but the node formatted it as xfs.
@@ -6966,9 +6605,8 @@ How to Avoid:
 	• Explicitly set fsType in StorageClass.
 	• Document provisioner formatting logic.
 
-```
-```
- # Scenario  #359: iSCSI Volumes Fail After Node Kernel Upgrade
+--- 
+ ## Scenario #359: iSCSI Volumes Fail After Node Kernel Upgrade
 Category: Storage
 Environment: Kubernetes v1.26, CSI iSCSI plugin
 Summary: Post-upgrade, all pods using iSCSI volumes failed to mount due to kernel module incompatibility.
@@ -6986,9 +6624,8 @@ How to Avoid:
 	• Pin node kernel versions.
 	• Run upgrade simulations in canary clusters.
 
-```
-```
- # Scenario  #360: PVs Not Deleted After PVC Cleanup Due to Retain Policy
+--- 
+ ## Scenario #360: PVs Not Deleted After PVC Cleanup Due to Retain Policy
 Category: Storage
 Environment: Kubernetes v1.23, AWS EBS
 Summary: After PVCs were deleted, underlying PVs and disks remained, leading to cloud resource sprawl.
@@ -7004,9 +6641,8 @@ How to Avoid:
 	• Use Delete policy unless manual cleanup is required.
 	• Audit dangling PVs regularly.
 
-```
-```
- # Scenario  #361: Concurrent Pod Scheduling on the Same PVC Causes Mount Conflict
+--- 
+ ## Scenario #361: Concurrent Pod Scheduling on the Same PVC Causes Mount Conflict
 Category: Storage
 Environment: Kubernetes v1.24, AWS EBS, ReadWriteOnce PVC
 Summary: Two pods attempted to use the same PVC simultaneously, causing one pod to be stuck in ContainerCreating.
@@ -7023,9 +6659,8 @@ How to Avoid:
 	• Understand volume access modes.
 	• Use StatefulSets or anti-affinity for PVC sharing.
 
-```
-```
- # Scenario  #362: StatefulSet Pod Replacement Fails Due to PVC Retention
+--- 
+ ## Scenario #362: StatefulSet Pod Replacement Fails Due to PVC Retention
 Category: Storage
 Environment: Kubernetes v1.23, StatefulSet with volumeClaimTemplates
 Summary: Deleted a StatefulSet pod manually, but new pod failed due to existing PVC conflict.
@@ -7041,9 +6676,8 @@ How to Avoid:
 	• Use persistentVolumeReclaimPolicy: Delete only when data can be lost.
 	• Automate cleanup for failed StatefulSet replacements.
 
-```
-```
- # Scenario  #363: HostPath Volume Access Leaks Host Data into Container
+--- 
+ ## Scenario #363: HostPath Volume Access Leaks Host Data into Container
 Category: Storage
 Environment: Kubernetes v1.22, single-node dev cluster
 Summary: HostPath volume mounted the wrong directory, exposing sensitive host data to the container.
@@ -7060,9 +6694,8 @@ How to Avoid:
 	• Avoid using HostPath unless absolutely necessary.
 	• Validate mount paths through automated policies.
 
-```
-```
- # Scenario  #364: CSI Driver Crashes When Node Resource Is Deleted Prematurely
+--- 
+ ## Scenario #364: CSI Driver Crashes When Node Resource Is Deleted Prematurely
 Category: Storage
 Environment: Kubernetes v1.25, custom CSI driver
 Summary: Deleting a node object before the CSI driver detached volumes caused crash loops.
@@ -7079,9 +6712,8 @@ How to Avoid:
 	• Use node cordon + drain before deletion.
 	• Monitor CSI cleanup completion before proceeding.
 
-```
-```
- # Scenario  #365: Retained PV Blocks New Claim Binding with Identical Name
+--- 
+ ## Scenario #365: Retained PV Blocks New Claim Binding with Identical Name
 Category: Storage
 Environment: Kubernetes v1.21, NFS
 Summary: A PV stuck in Released state with Retain policy blocked new PVCs from binding with the same name.
@@ -7097,9 +6729,8 @@ How to Avoid:
 	• Use Delete policy for short-lived PVCs.
 	• Automate orphan PV audits.
 
-```
-```
- # Scenario  #366: CSI Plugin Panic on Missing Mount Option
+--- 
+ ## Scenario #366: CSI Plugin Panic on Missing Mount Option
 Category: Storage
 Environment: Kubernetes v1.26, custom CSI plugin
 Summary: Missing mountOptions in StorageClass led to runtime nil pointer exception in CSI driver.
@@ -7116,9 +6747,8 @@ How to Avoid:
 	• Validate StorageClass manifests.
 	• Write defensive CSI plugin code.
 
-```
-```
- # Scenario  #367: Pod Fails to Mount Volume Due to SELinux Context Mismatch
+--- 
+ ## Scenario #367: Pod Fails to Mount Volume Due to SELinux Context Mismatch
 Category: Storage
 Environment: Kubernetes v1.24, RHEL with SELinux enforcing
 Summary: Pod failed to mount volume due to denied SELinux permissions.
@@ -7134,9 +6764,8 @@ How to Avoid:
 	• Use CSI drivers that support SELinux integration.
 	• Validate volume contexts post-provisioning.
 
-```
-```
- # Scenario  #368: VolumeExpansion on Bound PVC Fails Due to Pod Running
+--- 
+ ## Scenario #368: VolumeExpansion on Bound PVC Fails Due to Pod Running
 Category: Storage
 Environment: Kubernetes v1.25, GCP PD
 Summary: PVC resize operation failed because the pod using it was still running.
@@ -7153,9 +6782,8 @@ How to Avoid:
 	• Plan PVC expansion during maintenance.
 	• Use fsResizePolicy: "OnRestart" if supported.
 
-```
-```
- # Scenario  #369: CSI Driver Memory Leak on Volume Detach Loop
+--- 
+ ## Scenario #369: CSI Driver Memory Leak on Volume Detach Loop
 Category: Storage
 Environment: Kubernetes v1.24, external CSI
 Summary: CSI plugin leaked memory due to improper garbage collection on detach failure loop.
@@ -7172,9 +6800,8 @@ How to Avoid:
 	• Stress-test CSI paths for failure.
 	• Add Prometheus memory alerts for plugins.
 
-```
-```
- # Scenario  #370: Volume Mount Timeout Due to Slow Cloud API
+--- 
+ ## Scenario #370: Volume Mount Timeout Due to Slow Cloud API
 Category: Storage
 Environment: Kubernetes v1.23, Azure Disk CSI
 Summary: During a cloud outage, Azure Disk operations timed out, blocking pod mounts.
@@ -7191,9 +6818,8 @@ How to Avoid:
 	• Use local volumes or ephemeral storage for high-availability needs.
 	• Monitor CSI attach/detach durations.
 
-```
-```
- # Scenario  #371: Volume Snapshot Restore Misses Application Consistency
+--- 
+ ## Scenario #371: Volume Snapshot Restore Misses Application Consistency
 Category: Storage
 Environment: Kubernetes v1.26, Velero with CSI VolumeSnapshot
 Summary: Snapshot restore completed successfully, but restored app data was corrupt.
@@ -7211,9 +6837,8 @@ How to Avoid:
 	• Use app-specific backup tools or hooks.
 	• Never snapshot during heavy write activity.
 
-```
-```
- # Scenario  #372: File Locking Issue Between Multiple Pods on NFS
+--- 
+ ## Scenario #372: File Locking Issue Between Multiple Pods on NFS
 Category: Storage
 Environment: Kubernetes v1.22, NFS with ReadWriteMany
 Summary: Two pods wrote to the same file concurrently, causing lock conflicts and data loss.
@@ -7230,9 +6855,8 @@ How to Avoid:
 	• Architect apps to handle distributed file access carefully.
 	• Avoid shared writable files unless absolutely needed.
 
-```
-```
- # Scenario  #373: Pod Reboots Erase Data on EmptyDir Volume
+--- 
+ ## Scenario #373: Pod Reboots Erase Data on EmptyDir Volume
 Category: Storage
 Environment: Kubernetes v1.24, default EmptyDir
 Summary: Pod restarts caused in-memory volume to be wiped, resulting in lost logs.
@@ -7248,9 +6872,8 @@ How to Avoid:
 	• Use PVs or centralized logging for durability.
 	• Avoid medium: Memory unless necessary.
 
-```
-```
- # Scenario  #374: PVC Resize Fails on In-Use Block Device
+--- 
+ ## Scenario #374: PVC Resize Fails on In-Use Block Device
 Category: Storage
 Environment: Kubernetes v1.25, CSI with block mode
 Summary: PVC expansion failed for a block device while pod was still running.
@@ -7266,9 +6889,8 @@ How to Avoid:
 	• Schedule maintenance windows for volume changes.
 	• Know volume mode differences.
 
-```
-```
- # Scenario  #375: Default StorageClass Prevents PVC Binding to Custom Class
+--- 
+ ## Scenario #375: Default StorageClass Prevents PVC Binding to Custom Class
 Category: Storage
 Environment: Kubernetes v1.23, GKE
 Summary: A PVC remained in Pending because the default StorageClass kept getting assigned instead of a custom one.
@@ -7284,9 +6906,8 @@ How to Avoid:
 	• Always specify StorageClass explicitly in manifests.
 	• Audit your cluster’s default classes.
 
-```
-```
- # Scenario  #376: Ceph RBD Volume Mount Failure Due to Kernel Mismatch
+--- 
+ ## Scenario #376: Ceph RBD Volume Mount Failure Due to Kernel Mismatch
 Category: Storage
 Environment: Kubernetes v1.21, Rook-Ceph
 Summary: Mounting Ceph RBD volume failed after a node kernel upgrade.
@@ -7302,9 +6923,8 @@ How to Avoid:
 	• Validate CSI compatibility post-upgrade.
 	• Use DaemonSet to check required modules.
 
-```
-```
- # Scenario  #377: CSI Volume Cleanup Delay Leaves Orphaned Devices
+--- 
+ ## Scenario #377: CSI Volume Cleanup Delay Leaves Orphaned Devices
 Category: Storage
 Environment: Kubernetes v1.24, Azure Disk CSI
 Summary: Volume deletion left orphaned devices on the node, consuming disk space.
@@ -7319,9 +6939,8 @@ How to Avoid:
 	• Monitor stale mounts.
 	• Automate cleanup scripts in node maintenance routines.
 
-```
-```
- # Scenario  #378: Immutable ConfigMap Used in CSI Sidecar Volume Mount
+--- 
+ ## Scenario #378: Immutable ConfigMap Used in CSI Sidecar Volume Mount
 Category: Storage
 Environment: Kubernetes v1.23, EKS
 Summary: CSI sidecar depended on a ConfigMap that was updated, but volume behavior didn’t change.
@@ -7337,9 +6956,8 @@ How to Avoid:
 	• Use checksum/config annotations to force rollout.
 	• Don’t rely on in-place ConfigMap mutation.
 
-```
-```
- # Scenario  #379: PodMount Denied Due to SecurityContext Constraints
+--- 
+ ## Scenario #379: PodMount Denied Due to SecurityContext Constraints
 Category: Storage
 Environment: Kubernetes v1.25, OpenShift with SCCs
 Summary: Pod failed to mount PVC due to restricted SELinux type in pod’s security context.
@@ -7355,9 +6973,8 @@ How to Avoid:
 	• In tightly controlled environments, align volume labels with pod policies.
 	• Audit SCCs with volume access in mind.
 
-```
-```
- # Scenario  #380: VolumeProvisioner Race Condition Leads to Duplicated PVC
+--- 
+ ## Scenario #380: VolumeProvisioner Race Condition Leads to Duplicated PVC
 Category: Storage
 Environment: Kubernetes v1.24, CSI with dynamic provisioning
 Summary: Simultaneous provisioning requests created duplicate PVs for a single PVC.
@@ -7373,9 +6990,8 @@ How to Avoid:
 	• Ensure CSI drivers enforce claim uniqueness.
 	• Use exponential backoff and idempotent logic.
 
-```
-```
- # Scenario  #381: PVC Bound to Deleted PV After Restore
+--- 
+ ## Scenario #381: PVC Bound to Deleted PV After Restore
 Category: Storage
 Environment: Kubernetes v1.25, Velero restore with CSI driver
 Summary: Restored PVC bound to a PV that no longer existed, causing stuck pods.
@@ -7392,9 +7008,8 @@ How to Avoid:
 	• Use volume snapshot restores or ensure PVs are restored before PVCs.
 	• Validate backup tool restore ordering.
 
-```
-```
- # Scenario  #382: Unexpected Volume Type Defaults to HDD Instead of SSD
+--- 
+ ## Scenario #382: Unexpected Volume Type Defaults to HDD Instead of SSD
 Category: Storage
 Environment: Kubernetes v1.24, GKE with dynamic provisioning
 Summary: Volumes defaulted to HDD even though workloads needed SSD.
@@ -7410,9 +7025,8 @@ How to Avoid:
 	• Always define storage class with performance explicitly.
 	• Audit default class across environments.
 
-```
-```
- # Scenario  #383: ReclaimPolicy Retain Caused Resource Leaks
+--- 
+ ## Scenario #383: ReclaimPolicy Retain Caused Resource Leaks
 Category: Storage
 Environment: Kubernetes v1.22, bare-metal CSI
 Summary: Deleting PVCs left behind unused PVs and disks.
@@ -7428,9 +7042,8 @@ How to Avoid:
 	• Use Delete for ephemeral workloads.
 	• Periodically audit released PVs.
 
-```
-```
- # Scenario  #384: ReadWriteOnce PVC Mounted by Multiple Pods
+--- 
+ ## Scenario #384: ReadWriteOnce PVC Mounted by Multiple Pods
 Category: Storage
 Environment: Kubernetes v1.23, AWS EBS
 Summary: Attempt to mount a ReadWriteOnce PVC on two pods in different AZs failed silently.
@@ -7446,9 +7059,8 @@ How to Avoid:
 	• Use appropriate access modes per workload.
 	• Restrict scheduling to compatible zones.
 
-```
-```
- # Scenario  #385: VolumeAttach Race on StatefulSet Rolling Update
+--- 
+ ## Scenario #385: VolumeAttach Race on StatefulSet Rolling Update
 Category: Storage
 Environment: Kubernetes v1.26, StatefulSet with CSI driver
 Summary: Volume attach operations failed during parallel pod updates.
@@ -7464,9 +7076,8 @@ How to Avoid:
 	• Tune StatefulSet rollout policies.
 	• Monitor CSI attach/detach metrics.
 
-```
-```
- # Scenario  #386: CSI Driver CrashLoop Due to Missing Node Labels
+--- 
+ ## Scenario #386: CSI Driver CrashLoop Due to Missing Node Labels
 Category: Storage
 Environment: Kubernetes v1.24, OpenEBS CSI
 Summary: CSI sidecars failed to initialize due to missing node topology labels.
@@ -7481,9 +7092,8 @@ Lessons Learned: Custom node labels are critical for CSI topology hints.
 How to Avoid:
 	• Enforce node label consistency using DaemonSets or node admission webhooks.
 
-```
-```
- # Scenario  #387: PVC Deleted While Volume Still Mounted
+--- 
+ ## Scenario #387: PVC Deleted While Volume Still Mounted
 Category: Storage
 Environment: Kubernetes v1.22, on-prem CSI
 Summary: PVC deletion didn’t unmount volume due to finalizer stuck on pod.
@@ -7499,9 +7109,8 @@ How to Avoid:
 	• Monitor long-running Terminating pods.
 	• Use proper finalizer cleanup logic.
 
-```
-```
- # Scenario  #388: In-Tree Volume Plugin Migration Caused Downtime
+--- 
+ ## Scenario #388: In-Tree Volume Plugin Migration Caused Downtime
 Category: Storage
 Environment: Kubernetes v1.25, GKE
 Summary: GCE PD plugin migration to CSI caused volume mount errors.
@@ -7516,9 +7125,8 @@ Lessons Learned: Plugin migration is not automatic.
 How to Avoid:
 	• Review CSI migration readiness for your storage before upgrades.
 
-```
-```
- # Scenario  #389: Overprovisioned Thin Volumes Hit Underlying Limit
+--- 
+ ## Scenario #389: Overprovisioned Thin Volumes Hit Underlying Limit
 Category: Storage
 Environment: Kubernetes v1.24, LVM-based CSI
 Summary: Thin-provisioned volumes ran out of physical space, affecting all pods.
@@ -7534,9 +7142,8 @@ How to Avoid:
 	• Monitor volume pool usage.
 	• Set quotas or alerts for overcommit.
 
-```
-```
- # Scenario  #390: Dynamic Provisioning Failure Due to Quota Exhaustion
+--- 
+ ## Scenario #390: Dynamic Provisioning Failure Due to Quota Exhaustion
 Category: Storage
 Environment: Kubernetes v1.26, vSphere CSI
 Summary: PVCs failed to provision silently due to exhausted storage quota.
@@ -7552,9 +7159,8 @@ How to Avoid:
 	• Integrate storage backend alerts into cluster monitoring.
 	• Tag and age out unused PVCs periodically.
 
-```
-```
- # Scenario  #391: PVC Resizing Didn’t Expand Filesystem Automatically
+--- 
+ ## Scenario #391: PVC Resizing Didn’t Expand Filesystem Automatically
 Category: Storage
 Environment: Kubernetes v1.24, AWS EBS, ext4 filesystem
 Summary: PVC was resized but the pod’s filesystem didn’t reflect the new size.
@@ -7570,9 +7176,8 @@ How to Avoid:
 	• Use CSI drivers that support in-use expansion.
 	• Add automation to restart pods after volume resize.
 
-```
-```
- # Scenario  #392: StatefulSet Pods Lost Volume Data After Node Reboot
+--- 
+ ## Scenario #392: StatefulSet Pods Lost Volume Data After Node Reboot
 Category: Storage
 Environment: Kubernetes v1.22, local-path-provisioner
 Summary: Node reboots caused StatefulSet volumes to disappear due to ephemeral local storage.
@@ -7587,9 +7192,8 @@ Lessons Learned: Local storage is node-specific and non-resilient.
 How to Avoid:
 	• Use proper CSI drivers with data replication for StatefulSets.
 
-```
-```
- # Scenario  #393: VolumeSnapshots Failed to Restore with Immutable Fields
+--- 
+ ## Scenario #393: VolumeSnapshots Failed to Restore with Immutable Fields
 Category: Storage
 Environment: Kubernetes v1.25, VolumeSnapshot API
 Summary: Restore operation failed due to immutable PVC spec fields like access mode.
@@ -7604,9 +7208,8 @@ How to Avoid:
 	• Restore into newly created PVCs.
 	• Match snapshot PVC spec exactly.
 
-```
-```
- # Scenario  #394: GKE Autopilot PVCs Stuck Due to Resource Class Conflict
+--- 
+ ## Scenario #394: GKE Autopilot PVCs Stuck Due to Resource Class Conflict
 Category: Storage
 Environment: GKE Autopilot, dynamic PVC provisioning
 Summary: PVCs remained in Pending state due to missing resource class binding.
@@ -7622,9 +7225,8 @@ How to Avoid:
 	• Follow GKE Autopilot documentation carefully.
 	• Avoid implicit defaults in manifests.
 
-```
-```
- # Scenario  #395: Cross-Zone Volume Scheduling Failed in Regional Cluster
+--- 
+ ## Scenario #395: Cross-Zone Volume Scheduling Failed in Regional Cluster
 Category: Storage
 Environment: Kubernetes v1.24, GKE regional cluster
 Summary: Pods failed to schedule because volumes were provisioned in a different zone than the node.
@@ -7639,9 +7241,8 @@ How to Avoid:
 	• Use regional disks in regional clusters.
 	• Always define zone spreading policy explicitly.
 
-```
-```
- # Scenario  #396: Stuck Finalizers on Deleted PVCs Blocking Namespace Deletion
+--- 
+ ## Scenario #396: Stuck Finalizers on Deleted PVCs Blocking Namespace Deletion
 Category: Storage
 Environment: Kubernetes v1.22, CSI driver
 Summary: Finalizers on PVCs blocked namespace deletion for hours.
@@ -7657,9 +7258,8 @@ How to Avoid:
 	• Monitor PVCs with stuck finalizers.
 	• Regularly validate volume plugin cleanup.
 
-```
-```
- # Scenario  #397: CSI Driver Upgrade Corrupted Volume Attachments
+--- 
+ ## Scenario #397: CSI Driver Upgrade Corrupted Volume Attachments
 Category: Storage
 Environment: Kubernetes v1.23, OpenEBS
 Summary: CSI driver upgrade introduced a regression causing volume mounts to fail.
@@ -7675,9 +7275,8 @@ How to Avoid:
 	• Perform canary upgrades.
 	• Backup CSI configurations and verify volume health post-upgrade.
 
-```
-```
- # Scenario  #398: Stale Volume Handles After Disaster Recovery Cutover
+--- 
+ ## Scenario #398: Stale Volume Handles After Disaster Recovery Cutover
 Category: Storage
 Environment: Kubernetes v1.25, Velero restore to DR cluster
 Summary: Stale volume handles caused new PVCs to fail provisioning.
@@ -7693,9 +7292,8 @@ How to Avoid:
 	• Customize Velero restore templates.
 	• Use snapshots or backups that are region-agnostic.
 
-```
-```
- # Scenario  #399: Application Wrote Outside Mounted Path and Lost Data
+--- 
+ ## Scenario #399: Application Wrote Outside Mounted Path and Lost Data
 Category: Storage
 Environment: Kubernetes v1.24, default mountPath
 Summary: Application wrote logs to /tmp, not mounted volume, causing data loss on pod eviction.
@@ -7711,9 +7309,8 @@ How to Avoid:
 	• Review app config during volume integration.
 	• Validate mount paths with a test write-read cycle.
 
-```
-```
- # Scenario  #400: Cluster Autoscaler Deleted Nodes with Mounted Volumes
+--- 
+ ## Scenario #400: Cluster Autoscaler Deleted Nodes with Mounted Volumes
 Category: Storage
 Environment: Kubernetes v1.23, AWS EKS with CA
 Summary: Cluster Autoscaler aggressively removed nodes with attached volumes, causing workload restarts.
@@ -7736,9 +7333,8 @@ Category 5: Scaling & Load
 
 
 
-```
-```
- # Scenario  #401: HPA Didn't Scale Due to Missing Metrics Server
+--- 
+ ## Scenario #401: HPA Didn't Scale Due to Missing Metrics Server
 Category: Scaling & Load
 Environment: Kubernetes v1.22, Minikube
 Summary: Horizontal Pod Autoscaler (HPA) didn’t scale pods as expected.
@@ -7754,9 +7350,8 @@ How to Avoid:
 	• Include metrics-server in base cluster setup.
 	• Monitor HPA status regularly.
 
-```
-```
- # Scenario  #402: CPU Throttling Prevented Effective Autoscaling
+--- 
+ ## Scenario #402: CPU Throttling Prevented Effective Autoscaling
 Category: Scaling & Load
 Environment: Kubernetes v1.24, EKS, Burstable QoS
 Summary: Application CPU throttled even under low usage, leading to delayed scaling.
@@ -7773,9 +7368,8 @@ How to Avoid:
 	• Monitor cgroup throttling stats.
 	• Tune CPU requests/limits carefully.
 
-```
-```
- # Scenario  #403: Overprovisioned Pods Starved the Cluster
+--- 
+ ## Scenario #403: Overprovisioned Pods Starved the Cluster
 Category: Scaling & Load
 Environment: Kubernetes v1.21, on-prem
 Summary: Aggressively overprovisioned pod resources led to failed scheduling and throttling.
@@ -7790,9 +7384,8 @@ Lessons Learned: Resource requests ≠ real consumption.
 How to Avoid:
 	• Right-size pods using VPA recommendations or Prometheus usage data.
 
-```
-```
- # Scenario  #404: HPA and VPA Conflicted, Causing Flapping
+--- 
+ ## Scenario #404: HPA and VPA Conflicted, Causing Flapping
 Category: Scaling & Load
 Environment: Kubernetes v1.25, GKE
 Summary: HPA scaled replicas based on CPU while VPA changed pod resources dynamically, creating instability.
@@ -7808,9 +7401,8 @@ How to Avoid:
 	• Use HPA for scale-out and VPA for fixed-size workloads.
 	• Avoid combining on the same object.
 
-```
-```
- # Scenario  #405: Cluster Autoscaler Didn't Scale Due to Pod Affinity Rules
+--- 
+ ## Scenario #405: Cluster Autoscaler Didn't Scale Due to Pod Affinity Rules
 Category: Scaling & Load
 Environment: Kubernetes v1.23, AWS EKS
 Summary: Workloads couldn't be scheduled and CA didn’t scale nodes because affinity rules restricted placement.
@@ -7826,9 +7418,8 @@ How to Avoid:
 	• Use soft affinity (preferredDuringScheduling) where possible.
 	• Monitor unschedulable pods with alerting.
 
-```
-```
- # Scenario  #406: Load Test Crashed Cluster Due to Insufficient Node Quotas
+--- 
+ ## Scenario #406: Load Test Crashed Cluster Due to Insufficient Node Quotas
 Category: Scaling & Load
 Environment: Kubernetes v1.24, AKS
 Summary: Stress test resulted in API server crash due to unthrottled pod burst.
@@ -7845,9 +7436,8 @@ How to Avoid:
 	• Monitor node count vs quota in metrics.
 	• Set maxReplicas in HPA and cap CI workloads.
 
-```
-```
- # Scenario  #407: Scale-To-Zero Caused Cold Starts and SLA Violations
+--- 
+ ## Scenario #407: Scale-To-Zero Caused Cold Starts and SLA Violations
 Category: Scaling & Load
 Environment: Kubernetes v1.25, KEDA + Knative
 Summary: Pods scaled to zero, but requests during cold start breached SLA.
@@ -7862,9 +7452,8 @@ Lessons Learned: Scale-to-zero saves cost, but not for latency-sensitive apps.
 How to Avoid:
 	• Use minReplicaCount and warmers for performance-critical services.
 
-```
-```
- # Scenario  #408: Misconfigured Readiness Probe Blocked HPA Scaling
+--- 
+ ## Scenario #408: Misconfigured Readiness Probe Blocked HPA Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.24, DigitalOcean
 Summary: HPA didn’t scale pods because readiness probes failed and metrics were not reported.
@@ -7880,9 +7469,8 @@ How to Avoid:
 	• Validate probe paths before production.
 	• Monitor readiness failures via alerts.
 
-```
-```
- # Scenario  #409: Custom Metrics Adapter Crashed, Breaking Custom HPA
+--- 
+ ## Scenario #409: Custom Metrics Adapter Crashed, Breaking Custom HPA
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Prometheus Adapter
 Summary: Custom HPA didn’t function after metrics adapter pod crashed silently.
@@ -7898,9 +7486,8 @@ How to Avoid:
 	• Set alerts on prometheus-adapter health.
 	• Validate custom queries before deploy.
 
-```
-```
- # Scenario  #410: Application Didn’t Handle Scale-In Gracefully
+--- 
+ ## Scenario #410: Application Didn’t Handle Scale-In Gracefully
 Category: Scaling & Load
 Environment: Kubernetes v1.22, Azure AKS
 Summary: App lost in-flight requests during scale-down, causing 5xx spikes.
@@ -7918,9 +7505,8 @@ How to Avoid:
 	• Use terminationGracePeriodSeconds wisely.
 
 
-```
-```
- # Scenario  #411: Cluster Autoscaler Ignored Pod PriorityClasses
+--- 
+ ## Scenario #411: Cluster Autoscaler Ignored Pod PriorityClasses
 Category: Scaling & Load
 Environment: Kubernetes v1.25, AWS EKS with PriorityClasses
 Summary: Low-priority workloads blocked scaling of high-priority ones due to misconfigured Cluster Autoscaler.
@@ -7937,9 +7523,8 @@ How to Avoid:
 	• Validate PriorityClass behavior in test environments.
 	• Use preemptionPolicy: PreemptLowerPriority for critical workloads.
 
-```
-```
- # Scenario  #412: ReplicaSet Misalignment Led to Excessive Scale-Out
+--- 
+ ## Scenario #412: ReplicaSet Misalignment Led to Excessive Scale-Out
 Category: Scaling & Load
 Environment: Kubernetes v1.23, GKE
 Summary: A stale ReplicaSet with label mismatches caused duplicate pod scale-out.
@@ -7956,9 +7541,8 @@ How to Avoid:
 	• Use distinct labels per version or release.
 	• Automate cleanup of unused ReplicaSets.
 
-```
-```
- # Scenario  #413: StatefulSet Didn't Scale Due to PodDisruptionBudget
+--- 
+ ## Scenario #413: StatefulSet Didn't Scale Due to PodDisruptionBudget
 Category: Scaling & Load
 Environment: Kubernetes v1.26, AKS
 Summary: StatefulSet couldn’t scale-in during node pressure due to a restrictive PDB.
@@ -7974,9 +7558,8 @@ How to Avoid:
 	• Use realistic minAvailable or maxUnavailable settings.
 	• Review PDB behavior in test scaling operations.
 
-```
-```
- # Scenario  #414: Horizontal Pod Autoscaler Triggered by Wrong Metric
+--- 
+ ## Scenario #414: Horizontal Pod Autoscaler Triggered by Wrong Metric
 Category: Scaling & Load
 Environment: Kubernetes v1.24, DigitalOcean
 Summary: HPA used memory instead of CPU, causing unnecessary scale-ups.
@@ -7993,9 +7576,8 @@ How to Avoid:
 	• Profile application behavior before configuring HPA.
 	• Avoid memory-based autoscaling unless necessary.
 
-```
-```
- # Scenario  #415: Prometheus Scraper Bottlenecked Custom HPA Metrics
+--- 
+ ## Scenario #415: Prometheus Scraper Bottlenecked Custom HPA Metrics
 Category: Scaling & Load
 Environment: Kubernetes v1.25, custom metrics + Prometheus Adapter
 Summary: Delays in Prometheus scraping caused lag in HPA reactions.
@@ -8011,9 +7593,8 @@ How to Avoid:
 	• Match Prometheus scrape intervals with HPA polling needs.
 	• Use rate() or avg_over_time() to smooth metrics.
 
-```
-```
- # Scenario  #416: Kubernetes Downscaled During Rolling Update
+--- 
+ ## Scenario #416: Kubernetes Downscaled During Rolling Update
 Category: Scaling & Load
 Environment: Kubernetes v1.23, on-prem
 Summary: Pods were prematurely scaled down during rolling deployment.
@@ -8030,9 +7611,8 @@ How to Avoid:
 	• Use behavior.scaleDown.stabilizationWindowSeconds.
 	• Monitor scaling decisions during rollouts.
 
-```
-```
- # Scenario  #417: KEDA Failed to Scale on Kafka Lag Metric
+--- 
+ ## Scenario #417: KEDA Failed to Scale on Kafka Lag Metric
 Category: Scaling & Load
 Environment: Kubernetes v1.26, KEDA + Kafka
 Summary: Consumers didn’t scale out despite Kafka topic lag.
@@ -8048,9 +7628,8 @@ How to Avoid:
 	• Validate all trigger auth and endpoints before production.
 	• Alert on trigger activation failures.
 
-```
-```
- # Scenario  #418: Spike in Load Exceeded Pod Init Time
+--- 
+ ## Scenario #418: Spike in Load Exceeded Pod Init Time
 Category: Scaling & Load
 Environment: Kubernetes v1.24, self-hosted
 Summary: Sudden burst of traffic overwhelmed services due to slow pod boot time.
@@ -8066,9 +7645,8 @@ How to Avoid:
 	• Track ReadySeconds vs ReplicaScale delay.
 	• Pre-pull images and optimize pod init time.
 
-```
-```
- # Scenario  #419: Overuse of Liveness Probes Disrupted Load Balance
+--- 
+ ## Scenario #419: Overuse of Liveness Probes Disrupted Load Balance
 Category: Scaling & Load
 Environment: Kubernetes v1.21, bare metal
 Summary: Misfiring liveness probes killed healthy pods during load test.
@@ -8084,9 +7662,8 @@ How to Avoid:
 	• Separate readiness from liveness logic.
 	• Gracefully handle CPU-heavy workloads.
 
-```
-```
- # Scenario  #420: Scale-In Happened Before Queue Was Drained
+--- 
+ ## Scenario #420: Scale-In Happened Before Queue Was Drained
 Category: Scaling & Load
 Environment: Kubernetes v1.26, RabbitMQ + consumers
 Summary: Consumers scaled in while queue still had unprocessed messages.
@@ -8102,9 +7679,8 @@ How to Avoid:
 	• Track message queues with KEDA or custom metrics.
 	• Add drain() logic on signal trap in consumer code.
 
-```
-```
- # Scenario  #421: Node Drain Race Condition During Scale Down
+--- 
+ ## Scenario #421: Node Drain Race Condition During Scale Down
 Category: Scaling & Load
 Environment: Kubernetes v1.23, GKE
 Summary: Node drain raced with pod termination, causing pod loss.
@@ -8121,9 +7697,8 @@ How to Avoid:
 	• Use PodDisruptionBudget to ensure safe scaling.
 	• Implement pod graceful shutdown hooks.
 
-```
-```
- # Scenario  #422: HPA Disabled Due to Missing Resource Requests
+--- 
+ ## Scenario #422: HPA Disabled Due to Missing Resource Requests
 Category: Scaling & Load
 Environment: Kubernetes v1.22, AWS EKS
 Summary: Horizontal Pod Autoscaler (HPA) failed to trigger because resource requests weren’t set.
@@ -8139,9 +7714,8 @@ How to Avoid:
 	• Define resource requests/limits for every pod.
 	• Enable autoscaling based on requests/limits.
 
-```
-```
- # Scenario  #423: Unexpected Overprovisioning of Pods
+--- 
+ ## Scenario #423: Unexpected Overprovisioning of Pods
 Category: Scaling & Load
 Environment: Kubernetes v1.24, DigitalOcean
 Summary: Unnecessary pod scaling due to misconfigured resource limits.
@@ -8157,9 +7731,8 @@ How to Avoid:
 	• Monitor resource consumption patterns before setting limits.
 	• Use Kubernetes resource usage metrics to adjust configurations.
 
-```
-```
- # Scenario  #424: Autoscaler Failed During StatefulSet Upgrade
+--- 
+ ## Scenario #424: Autoscaler Failed During StatefulSet Upgrade
 Category: Scaling & Load
 Environment: Kubernetes v1.25, AKS
 Summary: Horizontal scaling issues occurred during rolling upgrade of StatefulSet.
@@ -8176,9 +7749,8 @@ How to Avoid:
 	• Test upgrade and scaling processes in staging environments.
 	• Separate stateful workloads from stateless ones for scaling flexibility.
 
-```
-```
- # Scenario  #425: Inadequate Load Distribution in a Multi-AZ Setup
+--- 
+ ## Scenario #425: Inadequate Load Distribution in a Multi-AZ Setup
 Category: Scaling & Load
 Environment: Kubernetes v1.27, AWS EKS
 Summary: Load balancing wasn’t even across availability zones, leading to inefficient scaling.
@@ -8194,9 +7766,8 @@ How to Avoid:
 	• Use topologySpreadConstraints in services to ensure balanced load.
 	• Review multi-AZ architecture for traffic efficiency.
 
-```
-```
- # Scenario  #426: Downscale Too Aggressive During Traffic Dips
+--- 
+ ## Scenario #426: Downscale Too Aggressive During Traffic Dips
 Category: Scaling & Load
 Environment: Kubernetes v1.22, GCP
 Summary: Autoscaler scaled down too aggressively during short traffic dips, causing pod churn.
@@ -8213,9 +7784,8 @@ How to Avoid:
 	• Use minReplicas for essential workloads.
 	• Implement stabilization windows for both scale-up and scale-down.
 
-```
-```
- # Scenario  #427: Insufficient Scaling Under High Ingress Traffic
+--- 
+ ## Scenario #427: Insufficient Scaling Under High Ingress Traffic
 Category: Scaling & Load
 Environment: Kubernetes v1.26, NGINX Ingress Controller
 Summary: Pod autoscaling didn’t trigger in time to handle high ingress traffic.
@@ -8231,9 +7801,8 @@ How to Avoid:
 	• Set custom metrics like ingress traffic for autoscaling.
 	• Regularly adjust metrics as load patterns change.
 
-```
-```
- # Scenario  #428: Nginx Ingress Controller Hit Rate Limit on External API
+--- 
+ ## Scenario #428: Nginx Ingress Controller Hit Rate Limit on External API
 Category: Scaling & Load
 Environment: Kubernetes v1.25, AWS EKS
 Summary: Rate limits were hit on an external API during traffic surge, affecting service scaling.
@@ -8250,9 +7819,8 @@ How to Avoid:
 	• Implement circuit breakers and retries for external dependencies.
 	• Use comprehensive metrics for autoscaling decisions.
 
-```
-```
- # Scenario  #429: Resource Constraints on Node Impacted Pod Scaling
+--- 
+ ## Scenario #429: Resource Constraints on Node Impacted Pod Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.24, on-prem
 Summary: Pod scaling failed due to resource constraints on nodes during high load.
@@ -8269,9 +7837,8 @@ How to Avoid:
 	• Regularly monitor node resource usage.
 	• Use cluster autoscaling to add nodes as needed.
 
-```
-```
- # Scenario  #430: Memory Leak in Application Led to Excessive Scaling
+--- 
+ ## Scenario #430: Memory Leak in Application Led to Excessive Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.23, Azure AKS
 Summary: A memory leak in the app led to unnecessary scaling, causing resource exhaustion.
@@ -8288,9 +7855,8 @@ How to Avoid:
 	• Implement application-level memory monitoring.
 	• Set proper HPA metrics to differentiate load from resource issues.
 
-```
-```
- # Scenario  #431: Inconsistent Pod Scaling During Burst Traffic
+--- 
+ ## Scenario #431: Inconsistent Pod Scaling During Burst Traffic
 Category: Scaling & Load
 Environment: Kubernetes v1.24, AWS EKS
 Summary: Pod scaling inconsistently triggered during burst traffic spikes, causing service delays.
@@ -8306,9 +7872,8 @@ How to Avoid:
 	• Use lower stabilization windows for quicker scaling reactions.
 	• Monitor scaling efficiency during traffic bursts.
 
-```
-```
- # Scenario  #432: Auto-Scaling Hit Limits with StatefulSet
+--- 
+ ## Scenario #432: Auto-Scaling Hit Limits with StatefulSet
 Category: Scaling & Load
 Environment: Kubernetes v1.22, GCP
 Summary: StatefulSet scaling hit limits due to pod affinity constraints.
@@ -8324,9 +7889,8 @@ How to Avoid:
 	• Regularly review affinity and anti-affinity rules when using HPA.
 	• Test autoscaling scenarios with varying node configurations.
 
-```
-```
- # Scenario  #433: Cross-Cluster Autoscaling Failures
+--- 
+ ## Scenario #433: Cross-Cluster Autoscaling Failures
 Category: Scaling & Load
 Environment: Kubernetes v1.21, Azure AKS
 Summary: Autoscaling failed across clusters due to inconsistent resource availability between regions.
@@ -8343,9 +7907,8 @@ How to Avoid:
 	• Regularly monitor resources across clusters.
 	• Use a global view for autoscaling decisions.
 
-```
-```
- # Scenario  #434: Service Disruption During Auto-Scaling of StatefulSet
+--- 
+ ## Scenario #434: Service Disruption During Auto-Scaling of StatefulSet
 Category: Scaling & Load
 Environment: Kubernetes v1.24, AWS EKS
 Summary: StatefulSet failed to scale properly during maintenance, causing service disruption.
@@ -8361,9 +7924,8 @@ How to Avoid:
 	• Test scaling strategies with StatefulSets to avoid disruption.
 	• Use strategies suited for the application type.
 
-```
-```
- # Scenario  #435: Unwanted Pod Scale-down During Quiet Periods
+--- 
+ ## Scenario #435: Unwanted Pod Scale-down During Quiet Periods
 Category: Scaling & Load
 Environment: Kubernetes v1.23, GKE
 Summary: Autoscaler scaled down too aggressively during periods of low traffic, leading to resource shortages during traffic bursts.
@@ -8380,9 +7942,8 @@ How to Avoid:
 	• Implement proper scale-up and scale-down stabilization windows.
 	• Fine-tune autoscaling thresholds based on real traffic patterns.
 
-```
-```
- # Scenario  #436: Cluster Autoscaler Inconsistencies with Node Pools
+--- 
+ ## Scenario #436: Cluster Autoscaler Inconsistencies with Node Pools
 Category: Scaling & Load
 Environment: Kubernetes v1.25, GCP
 Summary: Cluster Autoscaler failed to trigger due to node pool constraints.
@@ -8399,9 +7960,8 @@ How to Avoid:
 	• Ensure that node pool limits are set high enough for scaling.
 	• Monitor autoscaler logs to catch issues early.
 
-```
-```
- # Scenario  #437: Disrupted Service During Pod Autoscaling in StatefulSet
+--- 
+ ## Scenario #437: Disrupted Service During Pod Autoscaling in StatefulSet
 Category: Scaling & Load
 Environment: Kubernetes v1.22, AWS EKS
 Summary: Pod autoscaling in a StatefulSet led to disrupted service due to the stateful nature of the application.
@@ -8416,9 +7976,8 @@ Lessons Learned: StatefulSets need special consideration when scaling.
 How to Avoid:
 	• Avoid autoscaling for stateful workloads unless fully tested and adjusted.
 
-```
-```
- # Scenario  #438: Slow Pod Scaling During High Load
+--- 
+ ## Scenario #438: Slow Pod Scaling During High Load
 Category: Scaling & Load
 Environment: Kubernetes v1.26, DigitalOcean
 Summary: Autoscaling pods didn’t trigger quickly enough during sudden high-load events, causing delays.
@@ -8434,9 +7993,8 @@ How to Avoid:
 	• Fine-tune scaling thresholds for different traffic patterns.
 	• Use fine-grained metrics to adjust scaling behavior.
 
-```
-```
- # Scenario  #439: Autoscaler Skipped Scale-up Due to Incorrect Metric
+--- 
+ ## Scenario #439: Autoscaler Skipped Scale-up Due to Incorrect Metric
 Category: Scaling & Load
 Environment: Kubernetes v1.23, AWS EKS
 Summary: Autoscaler skipped scale-up because it was using the wrong metric for scaling.
@@ -8452,9 +8010,8 @@ How to Avoid:
 	• Periodically review scaling metric configurations.
 	• Test scaling behaviors using multiple types of metrics.
 
-```
-```
- # Scenario  #440: Scaling Inhibited Due to Pending Jobs in Queue
+--- 
+ ## Scenario #440: Scaling Inhibited Due to Pending Jobs in Queue
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Azure AKS
 Summary: Pod scaling was delayed because jobs in the queue were not processed fast enough.
@@ -8471,9 +8028,8 @@ How to Avoid:
 	• Implement queue size-based scaling triggers.
 	• Use advanced metrics for autoscaling decisions.
 
-```
-```
- # Scenario  #441: Scaling Delayed Due to Incorrect Resource Requests
+--- 
+ ## Scenario #441: Scaling Delayed Due to Incorrect Resource Requests
 Category: Scaling & Load
 Environment: Kubernetes v1.24, AWS EKS
 Summary: Pod scaling was delayed because of incorrectly set resource requests, leading to resource over-provisioning.
@@ -8490,9 +8046,8 @@ How to Avoid:
 	• Perform resource profiling and benchmarking before setting resource requests and limits.
 	• Use metrics-based scaling strategies to adjust resources dynamically.
 
-```
-```
- # Scenario  #442: Unexpected Pod Termination Due to Scaling Policy
+--- 
+ ## Scenario #442: Unexpected Pod Termination Due to Scaling Policy
 Category: Scaling & Load
 Environment: Kubernetes v1.23, Google Cloud
 Summary: Pods were unexpectedly terminated during scale-down due to aggressive scaling policies.
@@ -8509,9 +8064,8 @@ How to Avoid:
 	• Implement soft termination strategies to avoid premature pod removal.
 	• Adjust the cool-down period in scale-down policies.
 
-```
-```
- # Scenario  #443: Unstable Load Balancing During Scaling Events
+--- 
+ ## Scenario #443: Unstable Load Balancing During Scaling Events
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Azure AKS
 Summary: Load balancing issues surfaced during scaling, leading to uneven distribution of traffic.
@@ -8528,9 +8082,8 @@ How to Avoid:
 	• Test and optimize load balancing settings in relation to pod scaling.
 	• Use health checks to ensure new pods are properly integrated into the load balancing pool.
 
-```
-```
- # Scenario  #444: Autoscaling Ignored Due to Resource Quotas
+--- 
+ ## Scenario #444: Autoscaling Ignored Due to Resource Quotas
 Category: Scaling & Load
 Environment: Kubernetes v1.26, IBM Cloud
 Summary: Resource quotas prevented autoscaling from triggering despite high load.
@@ -8547,9 +8100,8 @@ How to Avoid:
 	• Regularly review and adjust resource quotas to allow for scaling flexibility.
 	• Monitor resource usage to ensure that quotas are not limiting necessary scaling.
 
-```
-```
- # Scenario  #445: Delayed Scaling Response to Traffic Spike
+--- 
+ ## Scenario #445: Delayed Scaling Response to Traffic Spike
 Category: Scaling & Load
 Environment: Kubernetes v1.24, GCP
 Summary: Scaling took too long to respond during a traffic spike, leading to degraded service.
@@ -8566,9 +8118,8 @@ How to Avoid:
 	• Implement adaptive scaling thresholds based on traffic patterns.
 	• Use real-time metrics to respond to sudden traffic bursts.
 
-```
-```
- # Scenario  #446: CPU Utilization-Based Scaling Did Not Trigger for High Memory Usage
+--- 
+ ## Scenario #446: CPU Utilization-Based Scaling Did Not Trigger for High Memory Usage
 Category: Scaling & Load
 Environment: Kubernetes v1.22, Azure AKS
 Summary: Scaling based on CPU utilization did not trigger when the issue was related to high memory usage.
@@ -8585,9 +8136,8 @@ How to Avoid:
 	• Regularly assess the right metrics to base autoscaling decisions on.
 	• Tune autoscaling policies for the resource most affected during high load.
 
-```
-```
- # Scenario  #447: Inefficient Horizontal Scaling of StatefulSets
+--- 
+ ## Scenario #447: Inefficient Horizontal Scaling of StatefulSets
 Category: Scaling & Load
 Environment: Kubernetes v1.25, GKE
 Summary: Horizontal scaling of StatefulSets was inefficient due to StatefulSet’s inherent limitations.
@@ -8604,9 +8154,8 @@ How to Avoid:
 	• Use StatefulSets only when necessary for specific use cases.
 	• Consider alternative Kubernetes resources for scalable, stateless workloads.
 
-```
-```
- # Scenario  #448: Autoscaler Skipped Scaling Events Due to Flaky Metrics
+--- 
+ ## Scenario #448: Autoscaler Skipped Scaling Events Due to Flaky Metrics
 Category: Scaling & Load
 Environment: Kubernetes v1.23, AWS EKS
 Summary: Autoscaler skipped scaling events due to unreliable metrics from external monitoring tools.
@@ -8623,9 +8172,8 @@ How to Avoid:
 	• Use built-in Kubernetes metrics server and Prometheus for reliable monitoring.
 	• Validate third-party monitoring integrations to ensure accurate data.
 
-```
-```
- # Scenario  #449: Delayed Pod Creation Due to Node Affinity Misconfigurations
+--- 
+ ## Scenario #449: Delayed Pod Creation Due to Node Affinity Misconfigurations
 Category: Scaling & Load
 Environment: Kubernetes v1.24, Google Cloud
 Summary: Pods were delayed in being created due to misconfigured node affinity rules during scaling events.
@@ -8642,9 +8190,8 @@ How to Avoid:
 	• Test affinity rules in scaling scenarios to ensure they don't block pod scheduling.
 	• Ensure that affinity rules are aligned with scaling requirements.
 
-```
-```
- # Scenario  #450: Excessive Scaling During Short-Term Traffic Spikes
+--- 
+ ## Scenario #450: Excessive Scaling During Short-Term Traffic Spikes
 Category: Scaling & Load
 Environment: Kubernetes v1.25, AWS EKS
 Summary: Autoscaling triggered excessive scaling during short-term traffic spikes, leading to unnecessary resource usage.
@@ -8661,9 +8208,8 @@ How to Avoid:
 	• Use cooldown periods or smoothing algorithms to prevent scaling from reacting to short-lived fluctuations.
 	• Tune autoscaling policies based on long-term traffic patterns.
 
-```
-```
- # Scenario  #451: Inconsistent Scaling Due to Misconfigured Horizontal Pod Autoscaler
+--- 
+ ## Scenario #451: Inconsistent Scaling Due to Misconfigured Horizontal Pod Autoscaler
 Category: Scaling & Load
 Environment: Kubernetes v1.26, Azure AKS
 Summary: Horizontal Pod Autoscaler (HPA) inconsistently scaled pods based on incorrect metric definitions.
@@ -8680,9 +8226,8 @@ How to Avoid:
 	• Regularly monitor and validate the health of custom metrics.
 	• Use native Kubernetes metrics for critical scaling decisions when possible.
 
-```
-```
- # Scenario  #452: Load Balancer Overload After Quick Pod Scaling
+--- 
+ ## Scenario #452: Load Balancer Overload After Quick Pod Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Google Cloud
 Summary: Load balancer failed to distribute traffic effectively after a large pod scaling event, leading to overloaded pods.
@@ -8699,9 +8244,8 @@ How to Avoid:
 	• Use auto-scaling triggers that also adjust load balancer settings dynamically.
 	• Implement smarter traffic management for faster pod scale-up transitions.
 
-```
-```
- # Scenario  #453: Autoscaling Failed During Peak Traffic Periods
+--- 
+ ## Scenario #453: Autoscaling Failed During Peak Traffic Periods
 Category: Scaling & Load
 Environment: Kubernetes v1.24, AWS EKS
 Summary: Autoscaling was ineffective during peak traffic periods, leading to degraded performance.
@@ -8718,9 +8262,8 @@ How to Avoid:
 	• Implement time-based or persistent traffic-based autoscaling rules.
 	• Regularly monitor and adjust scaling thresholds based on actual traffic patterns.
 
-```
-```
- # Scenario  #454: Insufficient Node Resources During Scaling
+--- 
+ ## Scenario #454: Insufficient Node Resources During Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.23, IBM Cloud
 Summary: Node resources were insufficient during scaling, leading to pod scheduling failures.
@@ -8737,9 +8280,8 @@ How to Avoid:
 	• Use Cluster Autoscaler or manage node pool resources dynamically based on scaling needs.
 	• Regularly monitor resource utilization to avoid saturation during scaling events.
 
-```
-```
- # Scenario  #455: Unpredictable Pod Scaling During Cluster Autoscaler Event
+--- 
+ ## Scenario #455: Unpredictable Pod Scaling During Cluster Autoscaler Event
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Google Cloud
 Summary: Pod scaling was unpredictable during a Cluster Autoscaler event due to a sudden increase in node availability.
@@ -8756,9 +8298,8 @@ How to Avoid:
 	• Fine-tune Cluster Autoscaler settings to prevent over-rapid node provisioning.
 	• Use more advanced scheduling policies to manage pod placement efficiently.
 
-```
-```
- # Scenario  #456: CPU Resource Over-Commitment During Scale-Up
+--- 
+ ## Scenario #456: CPU Resource Over-Commitment During Scale-Up
 Category: Scaling & Load
 Environment: Kubernetes v1.23, Azure AKS
 Summary: During a scale-up event, CPU resources were over-committed, causing pod performance degradation.
@@ -8775,9 +8316,8 @@ How to Avoid:
 	• Use CPU and memory limits to avoid resource over-commitment.
 	• Implement resource isolation techniques like CPU pinning or dedicated nodes for specific workloads.
 
-```
-```
- # Scenario  #457: Failure to Scale Due to Horizontal Pod Autoscaler Anomaly
+--- 
+ ## Scenario #457: Failure to Scale Due to Horizontal Pod Autoscaler Anomaly
 Category: Scaling & Load
 Environment: Kubernetes v1.22, AWS EKS
 Summary: Horizontal Pod Autoscaler (HPA) failed to scale up due to a temporary anomaly in the resource metrics.
@@ -8794,9 +8334,8 @@ How to Avoid:
 	• Set up fallback mechanisms and monitoring alerts to handle metric inconsistencies.
 	• Regularly test autoscaling responses to ensure reliability.
 
-```
-```
- # Scenario  #458: Memory Pressure Causing Slow Pod Scaling
+--- 
+ ## Scenario #458: Memory Pressure Causing Slow Pod Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.24, IBM Cloud
 Summary: Pod scaling was delayed due to memory pressure in the cluster, causing performance bottlenecks.
@@ -8813,9 +8352,8 @@ How to Avoid:
 	• Monitor node memory usage and avoid over-allocation of resources.
 	• Use memory-based autoscaling to ensure adequate resources are available during traffic spikes.
 
-```
-```
- # Scenario  #459: Node Over-Provisioning During Cluster Scaling
+--- 
+ ## Scenario #459: Node Over-Provisioning During Cluster Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Google Cloud
 Summary: Nodes were over-provisioned, leading to unnecessary resource wastage during scaling.
@@ -8832,9 +8370,8 @@ How to Avoid:
 	• Regularly monitor node usage and adjust scaling thresholds.
 	• Implement smarter autoscaling strategies that consider the actual resource demand.
 
-```
-```
- # Scenario  #460: Autoscaler Fails to Handle Node Termination Events Properly
+--- 
+ ## Scenario #460: Autoscaler Fails to Handle Node Termination Events Properly
 Category: Scaling & Load
 Environment: Kubernetes v1.26, Azure AKS
 Summary: Autoscaler did not handle node termination events properly, leading to pod disruptions.
@@ -8851,9 +8388,8 @@ How to Avoid:
 	• Implement tighter integration between node health checks and autoscaling triggers.
 	• Ensure autoscaling settings prioritize quick recovery from node failures.
 
-```
-```
- # Scenario  #461: Node Failure During Pod Scaling Up
+--- 
+ ## Scenario #461: Node Failure During Pod Scaling Up
 Category: Scaling & Load
 Environment: Kubernetes v1.25, AWS EKS
 Summary: Scaling up pods failed when a node was unexpectedly terminated, preventing proper pod scheduling.
@@ -8870,9 +8406,8 @@ How to Avoid:
 	• Set up proactive monitoring for cloud infrastructure and integrate with Kubernetes scaling mechanisms.
 	• Ensure Cluster Autoscaler is tuned to handle unexpected node failures quickly.
 
-```
-```
- # Scenario  #462: Unstable Scaling During Traffic Spikes
+--- 
+ ## Scenario #462: Unstable Scaling During Traffic Spikes
 Category: Scaling & Load
 Environment: Kubernetes v1.26, Azure AKS
 Summary: Pod scaling became unstable during traffic spikes due to delayed scaling responses.
@@ -8889,9 +8424,8 @@ How to Avoid:
 	• Tune HPA to scale more aggressively during traffic spikes.
 	• Use more advanced metrics like response time, rather than just CPU and memory, for autoscaling decisions.
 
-```
-```
- # Scenario  #463: Insufficient Node Pools During Sudden Pod Scaling
+--- 
+ ## Scenario #463: Insufficient Node Pools During Sudden Pod Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.24, Google Cloud
 Summary: Insufficient node pool capacity caused pod scheduling failures during sudden scaling events.
@@ -8907,9 +8441,8 @@ Lessons Learned: Autoscaling node pools must be able to respond quickly during s
 How to Avoid:
 	• Pre-configure node pools to handle expected traffic growth, and ensure autoscalers are tuned to scale quickly.
 
-```
-```
- # Scenario  #464: Latency Spikes During Horizontal Pod Scaling
+--- 
+ ## Scenario #464: Latency Spikes During Horizontal Pod Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.25, IBM Cloud
 Summary: Latency spikes occurred during horizontal pod scaling due to inefficient pod distribution.
@@ -8926,9 +8459,8 @@ How to Avoid:
 	• Use automatic load balancer updates during scaling events.
 	• Configure readiness probes to ensure proper pod initialization before they handle traffic.
 
-```
-```
- # Scenario  #465: Resource Starvation During Infrequent Scaling Events
+--- 
+ ## Scenario #465: Resource Starvation During Infrequent Scaling Events
 Category: Scaling & Load
 Environment: Kubernetes v1.23, AWS EKS
 Summary: During infrequent scaling events, resource starvation occurred due to improper resource allocation.
@@ -8944,9 +8476,8 @@ Lessons Learned: Resource requests must align with actual usage during scaling e
 How to Avoid:
 	• Implement more accurate resource monitoring and adjust scaling policies based on real traffic usage patterns.
 
-```
-```
- # Scenario  #466: Autoscaler Delayed Reaction to Load Decrease
+--- 
+ ## Scenario #466: Autoscaler Delayed Reaction to Load Decrease
 Category: Scaling & Load
 Environment: Kubernetes v1.22, Google Cloud
 Summary: The autoscaler was slow to scale down after a drop in traffic, causing resource wastage.
@@ -8963,9 +8494,8 @@ How to Avoid:
 	• Tune HPA with shorter cooldown periods for faster scaling adjustments during both traffic surges and drops.
 	• Monitor traffic trends and adjust scaling policies accordingly.
 
-```
-```
- # Scenario  #467: Node Resource Exhaustion Due to High Pod Density
+--- 
+ ## Scenario #467: Node Resource Exhaustion Due to High Pod Density
 Category: Scaling & Load
 Environment: Kubernetes v1.24, Azure AKS
 Summary: Node resource exhaustion occurred when too many pods were scheduled on a single node, leading to instability.
@@ -8982,9 +8512,8 @@ How to Avoid:
 	• Use pod affinity and anti-affinity rules to control pod placement during scaling events.
 	• Ensure that the cluster has enough nodes to handle the pod density.
 
-```
-```
- # Scenario  #468: Scaling Failure Due to Node Memory Pressure
+--- 
+ ## Scenario #468: Scaling Failure Due to Node Memory Pressure
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Google Cloud
 Summary: Pod scaling failed due to memory pressure on nodes, preventing new pods from being scheduled.
@@ -9001,9 +8530,8 @@ How to Avoid:
 	• Ensure nodes have sufficient memory available, and use memory-based autoscaling.
 	• Implement tighter control over pod resource requests and limits.
 
-```
-```
- # Scenario  #469: Scaling Latency Due to Slow Node Provisioning
+--- 
+ ## Scenario #469: Scaling Latency Due to Slow Node Provisioning
 Category: Scaling & Load
 Environment: Kubernetes v1.26, IBM Cloud
 Summary: Pod scaling was delayed due to slow node provisioning during cluster scaling events.
@@ -9020,9 +8548,8 @@ How to Avoid:
 	• Work closely with the cloud provider to optimize node provisioning speed.
 	• Use faster provisioning options like preemptible nodes for scaling events.
 
-```
-```
- # Scenario  #470: Slow Scaling Response Due to Insufficient Metrics Collection
+--- 
+ ## Scenario #470: Slow Scaling Response Due to Insufficient Metrics Collection
 Category: Scaling & Load
 Environment: Kubernetes v1.23, AWS EKS
 Summary: The autoscaling mechanism responded slowly to traffic changes because of insufficient metrics collection.
@@ -9039,9 +8566,8 @@ How to Avoid:
 	• Ensure that all required metrics are collected in real-time for responsive scaling.
 	• Set up alerting for missing or outdated metrics.
 
-```
-```
- # Scenario  #471: Node Scaling Delayed Due to Cloud Provider API Limits
+--- 
+ ## Scenario #471: Node Scaling Delayed Due to Cloud Provider API Limits
 Category: Scaling & Load
 Environment: Kubernetes v1.24, Google Cloud
 Summary: Node scaling was delayed because the cloud provider’s API rate limits were exceeded, preventing automatic node provisioning.
@@ -9058,9 +8584,8 @@ How to Avoid:
 	• Monitor cloud API rate limits and set up alerting for approaching thresholds.
 	• Use multiple API keys for autoscaling operations to avoid hitting rate limits.
 
-```
-```
- # Scenario  #472: Scaling Overload Due to High Replica Count
+--- 
+ ## Scenario #472: Scaling Overload Due to High Replica Count
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Azure AKS
 Summary: Pod scaling led to resource overload on nodes due to an excessively high replica count.
@@ -9076,9 +8601,8 @@ Lessons Learned: Scaling should always have upper limits to prevent resource exh
 How to Avoid:
 	• Set upper limits for pod replicas and ensure that scaling policies are appropriate for the available resources.
 
-```
-```
- # Scenario  #473: Failure to Scale Down Due to Persistent Idle Pods
+--- 
+ ## Scenario #473: Failure to Scale Down Due to Persistent Idle Pods
 Category: Scaling & Load
 Environment: Kubernetes v1.24, IBM Cloud
 Summary: Pods failed to scale down during low traffic periods, leading to idle resources consuming cluster capacity.
@@ -9095,9 +8619,8 @@ How to Avoid:
 	• Regularly review and adjust readiness probes to ensure they reflect the actual health of pods.
 	• Set up alerts for unresponsive pods that could block scaling.
 
-```
-```
- # Scenario  #474: Load Balancer Misrouting After Pod Scaling
+--- 
+ ## Scenario #474: Load Balancer Misrouting After Pod Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.26, AWS EKS
 Summary: The load balancer routed traffic unevenly after scaling up, causing some pods to become overloaded.
@@ -9114,9 +8637,8 @@ How to Avoid:
 	• Automate load balancer rule updates during scaling events.
 	• Integrate health checks and readiness probes to ensure only available pods handle traffic.
 
-```
-```
- # Scenario  #475: Cluster Autoscaler Not Triggering Under High Load
+--- 
+ ## Scenario #475: Cluster Autoscaler Not Triggering Under High Load
 Category: Scaling & Load
 Environment: Kubernetes v1.22, Google Cloud
 Summary: The Cluster Autoscaler failed to trigger under high load due to misconfiguration in resource requests.
@@ -9133,9 +8655,8 @@ How to Avoid:
 	• Continuously monitor and adjust resource requests based on actual usage patterns.
 	• Use autoscaling metrics that consider both resource usage and load.
 
-```
-```
- # Scenario  #476: Autoscaling Slow Due to Cloud Provider API Delay
+--- 
+ ## Scenario #476: Autoscaling Slow Due to Cloud Provider API Delay
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Azure AKS
 Summary: Pod scaling was delayed due to cloud provider API delays during scaling events.
@@ -9152,9 +8673,8 @@ How to Avoid:
 	• Ensure that the cloud provider API is optimized and scalable.
 	• Work with the provider to avoid rate limits during scaling events.
 
-```
-```
- # Scenario  #477: Over-provisioning Resources During Scaling
+--- 
+ ## Scenario #477: Over-provisioning Resources During Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.24, IBM Cloud
 Summary: During a scaling event, resources were over-provisioned, causing unnecessary resource consumption and cost.
@@ -9171,9 +8691,8 @@ How to Avoid:
 	• Fine-tune resource requests and limits based on historical usage and traffic patterns.
 	• Use monitoring tools to track resource usage and adjust requests accordingly.
 
-```
-```
- # Scenario  #478: Incorrect Load Balancer Configuration After Node Scaling
+--- 
+ ## Scenario #478: Incorrect Load Balancer Configuration After Node Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Google Cloud
 Summary: After node scaling, the load balancer failed to distribute traffic correctly due to misconfigured settings.
@@ -9190,9 +8709,8 @@ How to Avoid:
 	• Set up automation to update load balancer configurations during scaling events.
 	• Regularly test load balancer reconfigurations.
 
-```
-```
- # Scenario  #478: Incorrect Load Balancer Configuration After Node Scaling
+--- 
+ ## Scenario #478: Incorrect Load Balancer Configuration After Node Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Google Cloud
 Summary: After node scaling, the load balancer failed to distribute traffic correctly due to misconfigured settings.
@@ -9209,9 +8727,8 @@ How to Avoid:
 	• Set up automation to update load balancer configurations during scaling events.
 	• Regularly test load balancer reconfigurations.
 
-```
-```
- # Scenario  #479: Autoscaling Disabled Due to Resource Constraints
+--- 
+ ## Scenario #479: Autoscaling Disabled Due to Resource Constraints
 Category: Scaling & Load
 Environment: Kubernetes v1.22, AWS EKS
 Summary: Autoscaling was disabled due to resource constraints on the cluster.
@@ -9228,9 +8745,8 @@ How to Avoid:
 	• Monitor available cluster resources and ensure that there is capacity for scaling events.
 	• Configure the Cluster Autoscaler to scale based on real-time resource availability.
 
-```
-```
- # Scenario  #480: Resource Fragmentation Leading to Scaling Delays
+--- 
+ ## Scenario #480: Resource Fragmentation Leading to Scaling Delays
 Category: Scaling & Load
 Environment: Kubernetes v1.24, Azure AKS
 Summary: Fragmentation of resources across nodes led to scaling delays as new pods could not be scheduled efficiently.
@@ -9247,9 +8763,8 @@ How to Avoid:
 	• Implement better resource scheduling strategies using affinity and anti-affinity rules.
 	• Regularly monitor and rebalance resources across nodes to ensure efficient pod scheduling.
 
-```
-```
- # Scenario  #481: Incorrect Scaling Triggers Due to Misconfigured Metrics Server
+--- 
+ ## Scenario #481: Incorrect Scaling Triggers Due to Misconfigured Metrics Server
 Category: Scaling & Load
 Environment: Kubernetes v1.26, IBM Cloud
 Summary: The HPA scaled pods incorrectly because the metrics server was misconfigured, leading to wrong scaling triggers.
@@ -9266,9 +8781,8 @@ How to Avoid:
 	• Regularly audit metrics servers to ensure they are correctly collecting and reporting data.
 	• Use redundancy in metrics collection to avoid single points of failure.
 
-```
-```
- # Scenario  #482: Autoscaler Misconfigured with Cluster Network Constraints
+--- 
+ ## Scenario #482: Autoscaler Misconfigured with Cluster Network Constraints
 Category: Scaling & Load
 Environment: Kubernetes v1.25, Google Cloud
 Summary: The Cluster Autoscaler failed to scale due to network configuration constraints that prevented communication between nodes.
@@ -9285,9 +8799,8 @@ How to Avoid:
 	• Test and review network policies and firewall rules periodically to ensure new nodes can be integrated into the cluster.
 	• Ensure that scaling operations account for network constraints.
 
-```
-```
- # Scenario  #483: Scaling Delays Due to Resource Quota Exhaustion
+--- 
+ ## Scenario #483: Scaling Delays Due to Resource Quota Exhaustion
 Category: Scaling & Load
 Environment: Kubernetes v1.23, AWS EKS
 Summary: Pod scaling was delayed due to exhausted resource quotas, preventing new pods from being scheduled.
@@ -9304,9 +8817,8 @@ How to Avoid:
 	• Monitor and adjust resource quotas regularly to accommodate scaling needs.
 	• Set up alerting for approaching resource quota limits to avoid scaling issues.
 
-```
-```
- # Scenario  #484: Memory Resource Overload During Scaling
+--- 
+ ## Scenario #484: Memory Resource Overload During Scaling
 Category: Scaling & Load
 Environment: Kubernetes v1.24, Azure AKS
 Summary: Node memory resources were exhausted during a scaling event, causing pods to crash.
@@ -9323,9 +8835,8 @@ How to Avoid:
 	• Monitor memory usage closely during scaling events.
 	• Ensure that scaling policies account for both CPU and memory resources.
 
-```
-```
- # Scenario  #485: HPA Scaling Delays Due to Incorrect Metric Aggregation
+--- 
+ ## Scenario #485: HPA Scaling Delays Due to Incorrect Metric Aggregation
 Category: Scaling & Load
 Environment: Kubernetes v1.26, Google Cloud
 Summary: HPA scaling was delayed due to incorrect aggregation of metrics, leading to slower response to traffic spikes.
@@ -9342,9 +8853,8 @@ How to Avoid:
 	• Regularly review metric aggregation settings to ensure they support rapid scaling decisions.
 	• Set up alerting for scaling delays and metric anomalies.
 
-```
-```
- # Scenario  #486: Scaling Causing Unbalanced Pods Across Availability Zones
+--- 
+ ## Scenario #486: Scaling Causing Unbalanced Pods Across Availability Zones
 Category: Scaling & Load
 Environment: Kubernetes v1.25, AWS EKS
 Summary: Pods became unbalanced across availability zones during scaling, leading to higher latency for some traffic.
@@ -9361,9 +8871,8 @@ How to Avoid:
 	• Use affinity and anti-affinity rules to ensure even distribution across availability zones.
 	• Regularly monitor pod distribution and adjust scheduling policies as needed.
 
-```
-```
- # Scenario  #487: Failed Scaling due to Insufficient Node Capacity for StatefulSets
+--- 
+ ## Scenario #487: Failed Scaling due to Insufficient Node Capacity for StatefulSets
 Category: Scaling & Load
 Environment: Kubernetes v1.23, AWS EKS
 Summary: Scaling failed because the node pool did not have sufficient capacity to accommodate new StatefulSets.
@@ -9380,9 +8889,8 @@ How to Avoid:
 	• Regularly monitor resource utilization, including storage, during scaling events.
 	• Ensure that node pools have enough capacity for StatefulSets and their associated storage requirements.
 
-```
-```
- # Scenario  #488: Uncontrolled Resource Spikes After Scaling Large StatefulSets
+--- 
+ ## Scenario #488: Uncontrolled Resource Spikes After Scaling Large StatefulSets
 Category: Scaling & Load
 Environment: Kubernetes v1.22, GKE
 Summary: Scaling large StatefulSets led to resource spikes that caused system instability.
@@ -9399,252 +8907,12 @@ How to Avoid:
 	• Set proper resource limits and requests for StatefulSets, especially during scaling events.
 	• Test scaling for large StatefulSets in staging environments to evaluate resource impact.
 
-```
-```
- # Scenario  #489: Cluster Autoscaler Preventing Scaling Due to Underutilized Nodes
+--- 
+ ## Scenario #489: Cluster Autoscaler Preventing Scaling Due to Underutilized Nodes
 Category: Scaling & Load
 Environment: Kubernetes v1.24, AWS EKS
 Summary: The Cluster Autoscaler prevented scaling because nodes with low utilization were not being considered for scaling.
 What Happened: The Cluster Autoscaler was incorrectly preventing scaling because it did not consider nodes with low utilization, which were capable of hosting additional pods.
 Diagnosis Steps:
 	• Reviewed Cluster Autoscaler logs and found that it was incorrectly marking low-usage nodes as “under-utilized” and therefore not scaling the cluster.
-	• Observed that other parts of the cluster were under significant load but could not scale due to unavailable resources.
-Root Cause: Cluster Autoscaler was not considering nodes with low resource utilization for scaling.
-Fix/Workaround:
-	• Reconfigured the Cluster Autoscaler to take node utilization more dynamically into account.
-	• Enabled aggressive scaling policies to allow under-utilized nodes to host additional workloads.
-Lessons Learned: Cluster Autoscaler configuration should be fine-tuned to better handle all types of node utilization scenarios.
-How to Avoid:
-	• Regularly review Cluster Autoscaler settings and ensure they are optimized for dynamic scaling.
-	• Implement monitoring and alerting to detect autoscaling anomalies early.
-
-```
-```
- # Scenario  #490: Pod Overload During Horizontal Pod Autoscaling Event
-Category: Scaling & Load
-Environment: Kubernetes v1.25, Azure AKS
-Summary: Horizontal Pod Autoscaler (HPA) overloaded the system with pods during a traffic spike, leading to resource exhaustion.
-What Happened: During a sudden traffic spike, the HPA scaled up the pods rapidly, but the system could not handle the load, leading to pod evictions and service degradation.
-Diagnosis Steps:
-	• Checked HPA configuration and found that the scaling trigger was set too aggressively, causing rapid pod scaling.
-	• Observed resource exhaustion in CPU and memory as new pods were scheduled without enough resources.
-Root Cause: Aggressive scaling triggers in HPA, without sufficient resource constraints to handle rapid pod scaling.
-Fix/Workaround:
-	• Adjusted HPA scaling parameters to make the scaling triggers more gradual and based on longer-term averages.
-	• Allocated more resources to the nodes and tuned resource requests for the pods to accommodate scaling.
-Lessons Learned: Scaling policies should be configured with a balance between responsiveness and resource availability.
-How to Avoid:
-	• Use conservative scaling triggers in HPA and ensure resource requests and limits are set to prevent overload.
-	• Implement rate-limiting or other measures to ensure scaling is done in manageable increments.
-
-```
-```
- # Scenario  #490: Unstable Node Performance During Rapid Scaling
-Category: Scaling & Load
-Environment: Kubernetes v1.22, Google Kubernetes Engine (GKE)
-Summary: Rapid node scaling led to unstable node performance, impacting pod stability.
-What Happened: A sudden scaling event resulted in new nodes being added too quickly. The Kubernetes scheduler failed to appropriately distribute workloads across the new nodes, causing instability and resource contention.
-Diagnosis Steps:
-	• Checked the GKE scaling settings and identified that the node pool autoscaling was triggered aggressively.
-	• Found that the new nodes lacked proper configuration for high-demand workloads.
-Root Cause: Lack of proper resource configuration on new nodes during rapid scaling events.
-Fix/Workaround:
-	• Adjusted the autoscaler settings to scale nodes more gradually and ensure proper configuration of new nodes.
-	• Reviewed and adjusted pod scheduling policies to ensure new pods would be distributed evenly across nodes.
-Lessons Learned: Scaling should be more gradual and require proper resource allocation for new nodes.
-How to Avoid:
-	• Implement a more conservative autoscaling policy.
-	• Add resource limits and pod affinity rules to ensure workloads are distributed across nodes efficiently.
-
-```
-```
- # Scenario  #491: Insufficient Load Balancer Configuration After Scaling Pods
-Category: Scaling & Load
-Environment: Kubernetes v1.23, Azure Kubernetes Service (AKS)
-Summary: Load balancer configurations failed to scale with the increased number of pods, causing traffic routing issues.
-What Happened: After scaling the number of pods, the load balancer did not automatically update its configuration, leading to traffic not being evenly distributed and causing backend service outages.
-Diagnosis Steps:
-	• Checked load balancer settings and found that the auto-scaling rules were not properly linked to the increased pod count.
-	• Used the AKS CLI to verify that the service endpoints did not reflect the new pod instances.
-Root Cause: Load balancer was not configured to automatically detect and adjust to the increased pod count.
-Fix/Workaround:
-	• Manually updated the load balancer configuration to accommodate new pods.
-	• Implemented an automated system to update the load balancer when new pods are scaled.
-Lessons Learned: Load balancer configurations should always be dynamically tied to pod scaling events.
-How to Avoid:
-	• Implement a dynamic load balancing solution that automatically adjusts when scaling occurs.
-	• Use Kubernetes services with load balancing features that automatically handle pod scaling.
-
-```
-```
- # Scenario  #492: Inconsistent Pod Distribution Across Node Pools
-Category: Scaling & Load
-Environment: Kubernetes v1.21, Google Kubernetes Engine (GKE)
-Summary: Pods were not evenly distributed across node pools after scaling, leading to uneven resource utilization.
-What Happened: After scaling up the pod replicas, some node pools became overloaded while others had little load, causing inefficient resource utilization and application performance degradation.
-Diagnosis Steps:
-	• Checked pod affinity and anti-affinity rules to ensure there was no misconfiguration.
-	• Used kubectl describe to review pod scheduling and found that the scheduler preferred nodes from a specific pool despite resource availability in others.
-Root Cause: Misconfigured pod affinity/anti-affinity rules and insufficient diversification in the node pool setup.
-Fix/Workaround:
-	• Reconfigured pod affinity and anti-affinity rules to ensure even distribution across node pools.
-	• Adjusted node pool configurations to ensure they could handle workloads more evenly.
-Lessons Learned: Pod distribution across node pools should be optimized to ensure balanced resource usage.
-How to Avoid:
-	• Use node affinity and anti-affinity rules to better control how pods are scheduled across different node pools.
-	• Regularly monitor pod distribution to ensure load balancing across nodes.
-
-```
-```
- # Scenario  #493: HPA and Node Pool Scaling Conflict
-Category: Scaling & Load
-Environment: Kubernetes v1.22, AWS EKS
-Summary: Horizontal Pod Autoscaler (HPA) conflicted with Node Pool autoscaling, causing resource exhaustion.
-What Happened: The Horizontal Pod Autoscaler scaled up pods too quickly, but the node pool autoscaler was slow to react, resulting in a resource bottleneck and pod eviction.
-Diagnosis Steps:
-	• Checked HPA and Cluster Autoscaler logs, where it was found that HPA rapidly increased the number of pods, while the Cluster Autoscaler was not scaling up the nodes at the same pace.
-	• Observed that the pod eviction policy was triggered because the cluster ran out of resources.
-Root Cause: Mismatched scaling policies between HPA and the node pool autoscaler.
-Fix/Workaround:
-	• Adjusted the scaling policies of both the HPA and the Cluster Autoscaler to ensure they are aligned.
-	• Increased resource limits on the node pools to accommodate the increased load from scaling.
-Lessons Learned: Scaling policies for pods and nodes should be coordinated to avoid resource contention.
-How to Avoid:
-	• Synchronize scaling policies for HPA and Cluster Autoscaler to ensure a smooth scaling process.
-	• Continuously monitor scaling behavior and adjust policies as needed.
-
-```
-```
- # Scenario  #494: Delayed Horizontal Pod Scaling During Peak Load
-Category: Scaling & Load
-Environment: Kubernetes v1.20, DigitalOcean Kubernetes (DOKS)
-Summary: HPA scaled too slowly during a traffic surge, leading to application unavailability.
-What Happened: During a peak load event, HPA failed to scale pods quickly enough to meet the demand, causing slow response times and eventual application downtime.
-Diagnosis Steps:
-	• Checked HPA metrics and found that it was using average CPU utilization as the scaling trigger, which was too slow to respond to spikes.
-	• Analyzed the scaling history and observed that scaling events were delayed by over 5 minutes.
-Root Cause: Insufficiently responsive HPA trigger settings and outdated scaling thresholds.
-Fix/Workaround:
-	• Adjusted HPA trigger to use both CPU and memory metrics for scaling.
-	• Reduced the scaling thresholds to trigger scaling actions more rapidly.
-Lessons Learned: Scaling based on a single metric can be inadequate during peak loads, especially if there is a delay in detecting resource spikes.
-How to Avoid:
-	• Use multiple metrics to trigger HPA scaling, such as CPU, memory, and custom application metrics.
-	• Set more aggressive scaling thresholds for high-traffic scenarios.
-
-```
-```
- # Scenario  #495: Ineffective Pod Affinity Leading to Overload in Specific Nodes
-Category: Scaling & Load
-Environment: Kubernetes v1.21, AWS EKS
-Summary: Pod affinity settings caused workload imbalance and overloading in specific nodes.
-What Happened: Pod affinity rules led to pod placement on only certain nodes, causing those nodes to become overloaded while other nodes remained underutilized.
-Diagnosis Steps:
-	• Reviewed pod affinity settings using kubectl describe and found that the affinity rules were too restrictive, limiting pod placement to certain nodes.
-	• Monitored node resource usage and identified that some nodes were underutilized.
-Root Cause: Misconfigured pod affinity rules that restricted pod placement to only certain nodes, leading to resource bottlenecks.
-Fix/Workaround:
-	• Reconfigured pod affinity rules to be more flexible and allow better distribution of workloads across all nodes.
-	• Implemented pod anti-affinity to prevent too many pods from being scheduled on the same node.
-Lessons Learned: Pod affinity rules should be carefully configured to prevent bottlenecks in resource allocation.
-How to Avoid:
-	• Regularly review and adjust pod affinity/anti-affinity rules to ensure even distribution of workloads.
-	• Use metrics and monitoring to identify affinity-related issues early.
-
-```
-```
- # Scenario  #496: Inconsistent Pod Scaling Due to Resource Limits
-Category: Scaling & Load
-Environment: Kubernetes v1.24, Google Kubernetes Engine (GKE)
-Summary: Pods were not scaling properly due to overly restrictive resource limits.
-What Happened: While scaling a service with the Horizontal Pod Autoscaler (HPA), the new pods failed to start due to insufficient resource allocation defined in the pod's resource limits.
-Diagnosis Steps:
-	• Reviewed the pod specifications and found that the resource requests and limits were set too low, especially during peak usage periods.
-	• Noticed that the nodes had sufficient capacity, but the pod constraints caused scheduling failures.
-Root Cause: Misconfigured resource requests and limits preventing successful pod scaling.
-Fix/Workaround:
-	• Increased the resource requests and limits for the affected pods.
-	• Used kubectl describe pod to validate that the new configuration was sufficient for pod scheduling.
-Lessons Learned: Proper resource configuration is critical to ensure that HPA can scale up pods without issues.
-How to Avoid:
-	• Regularly review and adjust resource requests and limits for pods, especially before scaling events.
-	• Monitor resource utilization and adjust configurations dynamically.
-
-```
-```
- # Scenario  #497: Kubernetes Autoscaler Misbehaving Under Variable Load
-Category: Scaling & Load
-Environment: Kubernetes v1.23, AWS EKS
-Summary: Cluster Autoscaler failed to scale the nodes appropriately due to fluctuating load, causing resource shortages.
-What Happened: The Cluster Autoscaler was slow to scale out nodes during sudden spikes in load. It scaled too late, causing pod evictions and performance degradation.
-Diagnosis Steps:
-	• Reviewed Cluster Autoscaler logs and found that scaling decisions were being delayed because the threshold for scale-out was not dynamic enough to respond to sudden traffic spikes.
-	• Monitored load metrics during peak hours and found the autoscaler was not proactive enough.
-Root Cause: Cluster Autoscaler configuration was too conservative and did not scale nodes quickly enough to accommodate sudden load spikes.
-Fix/Workaround:
-	• Adjusted the autoscaler configuration to make scaling decisions more responsive.
-	• Implemented additional monitoring for resource utilization to allow more proactive scaling actions.
-Lessons Learned: Autoscalers need to be configured to respond quickly to load fluctuations, especially during peak traffic periods.
-How to Avoid:
-	• Use dynamic scaling thresholds based on real-time load.
-	• Implement proactive monitoring for scaling actions.
-
-```
-```
- # Scenario  #498: Pod Evictions Due to Resource Starvation After Scaling
-Category: Scaling & Load
-Environment: Kubernetes v1.21, Azure Kubernetes Service (AKS)
-Summary: After scaling up the deployment, resource starvation led to pod evictions, resulting in service instability.
-What Happened: Scaling events resulted in pod evictions due to insufficient resources on nodes to accommodate the increased pod count.
-Diagnosis Steps:
-	• Checked eviction logs and identified that the eviction was triggered by resource pressure, particularly memory.
-	• Reviewed node resources and found that they were under-provisioned relative to the increased pod demands.
-Root Cause: Lack of sufficient resources (memory and CPU) on nodes to handle the scaled deployment.
-Fix/Workaround:
-	• Increased the size of the node pool to accommodate the new pod workload.
-	• Adjusted pod memory requests and limits to prevent overcommitment.
-Lessons Learned: Properly provisioning nodes for the expected workload is critical, especially during scaling events.
-How to Avoid:
-	• Regularly monitor and analyze resource usage to ensure node pools are adequately provisioned.
-	• Adjust pod resource requests and limits based on scaling needs.
-
-```
-```
- # Scenario  #499: Slow Pod Scaling Due to Insufficient Metrics Collection
-Category: Scaling & Load
-Environment: Kubernetes v1.22, Google Kubernetes Engine (GKE)
-Summary: The Horizontal Pod Autoscaler (HPA) was slow to respond because it lacked sufficient metric collection.
-What Happened: The HPA was configured to scale based on CPU usage, but there was insufficient historical metric data available for timely scaling actions.
-Diagnosis Steps:
-	• Reviewed HPA logs and found that metric collection was configured too conservatively, causing the HPA to react slowly.
-	• Used kubectl top to observe that CPU usage was already high by the time scaling occurred.
-Root Cause: Insufficient historical metric data for HPA to make timely scaling decisions.
-Fix/Workaround:
-	• Configured a more aggressive metric collection frequency and added custom metrics to provide a more accurate scaling trigger.
-	• Implemented an alert system to notify of impending high load conditions, allowing for manual intervention.
-Lessons Learned: Timely metric collection and analysis are essential for effective pod scaling.
-How to Avoid:
-	• Increase the frequency of metrics collection and use custom metrics for more granular scaling decisions.
-	• Implement a monitoring system to catch scaling issues early.
-
-```
-```
- # Scenario  #500: Inconsistent Load Balancing During Pod Scaling Events
-Category: Scaling & Load
-Environment: Kubernetes v1.20, AWS EKS
-Summary: Load balancer failed to redistribute traffic effectively when scaling pods, causing uneven distribution and degraded service.
-What Happened: After scaling up the pods, the load balancer failed to reconfigure itself to distribute traffic evenly across all pods, leading to some pods being overloaded.
-Diagnosis Steps:
-	• Reviewed the load balancer configuration and discovered it had a fixed backend list, which did not update after pod scaling.
-	• Observed uneven traffic distribution through the service endpoints.
-Root Cause: Static load balancer configuration, which did not dynamically update with the changes in pod scaling.
-Fix/Workaround:
-	• Updated load balancer settings to support dynamic backend updates.
-	• Configured the service to automatically update the backend pool as pods were scaled up or down.
-Lessons Learned: Load balancer configurations should be dynamic to accommodate changes in pod count during scaling.
-How to Avoid:
-	• Use dynamic load balancing configurations that automatically update with pod scaling.
-	• Regularly test load balancer configurations during scaling operations.
-
-```
-
+	• Observed that other parts of the cluster were under significant load 
