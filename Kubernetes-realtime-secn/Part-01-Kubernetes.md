@@ -119,8 +119,7 @@ ______________________________________________________________________
 
 - Fix/Workaround:
 
-bash
-CopyEdit
+
 etcdctl compact <rev>
 etcdctl defrag
 • Cleaned logs, snapshots, and increased disk space temporarily.
