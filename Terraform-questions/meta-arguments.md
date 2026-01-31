@@ -138,7 +138,149 @@ resource "aws_instance" "example" {
 
 ## Other Meta-Arguments
 
--   **`depends_on`**: Explicitly specify dependencies between resources that are not automatically inferred by Terraform.
--   **`provider`**: Specify a non-default provider configuration for a resource or module.
--   **`count`**: Create multiple instances of a resource.
--   **`for_each`**: Create multiple instances of a resource based on a map or set.
+### `depends_on`
+
+The `depends_on` meta-argument is used to create explicit dependencies between resources when Terraform cannot automatically infer them. Terraform is usually able to determine the order of resource creation based on the references in your configuration, but sometimes there are "hidden" dependencies.
+
+**When to use it:**
+- When one resource depends on another, but this dependency is not visible in the resource arguments (e.g., an application running on an EC2 instance needs an S3 bucket to be available at launch).
+
+**Example:**
+
+Imagine you have an EC2 instance that, upon creation, runs a script that needs to access an S3 bucket. Terraform doesn't know about this script's dependency.
+
+```terraform
+resource "aws_s3_bucket" "example" {
+  bucket = "my-app-bucket-for-data"
+}
+
+resource "aws_instance" "app_server" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+
+  # This instance needs the S3 bucket to exist before it's created
+  depends_on = [
+    aws_s3_bucket.example,
+  ]
+}
+```
+
+**Execution:**
+
+1.  Run `terraform apply`.
+2.  Terraform will see the `depends_on` argument and ensure that `aws_s3_bucket.example` is successfully created before it begins creating `aws_instance.app_server`.
+
+### `provider`
+
+The `provider` meta-argument allows you to specify which provider configuration to use for a particular resource or module. This is essential when you are working with multiple providers of the same type, for example, deploying resources to different AWS regions or accounts.
+
+**Example:**
+
+Deploying resources to two different AWS regions from the same Terraform configuration.
+
+**`providers.tf`**
+```terraform
+provider "aws" {
+  region = "us-east-1"
+  alias  = "us_east_1"
+}
+
+provider "aws" {
+  region = "us-west-2"
+  alias  = "us_west_2"
+}
+```
+
+**`main.tf`**
+```terraform
+# This resource will be created in the default region (or the one without an alias if none is default)
+resource "aws_instance" "default_instance" {
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+}
+
+# This resource will be created in us-east-1
+resource "aws_instance" "east_coast_instance" {
+  provider      = aws.us_east_1
+  ami           = "ami-0c55b159cbfafe1f0" # Note: AMIs are region-specific
+  instance_type = "t2.micro"
+}
+
+# This resource will be created in us-west-2
+resource "aws_s3_bucket" "west_coast_bucket" {
+  provider = aws.us_west_2
+  bucket   = "my-unique-west-coast-bucket"
+}
+```
+
+**Execution:**
+
+1.  Run `terraform init` to initialize both provider configurations.
+2.  Run `terraform apply`. Terraform will use the specified provider for each resource, creating resources in the correct regions.
+
+### `count`
+
+The `count` meta-argument is used to create a specified number of instances of a resource or module. It's a simple way to scale out resources.
+
+**Example:**
+
+Creating three identical EC2 instances.
+
+```terraform
+variable "instance_count" {
+  description = "Number of instances to create"
+  default     = 3
+}
+
+resource "aws_instance" "server" {
+  count         = var.instance_count
+  ami           = "ami-0c55b159cbfafe1f0"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "Server-${count.index + 1}"
+  }
+}
+```
+
+**Execution:**
+
+1.  Run `terraform apply`. Terraform will create three EC2 instances.
+2.  You can access individual instances using an index, for example, `aws_instance.server[0]`.
+
+**Important Consideration:** If you are using `count` with a list and you remove an item from the middle of the list, Terraform will see the indices shift and may destroy and recreate resources unnecessarily. This is a key reason to prefer `for_each` for non-identical resources.
+
+### `for_each`
+
+The `for_each` meta-argument is used to create multiple instances of a resource based on the elements of a map or a set of strings. It is more flexible and safer for managing collections of distinct resources than `count`.
+
+**Example:**
+
+Creating multiple IAM users from a map.
+
+```terraform
+variable "iam_users" {
+  description = "A map of IAM users to create"
+  type        = map(string)
+  default = {
+    "alice" = "Alice Smith"
+    "bob"   = "Bob Johnson"
+  }
+}
+
+resource "aws_iam_user" "example" {
+  for_each = var.iam_users
+  name     = each.key
+  path     = "/system/"
+
+  tags = {
+    DisplayName = each.value
+  }
+}
+```
+
+**Execution:**
+
+1.  Run `terraform apply`. Terraform will create two IAM users: `alice` and `bob`.
+2.  Each resource instance is identified by the map key (`aws_iam_user.example["alice"]`).
+3.  If you remove "alice" from the map, only the "alice" IAM user will be destroyed. The "bob" user will be unaffected, which is a significant advantage over `count`.
