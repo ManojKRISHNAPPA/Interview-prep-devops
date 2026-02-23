@@ -349,3 +349,9 @@ Never hardcode secrets like passwords in your Terraform files. Use a secrets man
     -   `terraform import`: To bring unmanaged resources (created by one of the conflicting applies but not in the final state file) under Terraform's management.
     -   `terraform state rm`: To remove resources from the state that were deleted from the cloud but still exist in the state file.
 4.  **Run `terraform apply`**: Once the state file accurately reflects the desired state of the infrastructure, run `terraform apply` to converge everything to the configuration defined in your `.tf` files.
+
+**state lock reason**
+```
+https://stackoverflow.com/questions/62189825/error-acquiring-the-state-lock-conditionalcheckfailedexception
+```
+
